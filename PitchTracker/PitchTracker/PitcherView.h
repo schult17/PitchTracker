@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "PitcherStatsView.h"
 #import "PitcherInfoView.h"
+#import "EditPitcherView.h"
 #import "Globals.h"
 #import "Pitcher.h"
 
 @interface PitcherView : UIView
 
+@property UIView *info_new_edit_view;
 @property PitcherInfoView *info_view;
+@property EditPitcherView *arm_view;
 @property PitcherStatsView *stats_view;
 
 -(id) init;
@@ -23,5 +26,7 @@
 -(void) changePitcher:(Pitcher*)pitcher;
 -(void) setPitcherViews: (Pitcher*)pitcher;
 -(void) setBackground;
+-(void) switchToNewPitcher;
+-(void) switchToEditPitcher:(Pitcher*) pitcher;
 
 @end

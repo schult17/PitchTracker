@@ -15,7 +15,8 @@
 @property NSMutableArray *team_to_players;
 
 -(id) init;
--(bool) addPitcher:(TeamNames) team with: (Pitcher*)pitcher;
+-(bool) addPitcher:(Pitcher*)pitcher;
+-(bool) editPitcher:(Pitcher*)pitcher;
 -(NSArray*) getTeamArray: (TeamNames)team;
 +(id) sharedDatabase;
 

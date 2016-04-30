@@ -123,7 +123,7 @@
 
 -(void) addPitcher
 {
-    NSLog(@"Add Pitcher");
+    [ _pitcherView switchToNewPitcher ];
 }
 
 

@@ -31,14 +31,18 @@
     return [ _team_to_players objectAtIndex:team ];
 }
 
--(bool) addPitcher:(TeamNames) team with: (Pitcher*)pitcher;
+-(bool) addPitcher:(Pitcher*)pitcher;
 {
-    NSAssert(team >= 0 && team < TEAMCOUNT, @"Team name out of range");
-    
     //TODO - check for duplicates
-    [ [_team_to_players objectAtIndex:team] addObject:pitcher ];
+    [ [_team_to_players objectAtIndex:pitcher.info.team] addObject:pitcher ];
     
     return true;    //success, didn't already exist
+}
+
+-(bool) editPitcher:(Pitcher*)pitcher
+{
+    //TODO
+    return true;
 }
 
 +(id) sharedDatabase

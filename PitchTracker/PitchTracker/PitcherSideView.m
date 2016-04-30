@@ -53,7 +53,7 @@
 {
     if( _pitcher != nil )
     {
-        _team_label.text = _pitcher.info.team;
+        _team_label.text = _pitcher.info.getTeamDisplayString;
         _name_label.text = _pitcher.info.getShortDisplayString;
     }
     else

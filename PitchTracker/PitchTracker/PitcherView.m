@@ -10,6 +10,8 @@
 
 @implementation PitcherView
 
+@synthesize info_new_edit_view = _info_new_edit_view;
+@synthesize arm_view = _arm_view;
 @synthesize info_view = _info_view;
 @synthesize stats_view = _stats_view;
 
@@ -78,7 +80,14 @@
         _stats_view = [ [PitcherStatsView alloc] initWithFrameAndPlayerStats:frame_stats with:pitcher.stats ];
     }
     
-    [ self addSubview:_info_view ];
+    _arm_view = [ [EditPitcherView alloc] initWithFrame:frame_info ];
+    _arm_view.hidden = YES;
+    
+    _info_new_edit_view = [ [UIView alloc] initWithFrame:frame_info ];
+    [ _info_new_edit_view addSubview:_info_view ];
+    [ _info_new_edit_view addSubview:_arm_view ];
+    
+    [ self addSubview:_info_new_edit_view ];
     [ self addSubview:_stats_view ];
     [ self setBackground ];
 }
@@ -86,7 +95,21 @@
 -(void) setBackground
 {
     self.backgroundColor = [ UIColor blackColor ];
-    //self.alpha = 0.7;
+    self.alpha = 0.9;
+}
+
+-(void) switchToNewPitcher
+{
+    _info_view.hidden = YES;
+    _arm_view.hidden = NO;
+}
+
+-(void) switchToEditPitcher:(Pitcher*) pitcher
+{
+    [ _arm_view presentFieldsEdit:pitcher ];
+    
+    _info_view.hidden = YES;
+    _arm_view.hidden = NO;
 }
 
 @end

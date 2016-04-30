@@ -18,19 +18,8 @@
 
 -(id) init; //shouldn't really be used
 
--(id) initWithDetailsStr: (NSString *) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
+-(id) initWithDetails: (TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
 
--(id) initWithDetailsNum: (TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
-
--(void) setDetails: (NSString *) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
-
-/*
--(NSString *) getShortDisplayString;
--(NSString*) getTeamDisplayString;
--(NSString*) getNameDisplayString;
--(NSString*) getNumberHandDisplayString;
--(NSString*) getPhysicalDisplayString;
--(NSString*) getPitchDisplayString;
- */
+-(void) setDetails: (TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
 
 @end

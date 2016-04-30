@@ -28,19 +28,19 @@
     [ def addObject:@(FASTBALL_4) ];
     [ def addObject:@(CURVE_1) ];
     [ def addObject:@(CHANGE)];
-    [ self setDetails:@"Toronto" with:@"Tyler" with:@"Durden" with:7 with:SWITCH with: 19 with: 200 with: 6 with: 1 with: def];
+    [ self setDetails:UOFT with:@"Tyler" with:@"Durden" with:7 with:SWITCH with: 19 with: 200 with: 6 with: 1 with: def];
     
     return self;
 }
 
--(id) initWithDetailsStr:(NSString *) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
+-(id) initWithDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
 {
     [ self setDetails:team with:first_name with:last_name with:jersey_num with:hand with:age with:weight with:height_f with:height_i with:pitches ];
     
     return self;
 }
 
--(void) setDetails:(NSString *) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
+-(void) setDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
 {
     _team = team;
     _first_name = first_name;
@@ -66,7 +66,7 @@
 
 -(NSString*) getTeamDisplayString
 {
-    return self.team;
+    return TEAM_NAME_STR[_team];
 }
 
 -(NSString*) getNameDisplayString

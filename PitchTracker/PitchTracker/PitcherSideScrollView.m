@@ -29,15 +29,15 @@
 
 -(void) addPitchersToView:(NSArray *)pitchers
 {
-    [ self setContentSize:CGSizeMake(self.frame.size.height, 80*pitchers.count) ];
+    [ self setContentSize:CGSizeMake(self.frame.size.height, PLAYERVIEW_HEIGHT * pitchers.count) ];
     
-    CGRect frame = CGRectMake(10, 0, self.frame.size.width, 80);
+    CGRect frame = CGRectMake(SCROLL_INSET, 0, self.frame.size.width, PLAYERVIEW_HEIGHT);
     
     PitcherSideView *view = nil;
     
     for( int i = 0; i < pitchers.count ; i++ )
     {
-        frame.origin.y = 80*i;
+        frame.origin.y = PLAYERVIEW_HEIGHT * i;
         view = [ [PitcherSideView alloc] initWithFrameAndPlayer:frame with:[ pitchers objectAtIndex:i ] ];
         [ self addSubview:view ];
     }

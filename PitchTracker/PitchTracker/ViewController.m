@@ -43,7 +43,7 @@
     self.view.translatesAutoresizingMaskIntoConstraints = YES;
     
     LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
-    [ database addPitcher:UOFT with:[ [Pitcher alloc] init ] ];
+    [ database addPitcher:[ [Pitcher alloc] init ] ];
 }
 
 - (void) viewWillAppear:(BOOL)animated

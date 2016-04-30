@@ -10,6 +10,9 @@
 #import "PitcherSideView.h"
 #import "LocalPitcherDatabase.h"
 
+#define PLAYERVIEW_HEIGHT 80
+#define SCROLL_INSET 12
+
 @interface PitcherSideScrollView : UIScrollView
 
 -(void) changeTeam: (TeamNames) team;
