@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LocalPitcherDatabase.h"
+#import "Pitcher.h"
 
 @interface ViewController : UIViewController
 

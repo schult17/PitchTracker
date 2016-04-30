@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5511A1B21CD39AB100F2932A /* PitcherSideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5511A1B11CD39AB100F2932A /* PitcherSideView.m */; };
 		5599008E1CD2890300D103FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5599008D1CD2890300D103FF /* main.m */; };
 		559900911CD2890300D103FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900901CD2890300D103FF /* AppDelegate.m */; };
 		559900941CD2890300D103FF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900931CD2890300D103FF /* ViewController.m */; };
@@ -22,9 +23,17 @@
 		559900B61CD2B1AE00D103FF /* Pitcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900B51CD2B1AE00D103FF /* Pitcher.m */; };
 		559900C41CD2B95600D103FF /* PitchStats.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900C31CD2B95600D103FF /* PitchStats.m */; };
 		559900C71CD2B97000D103FF /* PitchInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900C61CD2B97000D103FF /* PitchInstance.m */; };
+		559A60D81CD3C6530037A1F3 /* PitcherInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60D71CD3C6530037A1F3 /* PitcherInfoView.m */; };
+		559A60DB1CD3C6E00037A1F3 /* PitcherStatsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60DA1CD3C6E00037A1F3 /* PitcherStatsView.m */; };
+		559A60DF1CD3D00E0037A1F3 /* PitcherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60DE1CD3D00E0037A1F3 /* PitcherView.m */; };
+		559A60E21CD3D3470037A1F3 /* PitcherInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60E11CD3D3470037A1F3 /* PitcherInfo.m */; };
+		559A60E51CD414A80037A1F3 /* LocalPitcherDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60E41CD414A80037A1F3 /* LocalPitcherDatabase.m */; };
+		559A60E81CD51C310037A1F3 /* PitcherSideScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60E71CD51C310037A1F3 /* PitcherSideScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5511A1B01CD39AB100F2932A /* PitcherSideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitcherSideView.h; sourceTree = "<group>"; };
+		5511A1B11CD39AB100F2932A /* PitcherSideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherSideView.m; sourceTree = "<group>"; };
 		559900891CD2890300D103FF /* PitchTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5599008D1CD2890300D103FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5599008F1CD2890300D103FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -51,6 +60,18 @@
 		559900C31CD2B95600D103FF /* PitchStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitchStats.m; sourceTree = "<group>"; };
 		559900C51CD2B97000D103FF /* PitchInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitchInstance.h; sourceTree = "<group>"; };
 		559900C61CD2B97000D103FF /* PitchInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitchInstance.m; sourceTree = "<group>"; };
+		559A60D61CD3C6530037A1F3 /* PitcherInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitcherInfoView.h; sourceTree = "<group>"; };
+		559A60D71CD3C6530037A1F3 /* PitcherInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherInfoView.m; sourceTree = "<group>"; };
+		559A60D91CD3C6E00037A1F3 /* PitcherStatsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitcherStatsView.h; sourceTree = "<group>"; };
+		559A60DA1CD3C6E00037A1F3 /* PitcherStatsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherStatsView.m; sourceTree = "<group>"; };
+		559A60DD1CD3D00E0037A1F3 /* PitcherView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitcherView.h; sourceTree = "<group>"; };
+		559A60DE1CD3D00E0037A1F3 /* PitcherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherView.m; sourceTree = "<group>"; };
+		559A60E01CD3D3470037A1F3 /* PitcherInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitcherInfo.h; sourceTree = "<group>"; };
+		559A60E11CD3D3470037A1F3 /* PitcherInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherInfo.m; sourceTree = "<group>"; };
+		559A60E31CD414A80037A1F3 /* LocalPitcherDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalPitcherDatabase.h; path = PitchTracker/LocalPitcherDatabase.h; sourceTree = "<group>"; };
+		559A60E41CD414A80037A1F3 /* LocalPitcherDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalPitcherDatabase.m; path = PitchTracker/LocalPitcherDatabase.m; sourceTree = "<group>"; };
+		559A60E61CD51C310037A1F3 /* PitcherSideScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitcherSideScrollView.h; sourceTree = "<group>"; };
+		559A60E71CD51C310037A1F3 /* PitcherSideScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherSideScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +90,8 @@
 			children = (
 				559900B41CD2B1AE00D103FF /* Pitcher.h */,
 				559900B51CD2B1AE00D103FF /* Pitcher.m */,
+				559A60E01CD3D3470037A1F3 /* PitcherInfo.h */,
+				559A60E11CD3D3470037A1F3 /* PitcherInfo.m */,
 				559900C21CD2B95600D103FF /* PitchStats.h */,
 				559900C31CD2B95600D103FF /* PitchStats.m */,
 				559900C51CD2B97000D103FF /* PitchInstance.h */,
@@ -80,6 +103,8 @@
 		559900801CD2890300D103FF = {
 			isa = PBXGroup;
 			children = (
+				559A60E31CD414A80037A1F3 /* LocalPitcherDatabase.h */,
+				559A60E41CD414A80037A1F3 /* LocalPitcherDatabase.m */,
 				5599008B1CD2890300D103FF /* PitchTracker */,
 				5599008A1CD2890300D103FF /* Products */,
 			);
@@ -100,6 +125,7 @@
 				559900901CD2890300D103FF /* AppDelegate.m */,
 				559900B31CD2AAC700D103FF /* ViewControllers */,
 				559900951CD2890300D103FF /* Main.storyboard */,
+				559A60DC1CD3CF3C0037A1F3 /* PitcherViews */,
 				558940931CD2E61E004841DA /* PitchingClasses */,
 				559900BA1CD2B5C900D103FF /* Globals.h */,
 				559900981CD2890300D103FF /* Assets.xcassets */,
@@ -134,6 +160,23 @@
 				559900A51CD29FBD00D103FF /* PitcherManagementViewController.xib */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		559A60DC1CD3CF3C0037A1F3 /* PitcherViews */ = {
+			isa = PBXGroup;
+			children = (
+				559A60E61CD51C310037A1F3 /* PitcherSideScrollView.h */,
+				559A60E71CD51C310037A1F3 /* PitcherSideScrollView.m */,
+				5511A1B01CD39AB100F2932A /* PitcherSideView.h */,
+				5511A1B11CD39AB100F2932A /* PitcherSideView.m */,
+				559A60D91CD3C6E00037A1F3 /* PitcherStatsView.h */,
+				559A60DA1CD3C6E00037A1F3 /* PitcherStatsView.m */,
+				559A60D61CD3C6530037A1F3 /* PitcherInfoView.h */,
+				559A60D71CD3C6530037A1F3 /* PitcherInfoView.m */,
+				559A60DD1CD3D00E0037A1F3 /* PitcherView.h */,
+				559A60DE1CD3D00E0037A1F3 /* PitcherView.m */,
+			);
+			name = PitcherViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,14 +253,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				559A60E81CD51C310037A1F3 /* PitcherSideScrollView.m in Sources */,
 				559900C71CD2B97000D103FF /* PitchInstance.m in Sources */,
 				559900B61CD2B1AE00D103FF /* Pitcher.m in Sources */,
+				559A60E51CD414A80037A1F3 /* LocalPitcherDatabase.m in Sources */,
+				559A60DF1CD3D00E0037A1F3 /* PitcherView.m in Sources */,
 				559900AB1CD2AA0E00D103FF /* NewGameViewController.m in Sources */,
 				559900941CD2890300D103FF /* ViewController.m in Sources */,
+				559A60E21CD3D3470037A1F3 /* PitcherInfo.m in Sources */,
 				559900B01CD2AA6700D103FF /* StatsViewController.m in Sources */,
+				559A60D81CD3C6530037A1F3 /* PitcherInfoView.m in Sources */,
+				559A60DB1CD3C6E00037A1F3 /* PitcherStatsView.m in Sources */,
 				559900A61CD29FBD00D103FF /* PitcherManagementViewController.m in Sources */,
 				559900911CD2890300D103FF /* AppDelegate.m in Sources */,
 				559900C41CD2B95600D103FF /* PitchStats.m in Sources */,
+				5511A1B21CD39AB100F2932A /* PitcherSideView.m in Sources */,
 				5599008E1CD2890300D103FF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

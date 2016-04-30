@@ -10,37 +10,34 @@
 
 @implementation Pitcher
 
-@synthesize team = _team;
-@synthesize first_name = _first_name;
-@synthesize last_name = _last_name;
-@synthesize jersey_num = _jersey_num;
-@synthesize hand = _hand;
-@synthesize pitches = _pitches;
+@synthesize info = _info;
 @synthesize stats = _stats;
 
 -(id) init
 {
-    [ self setDetails:@"Toronto" with:@"Tyler" with:@"Durden" with:7 with:SWITCH with:[[NSMutableArray alloc] init] ];
+    _info = [ [PitcherInfo alloc] initWithDetailsStr:@"Toronto" with:@"Tyler" with:@"Durden" with:7 with:SWITCH with: 19 with: 200 with: 6 with: 1 with:[[NSMutableArray alloc] initWithArray:[ NSMutableArray arrayWithArray:@[@(FASTBALL_4), @(CURVE_1), @(CHANGE) ]]] ];
     
     _stats = [[PitchStats alloc] init];         //if we remove *, does alloc go away?
     
     return self;
 }
 
--(id) initWithDetailsStr:(NSString *) team with:(NSString *)first_name with:(NSString *)last_name with:(int)jersey_num with:(Hand)hand with:(NSMutableArray *)pitches
+-(id) initWithDetailsStr:(NSString *) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
 {
-    [ self setDetails:team with:first_name with:last_name with:jersey_num with:hand with:pitches ];
+    _info = [ [PitcherInfo alloc] initWithDetailsStr:team with:first_name with:last_name with:jersey_num with:hand with:age with:weight with:height_f with:height_i with:pitches ];
+    
     _stats = [[PitchStats alloc] init];         //if we remove *, does alloc go away?
     
     return self;
 }
 
--(id) initWithDetailsNum:(TeamNames)team with:(NSString *)first_name with:(NSString *)last_name with:(int)jersey_num with:(Hand)hand with:(NSMutableArray *)pitches
+-(id) initWithDetailsNum:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
 {
     if( team < TEAMCOUNT )
     {
-        [ self setDetails:TEAM_NAMES[team] with:first_name with:last_name with:jersey_num with:hand with:pitches ];
-        _stats = [[PitchStats alloc] init];         //if we remove *, does alloc go away?
+        _info = [ [PitcherInfo alloc] initWithDetailsStr:TEAM_NAME_STR[team] with:first_name with:last_name with:jersey_num with:hand with:age with:weight with:height_f with:height_i with:pitches ];
+        
+        _stats = [ [PitchStats alloc] init ];         //if we remove *, does alloc go away?
     }
     else
     {
@@ -50,14 +47,41 @@
     return self;
 }
 
--(void) setDetails:(NSString *) team with:(NSString *)first_name with:(NSString *)last_name with:(int)jersey_num with:(Hand)hand with:(NSMutableArray *)pitches
+-(void) setDetails:(NSString *) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
 {
-    _team = team;
-    _first_name = first_name;
-    _last_name = last_name;
-    _jersey_num = jersey_num;
-    _hand = hand;
-    _pitches = pitches;
+    [ _info setDetails:team with:first_name with:last_name with:jersey_num with:hand with:age with:weight with:height_f with:height_i with:pitches ];
 }
+
+/*
+-(NSString *) getShortDisplayString
+{
+    return [ _info getShortDisplayString ];
+}
+
+-(NSString*) getTeamDisplayString
+{
+    return [ _info getTeamDisplayString ];
+}
+
+-(NSString*) getNameDisplayString
+{
+    return [ _info getNameDisplayString ];
+}
+
+-(NSString*) getNumberHandDisplayString;
+{
+    return [ _info getNumberHandDisplayString ];
+}
+
+-(NSString*) getPhysicalDisplayString
+{
+    return [ _info getPhysicalDisplayString ];
+}
+
+-(NSString*) getPitchDisplayString;
+{
+    return [ _info getPitchDisplayString ];
+}
+ */
 
 @end

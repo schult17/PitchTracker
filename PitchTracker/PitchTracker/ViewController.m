@@ -41,6 +41,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.view.translatesAutoresizingMaskIntoConstraints = YES;
+    
+    LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
+    [ database addPitcher:UOFT with:[ [Pitcher alloc] init ] ];
 }
 
 - (void) viewWillAppear:(BOOL)animated

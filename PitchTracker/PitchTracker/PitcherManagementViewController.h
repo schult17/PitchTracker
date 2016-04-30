@@ -7,7 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PitcherSideView.h"
+#import "PitcherView.h"
+#import "PitcherSideScrollView.h"
+#import "LocalPitcherDatabase.h"
 
 @interface PitcherManagementViewController : UIViewController
+
+@property (strong, nonatomic) IBOutlet PitcherSideScrollView *pitcherScrollView;
+@property (strong, nonatomic) IBOutlet UIButton *filterButton;
+@property (strong, nonatomic) IBOutlet UIButton *addPitcherButton;
+
+@property (strong, nonatomic) IBOutlet UIPickerView *teamPicker;
+@property (strong, nonatomic) IBOutlet UIView *outerPitcherView;
+@property (strong, nonatomic) IBOutlet PitcherView *pitcherView;
+
+@property TeamNames currTeamFilter;
+
+
+-(void) addPitchersToScroll;
 
 @end

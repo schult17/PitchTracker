@@ -10,7 +10,7 @@
 #define Globals_h
 
 //-----team names-----//
-static NSString * const TEAM_NAMES[] = {
+static NSString * const TEAM_NAME_STR[] = {
     [0] = @"Toronto",
     [1] = @"Brock",
     [2] = @"Western",
@@ -51,6 +51,7 @@ typedef enum _PitchType
     CHANGE,     //Changeup
     SPLITTER    //Splitter/Forkball
 }PitchType;
+//--------------------//
 
 //Pitchers handedness
 typedef enum _Hand
@@ -59,6 +60,8 @@ typedef enum _Hand
     RIGHT,
     SWITCH
 }Hand;
+//--------------------//
+
 
 //Grid format, XY -> X = column, Y = row
 //AY, EY, XA, XE are always balls
@@ -90,6 +93,5 @@ typedef enum _AtPlateOutcome
     HIT,
     HBP
 }AtPlateOutcome;
-
 
 #endif /* Globals_h */
