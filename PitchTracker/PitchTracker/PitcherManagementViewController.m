@@ -19,9 +19,11 @@
 @synthesize filterButton = _filterButton;
 @synthesize addPitcherButton = _addPitcherButton;
 @synthesize teamPicker = _teamPicker;
-//@synthesize outerPitcherView = _outerPitcherView;
 @synthesize pitcherView = _pitcherView;
 @synthesize currTeamFilter = _currTeamFilter;
+
+//NOTE: Consider using database of pitchers to store pitcher info and
+//      pulling from disk for pitcher stats (memory already climbing).
 
 - (void)viewDidLoad
 {
@@ -78,19 +80,52 @@
     
     //Gesture setup
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
-              initWithTarget:self action:@selector(dismissKeyboard:)];
+              initWithTarget:self action:@selector(pitcherViewTap:)];
     tapper.cancelsTouchesInView = NO;
     [ _pitcherView addGestureRecognizer:tapper ];
     
 }
 
--(void)dismissKeyboard:(UITapGestureRecognizer *) sender
+-(void)pitcherViewTap:(UITapGestureRecognizer *) sender
 {
+    bool refresh = false;
+    
     if( [_addPitcherButton.titleLabel.text isEqualToString:@"Cancel"] )
     {
         [ _pitcherView.arm_view endEditing:YES ];
-        [ _pitcherView.arm_view checkTouchInSelectableLabels:[ sender locationInView:_pitcherView ] ];
+        refresh = [ _pitcherView.arm_view checkTouchInSelectableLabels:[ sender locationInView:_pitcherView ] ];
     }
+    
+    //refreshes the scroll view, set pitcher view to the new added pitcher
+    if( refresh )
+    {
+        Pitcher *new_pitcher = [ _pitcherView.arm_view getPitcherWithInfo:_currTeamFilter ];
+        //TODO - check for duplicates, stop exiting... once addNewPitcherLeaveView is called
+        //the addition is 'permanent'
+        [ self addNewPitcherLeaveView:new_pitcher ];
+    }
+}
+
+-(void) addNewPitcherLeaveView:(Pitcher*) pitcher
+{
+    LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
+    [ database addPitcher:pitcher ];
+    
+    [ _pitcherView cancelNewEditPitcherView ];
+    [ _addPitcherButton setTitle:@"New Arm+" forState:UIControlStateNormal ];
+    [ _pitcherView.arm_view endEditing:YES ];
+    [ _pitcherView.arm_view clearFields ];
+    
+    [ _pitcherScrollView changeTeam:_currTeamFilter ];
+    [ self changePitcherViewToNewPitcher ];
+}
+
+-(void) changePitcherViewToNewPitcher
+{
+    LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
+    NSArray *pitchers =[ database getTeamArray:_currTeamFilter ];
+    
+    [ self changePitcherView:[pitchers lastObject] ];
 }
 
 -(void) changePitcherView:(Pitcher*)pitcher

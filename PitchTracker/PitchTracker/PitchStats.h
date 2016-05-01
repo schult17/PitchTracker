@@ -28,4 +28,10 @@
 -(bool) addPitchToRecentBatter:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with:(PitchOutcome) pitch_result;
 -(bool) endRecentBatter:(AtPlateOutcome) outcome;
 
+-(float) getStrikePercentage;
+-(float) getBallPercentage;
+-(NSArray*) getPitchPercentage;
+-(NSArray*) getFirstPitchPercentage;
+-(NSArray*) getStrikeoutPitchPercentage;
+
 @end

@@ -12,13 +12,6 @@
 
 #define SIDE_BUFFER 10
 #define TOP_BUFFER 20
-#define NUM_FIELDS 5
-
-#define TEAM 0
-#define NAME 1
-#define NUMHAND 2
-#define BODY 3
-#define PITCHES 4
 
 @interface PitcherInfoView : UIView
 
@@ -34,4 +27,10 @@
 -(void) changePitcherInfo:(PitcherInfo*)info;
 -(void) fillInfo;
 -(void) setFrame:(CGRect)frame;
+
+-(NSString *) percentageArrayToDisplayString:(NSArray*) array;
+-(NSString *) getPitchPercentageString;
+-(NSString *) getFirstPitchPercentageString;
+-(NSString *) getStrikeOutPitchPercentage;
+
 @end

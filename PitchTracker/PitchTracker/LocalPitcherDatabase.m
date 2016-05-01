@@ -34,6 +34,7 @@
 -(bool) addPitcher:(Pitcher*)pitcher;
 {
     //TODO - check for duplicates
+    //Consider only storing PitcherInfo and going to disk to get PitchStats?
     [ [_team_to_players objectAtIndex:pitcher.info.team] addObject:pitcher ];
     
     return true;    //success, didn't already exist

@@ -13,8 +13,6 @@
 @interface PitchInstance : NSObject
 
 @property PitchType type;
-//@property int pos_x;
-//@property int pos_y;
 @property PitchLocation X;
 @property PitchLocation Y;
 @property PitchOutcome pitch_result;

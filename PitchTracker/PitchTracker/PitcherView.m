@@ -92,8 +92,8 @@
     
     [ _info_new_edit_view setFrame:frame_info ];
     [ _info_view setFrame:frame_info ];
-    [ _arm_view setFrame:frame_info ];
     [ _stats_view setFrame:frame_stats ];
+    [ _arm_view setFrame:frame_info ];
 }
 
 -(void) setPitcherViews:(Pitcher *)pitcher
@@ -126,7 +126,7 @@
     [ _info_new_edit_view addSubview:_arm_view ];
     
     [ self addSubview:_info_new_edit_view ];
-    [ self addSubview:_arm_view ];
+    [ self addSubview:_stats_view ];
 }
 
 -(void) setBackground

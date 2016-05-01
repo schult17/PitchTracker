@@ -10,17 +10,23 @@
 #import "Globals.h"
 #import "PitchStats.h"
 
-@interface PitcherStatsView : UIScrollView
+#define SIDE_BUF 10
+#define TOP_BUF 10
+
+@interface PitcherStatsView : UIView
 
 @property PitchStats *stats;
-//Tables and labels and shit to fill with stats
+@property UILabel *displayStatsLabel;
 
 -(id) init;
 -(id) initWithPitchStats:(PitchStats*)stats;
 -(id) initWithFrame:(CGRect)frame;
 -(id) initWithFrameAndPlayerStats:(CGRect)frame with: (PitchStats*)stats;
+-(void) initDisplay:(PitchStats*)stats;
 -(void) changePitcherStats:(PitchStats*) stats;
 -(void) fillStatsFields;
 -(void) setFrame:(CGRect)frame;
+
+-(NSString*) getFormattedDisplayString;
 
 @end

@@ -42,11 +42,10 @@
 -(void) presentFieldsNew;
 -(void) presentFieldsEdit:(Pitcher*) pitcher;
 -(void) aboutToShow:(TeamNames) curr_team;
--(void) addPitcherToDatabase:(Pitcher*) new_arm;
--(void) editPitcherInDatabase:(Pitcher*) pitcher;
 -(void) layoutFields;
 -(void) setFrame:(CGRect)frame;
 -(void) clearFields;
 -(bool) checkTouchInSelectableLabels:(CGPoint) tap; //return refresh update
+-(Pitcher*) getPitcherWithInfo:(TeamNames) team;
 
 @end

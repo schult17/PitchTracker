@@ -256,18 +256,26 @@
     _lastInput.hidden = NO;
 }
 
--(void) addPitcherToDatabase:(Pitcher*) new_arm
+-(Pitcher*) getPitcherWithInfo:(TeamNames) team
 {
-    //TODO - confirm they want to add
-    LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
-    [ database addPitcher:new_arm ];
-}
-
--(void) editPitcherInDatabase:(Pitcher*) pitcher
-{
-    //TODO - confirm save
-    LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
-    [ database editPitcher:pitcher ];
+    NSString *first = [ _firstInput text ];
+    NSString *last = [ _lastInput text ];
+    int age = [ [_ageInput text] intValue ];
+    int hf = [ [_heightFInput text] intValue ];
+    int hi = [ [_heightIInput text] intValue ];
+    int weight = [ [_weightInput text] intValue ];
+    int jersey = [ [_jerseryInput text] intValue ];
+    
+    Hand hand = _rightLabel.selected ? RIGHT : LEFT;
+    
+    NSMutableArray *pitches = [ [NSMutableArray alloc] init ];
+    for( int i = 0; i < COUNTPITCHES; i++ )
+    {
+        if( ((SelectableLabel*)[ _pitchLabels objectAtIndex:i ]).selected )
+            [ pitches addObject:[ NSNumber numberWithInt:(PitchType)i ] ];  //weird, but necessary
+    }
+    
+    return [ [Pitcher alloc] initWithDetails:team with:first with:last with:jersey with:hand with:age with:weight with:hf with:hi with:pitches ];
 }
 
 -(bool) checkTouchInSelectableLabels:(CGPoint) tap

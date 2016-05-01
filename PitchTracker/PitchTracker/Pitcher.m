@@ -15,7 +15,7 @@
 
 -(id) init
 {
-    _info = [ [PitcherInfo alloc] initWithDetails:UOFT with:@"Tyler" with:@"Durden" with:7 with:SWITCH with: 19 with: 200 with: 6 with: 1 with:[[NSMutableArray alloc] initWithArray:[ NSMutableArray arrayWithArray:@[@(FASTBALL_4), @(CURVE_1), @(CHANGE) ]]] ];
+    _info = [ [PitcherInfo alloc] initWithDetails:UOFT with:@"Tyler" with:@"Durden" with:7 with:RIGHT with: 19 with: 200 with: 6 with: 1 with:[[NSMutableArray alloc] initWithArray:[ NSMutableArray arrayWithArray:@[@(FASTBALL_4), @(CURVE_1), @(CHANGE) ]]] ];
     
     _stats = [[PitchStats alloc] init];         //if we remove *, does alloc go away?
     
