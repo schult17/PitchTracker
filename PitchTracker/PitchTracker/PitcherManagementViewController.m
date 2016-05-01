@@ -19,7 +19,7 @@
 @synthesize filterButton = _filterButton;
 @synthesize addPitcherButton = _addPitcherButton;
 @synthesize teamPicker = _teamPicker;
-@synthesize outerPitcherView = _outerPitcherView;
+//@synthesize outerPitcherView = _outerPitcherView;
 @synthesize pitcherView = _pitcherView;
 @synthesize currTeamFilter = _currTeamFilter;
 
@@ -29,12 +29,12 @@
     // Do any additional setup after loading the view from its nib.
     [ _pitcherScrollView setDelegate:self ];
     
-    _filterButton.backgroundColor = _addPitcherButton.backgroundColor = _pitcherScrollView.backgroundColor;
-    _filterButton.alpha = _addPitcherButton.alpha = _pitcherScrollView.alpha;
     _currTeamFilter = UOFT;
     
+    [ self initButtons ];
     [ self addPitchersToScroll ];
     [ self setUpPitcherView:nil ];
+    [ self setUpScrollTouch ];
     
     [ self loadPicker ];
 }
@@ -45,32 +45,52 @@
     _teamPicker.hidden = YES;
 }
 
+-(void) viewWillLayoutSubviews
+{
+    CGRect out_frame = _pitcherView.frame;
+    out_frame.size.width = self.view.frame.size.width - _pitcherScrollView.frame.size.width;
+    out_frame.size.height = self.view.frame.size.height;
+    
+    [ _pitcherView setFrame:out_frame ];
+}
+
 -(void) setUpPitcherView:(Pitcher*) pitcher
 {
     //need to do this stupid math for some reason, storyboard is not fun
-    CGRect out_frame = _outerPitcherView.frame;
+    CGRect out_frame = _pitcherView.frame;
     out_frame.size.width = self.view.frame.size.width - _pitcherScrollView.frame.size.width;
     out_frame.size.height = self.view.frame.size.height;
-    _outerPitcherView.frame = out_frame;
-    
-    CGRect in_frame = CGRectMake(0, 0, _outerPitcherView.frame.size.width, _outerPitcherView.frame.size.height);
     
     if( pitcher == nil )
     {
         LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
         NSArray *pitchers = [ database getTeamArray:self.currTeamFilter ];
         
-        if( pitchers.count <= 0 )
-            _pitcherView = [ [PitcherView alloc] initWithFrame:in_frame];
-        else
-            _pitcherView = [ [PitcherView alloc] initWithFrameAndPlayer:in_frame with:[ pitchers objectAtIndex:0 ] ];
+        if( pitchers.count > 0 )
+            [ _pitcherView changePitcher:[ pitchers objectAtIndex:0 ] ];
     }
     else
     {
-        _pitcherView = [ [PitcherView alloc] initWithFrameAndPlayer: in_frame with: pitcher];
+        [ _pitcherView changePitcher:pitcher ];
     }
     
-    [ _outerPitcherView addSubview:_pitcherView ];
+    [ _pitcherView setFrame:out_frame ];
+    
+    //Gesture setup
+    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
+              initWithTarget:self action:@selector(dismissKeyboard:)];
+    tapper.cancelsTouchesInView = NO;
+    [ _pitcherView addGestureRecognizer:tapper ];
+    
+}
+
+-(void)dismissKeyboard:(UITapGestureRecognizer *) sender
+{
+    if( [_addPitcherButton.titleLabel.text isEqualToString:@"Cancel"] )
+    {
+        [ _pitcherView.arm_view endEditing:YES ];
+        [ _pitcherView.arm_view checkTouchInSelectableLabels:[ sender locationInView:_pitcherView ] ];
+    }
 }
 
 -(void) changePitcherView:(Pitcher*)pitcher
@@ -123,9 +143,52 @@
 
 -(void) addPitcher
 {
-    [ _pitcherView switchToNewPitcher ];
+    NSString *text = _addPitcherButton.titleLabel.text;
+    
+    if( [text isEqualToString:@"Cancel"] )
+    {
+        [ self cancelNewEditPitcher ];
+    }
+    else    //button text is 'New Arm+"
+    {
+        [ _pitcherView switchToNewPitcher ];
+        [ _addPitcherButton setTitle:@"Cancel" forState:UIControlStateNormal ];
+    }
 }
 
+-(void) initButtons
+{
+    _filterButton.backgroundColor = _addPitcherButton.backgroundColor = _pitcherScrollView.backgroundColor;
+    _filterButton.alpha = _addPitcherButton.alpha = _pitcherScrollView.alpha;
+    _filterButton.layer.borderColor = _addPitcherButton.layer.borderColor = [UIColor blackColor].CGColor;
+    _filterButton.layer.borderWidth = _addPitcherButton.layer.borderWidth = 1.0f;
+}
+
+-(void) cancelNewEditPitcher
+{
+    NSString *_message = @"Are you sure you want to cancel the recent changes?";
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                   message:_message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action)
+    {
+        [ _pitcherView cancelNewEditPitcherView ];
+        [ _addPitcherButton setTitle:@"New Arm+" forState:UIControlStateNormal ];
+        [ _pitcherView.arm_view endEditing:YES ];
+        [ _pitcherView.arm_view clearFields ];
+    }];
+    
+    UIAlertAction* noAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction * action){}];
+    
+    [ alert addAction:yesAction ];
+    [ alert addAction:noAction ];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 
 //--Team picker methods--//
@@ -179,6 +242,27 @@
     
 }
 //-----------------------//
+
+//-----Touching of pitcher scroll view-----//
+-(void) setUpScrollTouch
+{
+    UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollTap:)];
+    singleTapGestureRecognizer.numberOfTapsRequired = 1;
+    singleTapGestureRecognizer.enabled = YES;
+    singleTapGestureRecognizer.cancelsTouchesInView = NO;
+    
+    [_pitcherScrollView addGestureRecognizer:singleTapGestureRecognizer];
+}
+
+- (void)scrollTap:(UITapGestureRecognizer *)gesture
+{
+    CGPoint tap = [ gesture locationInView: _pitcherScrollView ];
+    Pitcher *clicked_guy = [ _pitcherScrollView findPitcherFromTouch:tap ];
+    
+    if( clicked_guy != nil )
+       [ self changePitcherView:clicked_guy ];
+}
+//-----------------------------------------//
 
 /*
 #pragma mark - Navigation

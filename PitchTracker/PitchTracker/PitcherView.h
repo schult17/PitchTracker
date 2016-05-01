@@ -21,12 +21,17 @@
 @property PitcherStatsView *stats_view;
 
 -(id) init;
+-(id) initWithCoder:(NSCoder *)aDecoder;
+-(id) initWithPlayer:(Pitcher*)pitcher;
 -(id) initWithFrame:(CGRect)frame;
 -(id) initWithFrameAndPlayer:(CGRect)frame with: (Pitcher*)pitcher;
 -(void) changePitcher:(Pitcher*)pitcher;
 -(void) setPitcherViews: (Pitcher*)pitcher;
 -(void) setBackground;
 -(void) switchToNewPitcher;
+-(void) cancelNewEditPitcherView;
 -(void) switchToEditPitcher:(Pitcher*) pitcher;
+
+-(void) setFrame:(CGRect)frame;
 
 @end

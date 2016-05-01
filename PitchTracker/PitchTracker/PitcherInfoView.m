@@ -22,6 +22,14 @@
     return self;
 }
 
+-(id) initWithPlayer:(PitcherInfo*) info
+{
+    self = [ super init ];
+    [ self broadInit:info ];
+    
+    return self;
+}
+
 -(id) initWithFrame:(CGRect)frame
 {
     self = [ super initWithFrame:frame ];
@@ -38,13 +46,23 @@
     return self;
 }
 
+-(void) setFrame:(CGRect)frame
+{
+    [ super setFrame:frame ];
+    
+    _displayInfoLabel.frame = CGRectMake(SIDE_BUFFER, TOP_BUFFER, self.frame.size.width - SIDE_BUFFER, self.frame.size.height);
+}
+
 -(void) broadInit:(PitcherInfo *)info
 {
-    _displayInfoLabel = [ [UILabel alloc] initWithFrame:CGRectMake(SIDE_BUFFER, 0, self.frame.size.width - SIDE_BUFFER, self.frame.size.height) ];
+    _displayInfoLabel = [ [UILabel alloc] initWithFrame:CGRectMake(SIDE_BUFFER, TOP_BUFFER, self.frame.size.width, self.frame.size.height) ];
     
     _displayInfoLabel.textColor = [ UIColor lightTextColor ];
     _displayInfoLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _displayInfoLabel.numberOfLines = 0;
+    
+    UIFont *font = _displayInfoLabel.font;
+    _displayInfoLabel.font = [font fontWithSize:35];
     
     [ self addSubview:_displayInfoLabel ];
     [ self changePitcherInfo:info ];
@@ -62,11 +80,11 @@
     
     if( _info != nil )
     {
-        text = [ NSString stringWithFormat:@"\t\t%@\n\n\t\t%@\n\n\t\t%@\n\n\t\t%@\n\n\t\t%@\n", _info.getTeamDisplayString, _info.getNameDisplayString, _info.getPhysicalDisplayString, _info.getNumberHandDisplayString, _info.getPitchDisplayString ];
+        text = [ NSString stringWithFormat:@"\t\t%@\n\n\t\t%@\n\n\t\t%@\n\n\t\t%@\n\n\t\t%@\n\n", _info.getTeamDisplayString, _info.getNameDisplayString, _info.getPhysicalDisplayString, _info.getNumberHandDisplayString, _info.getPitchDisplayString ];
     }
     else
     {
-        text = [ NSString stringWithFormat:@"No Pitchers for Current Filter" ];
+        text = [ NSString stringWithFormat:@"\t\tNo Pitchers for Current Team Filter" ];
     }
     
     _displayInfoLabel.text = text;

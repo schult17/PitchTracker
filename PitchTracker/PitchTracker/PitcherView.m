@@ -25,6 +25,25 @@
     return self;
 }
 
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [ super initWithCoder:aDecoder ];
+    [ self setPitcherViews:nil ];
+    [ self setBackground ];
+    
+    return self;
+}
+
+-(id) initWithPlayer:(Pitcher*)pitcher
+{
+    self = [ super init ];
+    
+    [ self setPitcherViews:pitcher ];
+    [ self setBackground ];
+    
+    return self;
+}
+
 -(id) initWithFrame:(CGRect)frame
 {
     self = [ super initWithFrame:frame ];
@@ -59,6 +78,24 @@
     }
 }
 
+-(void) setFrame:(CGRect)frame
+{
+    [ super setFrame:frame ];
+    
+    CGRect frame_info, frame_stats;
+    frame_info = frame_stats = self.frame;
+    frame_info.origin.x = frame_stats.origin.x = 0;
+    frame_info.origin.y = 0;
+    frame_info.size.height = self.frame.size.height *  0.4; //must use decimal here? No fractions...
+    frame_stats.size.height = self.frame.size.height *  0.6;
+    frame_stats.origin.y = frame_info.size.height;
+    
+    [ _info_new_edit_view setFrame:frame_info ];
+    [ _info_view setFrame:frame_info ];
+    [ _arm_view setFrame:frame_info ];
+    [ _stats_view setFrame:frame_stats ];
+}
+
 -(void) setPitcherViews:(Pitcher *)pitcher
 {
     CGRect frame_info, frame_stats;
@@ -84,24 +121,25 @@
     _arm_view.hidden = YES;
     
     _info_new_edit_view = [ [UIView alloc] initWithFrame:frame_info ];
+    
     [ _info_new_edit_view addSubview:_info_view ];
     [ _info_new_edit_view addSubview:_arm_view ];
     
     [ self addSubview:_info_new_edit_view ];
-    [ self addSubview:_stats_view ];
-    [ self setBackground ];
+    [ self addSubview:_arm_view ];
 }
 
 -(void) setBackground
 {
     self.backgroundColor = [ UIColor blackColor ];
-    self.alpha = 0.9;
+    //self.alpha = 0.9;
 }
 
 -(void) switchToNewPitcher
 {
     _info_view.hidden = YES;
     _arm_view.hidden = NO;
+    _stats_view.hidden = YES;
 }
 
 -(void) switchToEditPitcher:(Pitcher*) pitcher
@@ -110,6 +148,14 @@
     
     _info_view.hidden = YES;
     _arm_view.hidden = NO;
+    _stats_view.hidden = YES;
+}
+
+-(void) cancelNewEditPitcherView
+{
+    _info_view.hidden = NO;
+    _arm_view.hidden = YES;
+    _stats_view.hidden = NO;
 }
 
 @end

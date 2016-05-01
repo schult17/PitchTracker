@@ -49,7 +49,8 @@ typedef enum _PitchType
     CURVE_2,    //Second curveball (in case they have 2)
     SLIDER,     //Slider
     CHANGE,     //Changeup
-    SPLITTER    //Splitter/Forkball
+    SPLITTER,   //Splitter/Forkball
+    COUNTPITCHES
 }PitchType;
 //--------------------//
 

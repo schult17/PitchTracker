@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CustomTextFields : UITextField
+@interface CustomTextField : UITextField
 
 -(id) init;
 -(id) initWithFrame:(CGRect)frame;
+-(id) initWithString:(NSString*)place_text;
 -(id) initWithFrameAndString:(CGRect)frame with: (NSString *)place_text;
 -(void) setAttributes;
+
 
 @end

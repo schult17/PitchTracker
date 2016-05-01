@@ -44,6 +44,20 @@
     
     LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
     [ database addPitcher:[ [Pitcher alloc] init ] ];
+    
+    NSMutableArray *def = [ [NSMutableArray alloc] init ];
+    [ def addObject:@(FASTBALL_4) ];
+    [ def addObject:@(FASTBALL_2) ];
+    [ def addObject:@(CURVE_1) ];
+    [ def addObject:@(CUTTER)];
+    [ def addObject:@(CHANGE)];
+    
+    [ database addPitcher:[ [Pitcher alloc] initWithDetails:UOFT with:@"Tanner" with:@"Young-Schultz" with:14 with:RIGHT with:22 with: 187 with:6 with:0 with:def ] ];
+}
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 - (void) viewWillAppear:(BOOL)animated

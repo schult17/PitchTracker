@@ -15,8 +15,11 @@
 
 @interface PitcherSideScrollView : UIScrollView
 
+@property TeamNames curr_team;
+
 -(void) changeTeam: (TeamNames) team;
 -(void) clearContents;
 -(void) addPitchersToView: (NSArray *) pitchers;
+-(Pitcher*) findPitcherFromTouch:(CGPoint)tap;
 
 @end

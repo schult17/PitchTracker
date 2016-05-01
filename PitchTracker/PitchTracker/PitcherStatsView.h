@@ -16,9 +16,11 @@
 //Tables and labels and shit to fill with stats
 
 -(id) init;
+-(id) initWithPitchStats:(PitchStats*)stats;
 -(id) initWithFrame:(CGRect)frame;
 -(id) initWithFrameAndPlayerStats:(CGRect)frame with: (PitchStats*)stats;
 -(void) changePitcherStats:(PitchStats*) stats;
 -(void) fillStatsFields;
+-(void) setFrame:(CGRect)frame;
 
 @end

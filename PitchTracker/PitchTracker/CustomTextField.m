@@ -6,9 +6,9 @@
 //  Copyright © 2016 UofTBaseball. All rights reserved.
 //
 
-#import "CustomTextFields.h"
+#import "CustomTextField.h"
 
-@implementation CustomTextFields
+@implementation CustomTextField
 
 -(id) init
 {
@@ -21,6 +21,15 @@
 {
     self = [ super initWithFrame:frame ];
     [ self setAttributes ];
+    return self;
+}
+
+-(id) initWithString:(NSString*)place_text
+{
+    self = [ super  init ];
+    [ self setAttributes ];
+    [ self setPlaceholder:place_text ];
+    
     return self;
 }
 

@@ -11,6 +11,7 @@
 #import "Pitcher.h"
 
 #define SIDE_BUFFER 10
+#define TOP_BUFFER 20
 #define NUM_FIELDS 5
 
 #define TEAM 0
@@ -26,9 +27,11 @@
 @property UILabel *displayInfoLabel;
 
 -(id) init;
+-(id) initWithPlayer:(PitcherInfo*) info;
 -(id) initWithFrame:(CGRect)frame;
 -(id) initWithFrameAndPlayerInfo:(CGRect)frame with: (PitcherInfo*)info;
 -(void) broadInit:(PitcherInfo*)info;
 -(void) changePitcherInfo:(PitcherInfo*)info;
 -(void) fillInfo;
+-(void) setFrame:(CGRect)frame;
 @end

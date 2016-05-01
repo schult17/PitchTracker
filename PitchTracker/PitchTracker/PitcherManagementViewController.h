@@ -19,7 +19,9 @@
 @property (strong, nonatomic) IBOutlet UIButton *addPitcherButton;
 
 @property (strong, nonatomic) IBOutlet UIPickerView *teamPicker;
+/*
 @property (strong, nonatomic) IBOutlet UIView *outerPitcherView;
+ */
 @property (strong, nonatomic) IBOutlet PitcherView *pitcherView;
 
 @property TeamNames currTeamFilter;

@@ -20,6 +20,14 @@
     return self;
 }
 
+-(id) initWithPitchStats:(PitchStats*)stats
+{
+    self = [ super init ];
+    [ self changePitcherStats:stats ];
+    
+    return self;
+}
+
 -(id) initWithFrame:(CGRect)frame
 {
     self = [ super initWithFrame:frame ];
@@ -34,6 +42,11 @@
     [ self changePitcherStats:stats ];
     
     return self;
+}
+
+-(void) setFrame:(CGRect)frame
+{
+    [ super setFrame:frame ];
 }
 
 -(void) changePitcherStats:(PitchStats*) stats
