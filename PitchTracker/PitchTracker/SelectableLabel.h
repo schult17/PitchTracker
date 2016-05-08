@@ -16,5 +16,6 @@
 -(id)initWithStr:(NSString*)text;
 -(void)setAttributes:(NSString*)text;
 -(void)toggleSelected;
+-(void)setSelect:(bool)selected;
 
 @end

@@ -59,6 +59,9 @@
     
     if( !_rightLabel.selected )
         [ _rightLabel toggleSelected ];
+    
+    for( int i = 0; i < _pitchLabels.count; i++ )
+        [ ((SelectableLabel *)_pitchLabels[i]) setSelect:false ];
 }
 
 -(void) createFields
@@ -247,7 +250,28 @@
 
 -(void) presentFieldsEdit:(Pitcher*) pitcher
 {
+    _firstInput.text = pitcher.info.first_name;
+    _lastInput.text = pitcher.info.last_name;
+    _jerseryInput.text = [ NSString stringWithFormat:@"%i", pitcher.info.jersey_num ];
+    _ageInput.text =  [ NSString stringWithFormat:@"%i", pitcher.info.age ];
+    _heightFInput.text = [ NSString stringWithFormat:@"%i", pitcher.info.height_f ];
+    _heightIInput.text = [ NSString stringWithFormat:@"%i", pitcher.info.height_i ];
+    _weightInput.text = [ NSString stringWithFormat:@"%i", pitcher.info.weight ];
     
+    if( pitcher.info.hand == RIGHT )
+    {
+        [ _rightLabel setSelect:true ];
+        [ _leftLabel setSelect:false ];
+    }
+    else
+    {
+        [ _rightLabel setSelect:false ];
+        [ _leftLabel setSelect:true ];
+    }
+    
+    int count = (int)[ pitcher.info.pitches count ];
+    for( int i = 0; i < count; i++ )
+        [ [ _pitchLabels objectAtIndex:[pitcher.info.pitches[i] intValue] ] setSelect:true ];
 }
 
 -(void) aboutToShow:(TeamNames) curr_team

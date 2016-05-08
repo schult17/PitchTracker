@@ -19,6 +19,8 @@
 @property PitcherInfoView *info_view;
 @property EditPitcherView *arm_view;
 @property PitcherStatsView *stats_view;
+@property Pitcher* pitcher;
+@property UILabel *editButton;
 
 -(id) init;
 -(id) initWithCoder:(NSCoder *)aDecoder;
@@ -30,8 +32,9 @@
 -(void) setBackground;
 -(void) switchToNewPitcher;
 -(void) cancelNewEditPitcherView;
--(void) switchToEditPitcher:(Pitcher*) pitcher;
+-(void) switchToEditPitcher;
 
 -(void) setFrame:(CGRect)frame;
+-(bool) clickInsideEdit:(CGPoint)tap;
 
 @end

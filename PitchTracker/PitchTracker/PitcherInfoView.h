@@ -28,9 +28,4 @@
 -(void) fillInfo;
 -(void) setFrame:(CGRect)frame;
 
--(NSString *) percentageArrayToDisplayString:(NSArray*) array;
--(NSString *) getPitchPercentageString;
--(NSString *) getFirstPitchPercentageString;
--(NSString *) getStrikeOutPitchPercentage;
-
 @end

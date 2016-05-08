@@ -38,25 +38,11 @@
     
     PitcherSideView *view = nil;
     
-    //view.translatesAutoresizingMaskIntoConstraints = NO;
-    
     for( int i = 0; i < pitchers.count ; i++ )
     {
         frame.origin.y = PLAYERVIEW_HEIGHT * i;
         view = [ [PitcherSideView alloc] initWithFrameAndPlayer:frame with:[ pitchers objectAtIndex:i ] ];
         [ self addSubview:view ];
-        /*
-        [view setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addConstraints:[NSLayoutConstraint
-                                   constraintsWithVisualFormat:@"H:|-0-[view]-0-|"
-                                   options:NSLayoutFormatDirectionLeadingToTrailing
-                                   metrics:nil
-                                   views:NSDictionaryOfVariableBindings(view)]];
-        [self addConstraints:[NSLayoutConstraint
-                                   constraintsWithVisualFormat:@"V:|-0-[view]-0-|"
-                                   options:NSLayoutFormatDirectionLeadingToTrailing
-                                   metrics:nil
-                                   views:NSDictionaryOfVariableBindings(view)]];*/
     }
 }
 

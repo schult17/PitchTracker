@@ -44,7 +44,12 @@
 -(void) toggleSelected
 {
     _selected = !_selected;
-    
+    self.textColor = _selected ? [UIColor greenColor] : [UIColor lightTextColor];
+}
+
+-(void)setSelect:(bool)selected
+{
+    _selected = selected;
     self.textColor = _selected ? [UIColor greenColor] : [UIColor lightTextColor];
 }
 

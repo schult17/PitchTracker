@@ -42,8 +42,11 @@
     // Do any additional setup after loading the view, typically from a nib.
     self.view.translatesAutoresizingMaskIntoConstraints = YES;
     
+    //-----For debugging-----//
     LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
-    [ database addPitcher:[ [Pitcher alloc] init ] ];
+    Pitcher *add = [ [Pitcher alloc] init ];
+    [ add setID:[database getNewPitcherID] ];
+    [ database addPitcher:add ];
     
     NSMutableArray *def = [ [NSMutableArray alloc] init ];
     [ def addObject:@(FASTBALL_4) ];
@@ -52,7 +55,10 @@
     [ def addObject:@(CUTTER)];
     [ def addObject:@(CHANGE)];
     
-    [ database addPitcher:[ [Pitcher alloc] initWithDetails:UOFT with:@"Tanner" with:@"Young-Schultz" with:14 with:RIGHT with:22 with: 187 with:6 with:0 with:def ] ];
+    add = [ [Pitcher alloc] initWithDetails:UOFT with:@"Tanner" with:@"Young-Schultz" with:14 with:RIGHT with:22 with: 187 with:6 with:0 with:def ];
+    [ add setID:[database getNewPitcherID] ];
+    [ database addPitcher:add ];
+    //------------------------//
 }
 
 -(NSUInteger)supportedInterfaceOrientations

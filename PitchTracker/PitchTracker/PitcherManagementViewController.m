@@ -21,6 +21,7 @@
 @synthesize teamPicker = _teamPicker;
 @synthesize pitcherView = _pitcherView;
 @synthesize currTeamFilter = _currTeamFilter;
+@synthesize currViewType = _currViewType;
 
 //NOTE: Consider using database of pitchers to store pitcher info and
 //      pulling from disk for pitcher stats (memory already climbing).
@@ -93,22 +94,55 @@
     if( [_addPitcherButton.titleLabel.text isEqualToString:@"Cancel"] )
     {
         [ _pitcherView.arm_view endEditing:YES ];
-        refresh = [ _pitcherView.arm_view checkTouchInSelectableLabels:[ sender locationInView:_pitcherView ] ];
+        refresh = [ _pitcherView.arm_view checkTouchInSelectableLabels:[sender locationInView:_pitcherView] ];
+    }
+    else
+    {
+        if( [_pitcherView clickInsideEdit:[sender locationInView:_pitcherView]] )
+        {
+            _currViewType = MODE_EDIT;
+            [ self changePitcherViewToEditPitcher ];
+        }
     }
     
     //refreshes the scroll view, set pitcher view to the new added pitcher
     if( refresh )
     {
-        Pitcher *new_pitcher = [ _pitcherView.arm_view getPitcherWithInfo:_currTeamFilter ];
-        //TODO - check for duplicates, stop exiting... once addNewPitcherLeaveView is called
-        //the addition is 'permanent'
-        [ self addNewPitcherLeaveView:new_pitcher ];
+        if( _currViewType == MODE_NEW )
+        {
+            Pitcher *new_pitcher = [ _pitcherView.arm_view getPitcherWithInfo:_currTeamFilter ];
+            //TODO - check for duplicates, stop exiting... once addNewPitcherLeaveView is called
+            //the addition is 'permanent'
+            [ self addNewPitcherLeaveView:new_pitcher ];
+        }
+        else
+        {
+            Pitcher *edit_pitcher = [ _pitcherView.arm_view getPitcherWithInfo:_currTeamFilter ];
+            [ self editPitcherLeaveView:edit_pitcher ];
+        }
     }
+}
+
+-(void) editPitcherLeaveView:(Pitcher*) pitcher
+{
+    LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
+    [ database editPitcher:pitcher ];
+    
+    [ _pitcherScrollView changeTeam:_currTeamFilter ];  //possibly write a 'refresh' instead of dummy team change
+    [ _pitcherView changePitcher:pitcher ];
+    
+    [ _pitcherView cancelNewEditPitcherView ];
+    [ _addPitcherButton setTitle:@"New Arm+" forState:UIControlStateNormal ];
+    [ _pitcherView.arm_view endEditing:YES ];
+    [ _pitcherView.arm_view clearFields ];
+    
+    _currViewType = MODE_VIEW;
 }
 
 -(void) addNewPitcherLeaveView:(Pitcher*) pitcher
 {
     LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
+    [ pitcher setID:[database getNewPitcherID] ];   //get the new ID for new pitcher
     [ database addPitcher:pitcher ];
     
     [ _pitcherView cancelNewEditPitcherView ];
@@ -118,6 +152,15 @@
     
     [ _pitcherScrollView changeTeam:_currTeamFilter ];
     [ self changePitcherViewToNewPitcher ];
+    
+    _currViewType = MODE_VIEW;
+}
+
+-(void) changePitcherViewToEditPitcher
+{
+    _currViewType = MODE_EDIT;
+    [ _pitcherView switchToEditPitcher ];
+    [ _addPitcherButton setTitle:@"Cancel" forState:UIControlStateNormal ];
 }
 
 -(void) changePitcherViewToNewPitcher
@@ -186,6 +229,7 @@
     }
     else    //button text is 'New Arm+"
     {
+        _currViewType = MODE_NEW;
         [ _pitcherView switchToNewPitcher ];
         [ _addPitcherButton setTitle:@"Cancel" forState:UIControlStateNormal ];
     }
@@ -214,6 +258,7 @@
         [ _addPitcherButton setTitle:@"New Arm+" forState:UIControlStateNormal ];
         [ _pitcherView.arm_view endEditing:YES ];
         [ _pitcherView.arm_view clearFields ];
+        _currViewType = MODE_VIEW;
     }];
     
     UIAlertAction* noAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault

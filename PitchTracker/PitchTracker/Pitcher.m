@@ -12,6 +12,7 @@
 
 @synthesize info = _info;
 @synthesize stats = _stats;
+@synthesize pitcher_id = _pitcher_id;
 
 -(id) init
 {
@@ -41,6 +42,11 @@
 -(void) setDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
 {
     [ _info setDetails:team with:first_name with:last_name with:jersey_num with:hand with:age with:weight with:height_f with:height_i with:pitches ];
+}
+
+-(void) setID:(int) new_id
+{
+    _pitcher_id = new_id;
 }
 
 @end

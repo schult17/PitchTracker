@@ -55,7 +55,7 @@
 
 -(void) broadInit:(PitcherInfo *)info
 {
-    _displayInfoLabel = [ [UILabel alloc] initWithFrame:CGRectMake(SIDE_BUFFER, TOP_BUFFER, self.frame.size.width, self.frame.size.height) ];
+    _displayInfoLabel = [ [UILabel alloc] initWithFrame:CGRectMake(SIDE_BUFFER, TOP_BUFFER, self.frame.size.width - SIDE_BUFFER, self.frame.size.height) ];
     
     _displayInfoLabel.textColor = [ UIColor lightTextColor ];
     _displayInfoLabel.lineBreakMode = NSLineBreakByWordWrapping;

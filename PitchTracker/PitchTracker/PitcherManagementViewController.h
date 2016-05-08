@@ -12,6 +12,10 @@
 #import "PitcherSideScrollView.h"
 #import "LocalPitcherDatabase.h"
 
+#define MODE_VIEW 0
+#define MODE_NEW 1
+#define MODE_EDIT 2
+
 @interface PitcherManagementViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet PitcherSideScrollView *pitcherScrollView;
@@ -19,12 +23,11 @@
 @property (strong, nonatomic) IBOutlet UIButton *addPitcherButton;
 
 @property (strong, nonatomic) IBOutlet UIPickerView *teamPicker;
-/*
-@property (strong, nonatomic) IBOutlet UIView *outerPitcherView;
- */
 @property (strong, nonatomic) IBOutlet PitcherView *pitcherView;
 
 @property TeamNames currTeamFilter;
+
+@property int currViewType;
 
 
 -(void) addPitchersToScroll;
