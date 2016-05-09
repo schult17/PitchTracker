@@ -25,4 +25,6 @@
 
 -(void) setID:(int) new_id;
 
+-(NSString*) getAsJSONString;
+
 @end

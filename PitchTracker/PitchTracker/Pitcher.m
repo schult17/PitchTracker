@@ -49,4 +49,20 @@
     _pitcher_id = new_id;
 }
 
+-(NSString*) getAsJSONString
+{
+    NSError *error;
+    
+    //total strikes/balls can be re calculated when re opened, saves space
+    NSDictionary* json = [ NSDictionary dictionaryWithObjectsAndKeys:
+                          _info.getAsJSONString, @"Info",
+                          _stats.getAsJSONString, @"Stats",
+                          [NSNumber numberWithInt:_pitcher_id], @"ID", nil];
+    
+    //TODO get rid of pretty, make it compact
+    NSData* json_data = [ NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error ];
+    
+    return [ [NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding ];
+}
+
 @end

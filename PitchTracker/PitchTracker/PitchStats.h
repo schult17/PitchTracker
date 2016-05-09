@@ -34,4 +34,6 @@
 -(NSArray*) getFirstPitchPercentage;
 -(NSArray*) getStrikeoutPitchPercentage;
 
+-(NSString*) getAsJSONString;
+
 @end

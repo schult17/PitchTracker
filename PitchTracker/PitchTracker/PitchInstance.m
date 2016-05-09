@@ -50,6 +50,23 @@
     _type = type;
 }
 
+-(NSString*) getAsString
+{
+    NSError *error;
+    
+    NSDictionary* json = [ NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSNumber numberWithInt:(int)_X], @"X",
+                          [NSNumber numberWithInt:(int)_Y], @"Y",
+                          [NSNumber numberWithInt:(int)_type], @"Type",
+                          [NSNumber numberWithInt:(int)_pitch_result], @"Result", nil];
+    
+    //TODO -- get rid of pretty, make it compact
+    NSData* json_data = [ NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error ];
+    
+    //TODO -- do something with error
+    return [ [NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding ];
+}
+
 @end
 //-------------------//
 
@@ -62,6 +79,7 @@
 @synthesize atbat_balls = _atbat_balls;
 @synthesize atbat_foul = _atbat_foul;
 @synthesize atbat_result = _atbat_result;
+@synthesize atbat_date = _atbat_date;
 @synthesize batter_hand = _batter_hand;
 
 -(id)init
@@ -72,6 +90,7 @@
     _atbat_foul = 0;
     _atbat_result = SO_LOOK;
     _batter_hand = LEFT;
+    [ self setDate:[NSDate date] ];
     
     return self;
 }
@@ -84,8 +103,21 @@
     _atbat_foul = 0;
     _atbat_result = SO_LOOK;
     _batter_hand = batter_hand;
+    [ self setDate:[NSDate date] ];
     
     return self;
+}
+
+-(void) setDate:(NSDate*)date
+{
+    _atbat_date = date;
+}
+
+-(NSString*) getDateString
+{
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    return [ dateFormatter stringFromDate:_atbat_date ];
 }
 
 -(void) addPitch:(PitchType)type with:(PitchLocation)X with:(PitchLocation)Y with:(PitchOutcome)pitch_result
@@ -108,6 +140,28 @@
 -(void) endAtPlate:(AtPlateOutcome)atbat_result
 {
     _atbat_result = atbat_result;
+}
+
+-(NSString*) getAsString
+{
+    NSError *error;
+    NSMutableArray* json_array = [ [NSMutableArray alloc] init ];
+    for( PitchInstance* i in _atbat_pitches )
+        [ json_array addObject:i.getAsString ];
+    
+    NSDictionary* json = [ NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSNumber numberWithInt:_atbat_strikes], @"Strikes",
+                          [NSNumber numberWithInt:_atbat_balls], @"Balls",
+                          [NSNumber numberWithInt:_atbat_foul], @"Foul",
+                          [NSNumber numberWithInt:(int)_batter_hand], @"Hand",
+                          [NSNumber numberWithInt:(int)_atbat_result], @"Result",
+                          json_array, @"Pitches",
+                          [ self getDateString ], @"Date", nil];
+    
+    //TODO get rid of pretty, make it compact
+    NSData* json_data = [ NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error ];
+    
+    return [ [NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding ];
 }
 
 @end

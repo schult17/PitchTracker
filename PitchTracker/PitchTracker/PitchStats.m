@@ -169,4 +169,26 @@
     return pitchs_count;
 }
 
+-(NSString*) getAsJSONString
+{
+    NSError *error;
+    
+    NSMutableArray* json_array;
+    for( AtPlate *i in _at_plates )
+        [ json_array addObject:i.getAsString ];
+    
+    //total strikes/balls can be re calculated when re opened, saves space
+    NSDictionary* json = [ NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSNumber numberWithInt:_total_walks], @"Walks",
+                          [NSNumber numberWithInt:_total_k], @"K",
+                          [NSNumber numberWithInt:_total_errors], @"Errors",
+                          [NSNumber numberWithInt:_total_hits], @"Hits",
+                          json_array, @"AtPlates", nil];
+    
+    //TODO get rid of pretty, make it compact
+    NSData* json_data = [ NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error ];
+    
+    return [ [NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding ];
+}
+
 @end

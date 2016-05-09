@@ -37,4 +37,6 @@
 -(NSString*) getPitchString:(PitchType)type;
 -(NSString*) getHandString:(Hand)hand;
 
+-(NSString*) getAsJSONString;
+
 @end
