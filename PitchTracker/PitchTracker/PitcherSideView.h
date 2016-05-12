@@ -10,13 +10,15 @@
 #import "Globals.h"
 #import "Pitcher.h"
 
+#define TEXT_INSET 10
+
 @interface PitcherSideView : UIView
 
 @property Pitcher *pitcher;
 @property UILabel *team_label;
 @property UILabel *name_label;
 
--(id) init;
+//-(id) init;
 -(id) initWithFrame:(CGRect)frame;
 -(id) initWithFrameAndPlayer:(CGRect)frame with: (Pitcher*)pitcher;
 -(void) updatePitcher:(Pitcher*)pitcher;

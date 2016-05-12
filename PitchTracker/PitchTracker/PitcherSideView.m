@@ -15,6 +15,7 @@
 @synthesize name_label = _name_label;
 
 //shouldn't be used...
+/*
 -(id) init
 {
     self = [ super init ];
@@ -24,6 +25,7 @@
     
     return self;
 }
+*/
 
 -(id) initWithFrame:(CGRect)frame
 {
@@ -66,11 +68,11 @@
 {
     CGFloat seg_height = self.frame.size.height/4;
     
-    _team_label = [ [UILabel alloc] initWithFrame:CGRectMake(0, seg_height, self.frame.size.width, seg_height) ];
+    _team_label = [ [UILabel alloc] initWithFrame:CGRectMake(TEXT_INSET, seg_height, self.frame.size.width, seg_height) ];
     _team_label.text = _pitcher.info.getTeamDisplayString;
     _team_label.textColor = [UIColor lightTextColor];
     
-    _name_label = [ [UILabel alloc] initWithFrame:CGRectMake(0, 2*seg_height, self.frame.size.width, seg_height)];
+    _name_label = [ [UILabel alloc] initWithFrame:CGRectMake(TEXT_INSET, 2*seg_height, self.frame.size.width, seg_height)];
     _name_label.text = _pitcher.info.getShortDisplayString;
     _name_label.textColor = [UIColor lightTextColor];
     

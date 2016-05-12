@@ -68,8 +68,6 @@
     
     [ self changePitcherStats:stats ];
     [ self fillStatsFields ];
-    
-    [ self setBackgroundColor:[ UIColor lightGrayColor ] ];
 }
 
 -(void) setFrame:(CGRect)frame

@@ -14,15 +14,62 @@
 
 @implementation NewGameViewController
 
+@synthesize team1Button = _team1Button;
+@synthesize team2Button = _team2Button;
+@synthesize startGameButton = _startGameButton;
+@synthesize teamPicker = _teamPicker;
+@synthesize team1 = _team1;
+@synthesize team2 = _team2;
+@synthesize button_num = _button_num;
+
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    [ super viewDidLoad ];
     // Do any additional setup after loading the view from its nib.
+    
+    [ self setUpTeamButtons ];
+    [ self loadPicker ];
+}
+
+-(void) setUpTeamButtons
+{
+    _team1 = UOFT;
+    _team2 = GUELPH;
+    _button_num = 1;
+    
+    _team1Button.titleLabel.textAlignment = NSTextAlignmentCenter;
+    _team2Button.titleLabel.textAlignment = NSTextAlignmentCenter;
+}
+
+-(void)setButtonsStrings
+{
+    [ _team1Button setTitle:TEAM_NAME_STR[_team1] forState:UIControlStateNormal ];
+    [ _team2Button setTitle:TEAM_NAME_STR[_team2] forState:UIControlStateNormal ];
+}
+
+- (IBAction)handleButtonClick:(id)sender
+{
+    if( sender == _team1Button )
+    {
+        _button_num = 1;
+        [ _teamPicker setCenter:_team1Button.center];
+        _team1Button.hidden = YES;
+    }
+    else if( sender == _team2Button )
+    {
+        _button_num = 2;
+        [ _teamPicker setCenter:_team2Button.center];
+        _team2Button.hidden = YES;
+    }
+    
+    _teamPicker.hidden = NO;
 }
 
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [ self setButtonsStrings ];
 }
 
 -(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue
@@ -34,6 +81,88 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+//--Team picker methods--//
+-(void) loadPicker
+{
+    _teamPicker = [ UIPickerView new ];
+    _teamPicker.delegate = self;
+    _teamPicker.dataSource = self;
+    _teamPicker.showsSelectionIndicator = YES;
+    
+    [ self.view addSubview:_teamPicker ];
+    
+    _teamPicker.hidden = YES;
+}
+
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSString *name;
+    
+    name = TEAM_NAME_STR[ row ];
+    
+    NSAttributedString *attString = [[NSAttributedString alloc] initWithString:name attributes:@{NSForegroundColorAttributeName:_team1Button.titleLabel.textColor}];
+    
+    return attString;
+    
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return TEAMCOUNT;
+}
+
+-(void) togglePickerHidden
+{
+    _teamPicker.hidden = !_teamPicker.hidden;
+    
+    //if we are about to show picker, set row to current filter
+    if( !_teamPicker.hidden )
+    {
+        if( _button_num == 1 )
+            [ _teamPicker selectRow:(int)_team1 inComponent:0 animated:NO ];
+        else if( _button_num == 2 )
+            [ _teamPicker selectRow:(int)_team2 inComponent:0 animated:NO ];
+        else
+            NSLog(@"Bad team 1 or 2");
+    }
+}
+
+- (void)pickerView:(UIPickerView *)thePickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    TeamNames temp = (TeamNames)row;    //to avoid same team in both
+    
+    if( _button_num == 1 )
+    {
+        if( temp == _team2 )
+            _team2 = _team1;
+        
+        _team1 = temp;
+    }
+    else if( _button_num == 2 )
+    {
+        if( temp == _team1 )
+            _team1 = _team2;
+        
+        _team2 = temp;
+    }
+    else
+        NSLog(@"Bad team 1 or 2");
+    
+    [ self setButtonsStrings ];
+    
+    _teamPicker.hidden = YES;
+    
+    _team1Button.hidden = NO;
+    _team2Button.hidden = NO;
+    
+}
+//-----------------------//
 
 /*
 #pragma mark - Navigation

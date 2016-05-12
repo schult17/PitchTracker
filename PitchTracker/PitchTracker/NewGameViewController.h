@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Globals.h"
 
 @interface NewGameViewController : UIViewController
+@property (strong, nonatomic) IBOutlet UIButton *team1Button;
+@property (strong, nonatomic) IBOutlet UIButton *team2Button;
+@property (strong, nonatomic) IBOutlet UIButton *startGameButton;
+@property (strong, nonatomic) IBOutlet UIPickerView *teamPicker;
+
+@property TeamNames team1;
+@property TeamNames team2;
+
+@property int button_num;
 
 @end

@@ -84,8 +84,70 @@
                     <view key="view" contentMode="scaleToFill" id="eSs-YF-Yhg">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sY0-1A-LhB">
+                                <rect key="frame" x="20" y="285" width="271" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Team 1"/>
+                                <connections>
+                                    <action selector="handleButtonClick:" destination="TvQ-cX-poN" eventType="touchUpInside" id="3qO-2z-6fZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qjJ-fl-uac">
+                                <rect key="frame" x="329" y="285" width="251" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Team 2"/>
+                                <connections>
+                                    <action selector="handleButtonClick:" destination="TvQ-cX-poN" eventType="touchUpInside" id="Nem-ds-DMA"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="VS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGQ-Ki-xpi">
+                                <rect key="frame" x="299" y="289" width="22" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Trw-LT-CzF">
+                                <rect key="frame" x="198" y="387" width="225" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="Start Game"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qjJ-fl-uac" firstAttribute="leading" secondItem="aGQ-Ki-xpi" secondAttribute="trailing" constant="8" id="0Ca-hR-x4z"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="sY0-1A-LhB" secondAttribute="leading" id="5zr-hH-XGw"/>
+                            <constraint firstItem="qjJ-fl-uac" firstAttribute="centerY" secondItem="sY0-1A-LhB" secondAttribute="centerY" id="7EC-7H-Mxj"/>
+                            <constraint firstItem="Trw-LT-CzF" firstAttribute="centerX" secondItem="aGQ-Ki-xpi" secondAttribute="centerX" id="Fe2-cC-Qm0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qjJ-fl-uac" secondAttribute="trailing" id="NCt-l0-jI7"/>
+                            <constraint firstItem="sY0-1A-LhB" firstAttribute="centerY" secondItem="eSs-YF-Yhg" secondAttribute="centerY" id="Opu-9R-bRV"/>
+                            <constraint firstItem="Trw-LT-CzF" firstAttribute="top" secondItem="aGQ-Ki-xpi" secondAttribute="bottom" constant="35" id="RII-k9-IPA"/>
+                            <constraint firstItem="Trw-LT-CzF" firstAttribute="centerX" secondItem="aGQ-Ki-xpi" secondAttribute="centerX" id="Wbj-dW-1UI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qjJ-fl-uac" secondAttribute="trailing" constant="20" id="YBS-yD-HtT"/>
+                            <constraint firstItem="Trw-LT-CzF" firstAttribute="top" secondItem="aGQ-Ki-xpi" secondAttribute="bottom" constant="77" id="aE3-Nj-GQs"/>
+                            <constraint firstItem="sY0-1A-LhB" firstAttribute="leading" secondItem="eSs-YF-Yhg" secondAttribute="leadingMargin" constant="20" id="kq8-OD-1el"/>
+                            <constraint firstItem="aGQ-Ki-xpi" firstAttribute="centerY" secondItem="sY0-1A-LhB" secondAttribute="centerY" id="pP2-S3-gcT"/>
+                            <constraint firstItem="aGQ-Ki-xpi" firstAttribute="leading" secondItem="sY0-1A-LhB" secondAttribute="trailing" constant="8" id="pTo-zv-Tsf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Trw-LT-CzF" secondAttribute="trailing" constant="157" id="to1-iI-3sq"/>
+                            <constraint firstItem="Trw-LT-CzF" firstAttribute="leading" secondItem="eSs-YF-Yhg" secondAttribute="leadingMargin" constant="178" id="xqB-HQ-395"/>
+                            <constraint firstItem="aGQ-Ki-xpi" firstAttribute="centerX" secondItem="eSs-YF-Yhg" secondAttribute="centerX" id="zVq-7H-fA9"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="kq8-OD-1el"/>
+                                <exclude reference="Fe2-cC-Qm0"/>
+                                <exclude reference="RII-k9-IPA"/>
+                                <exclude reference="to1-iI-3sq"/>
+                                <exclude reference="xqB-HQ-395"/>
+                                <exclude reference="YBS-yD-HtT"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="startGameButton" destination="Trw-LT-CzF" id="OLz-ib-gfQ"/>
+                        <outlet property="team1Button" destination="sY0-1A-LhB" id="cwL-PM-Bwc"/>
+                        <outlet property="team2Button" destination="qjJ-fl-uac" id="Fj4-rR-1aF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mFb-nU-cNX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

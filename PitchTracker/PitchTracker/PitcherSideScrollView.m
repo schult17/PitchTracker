@@ -11,6 +11,39 @@
 @implementation PitcherSideScrollView
 
 @synthesize curr_team = _curr_team;
+@synthesize normalColour = _normalColour;
+@synthesize tappedIndex = _tappedIndex;
+@synthesize pitcherViews = _pitcherViews;
+
+-(id) init
+{
+    self = [ super init ];
+    [ self broadInit ];
+    
+    return self;
+}
+
+-(id) initWithFrame:(CGRect)frame
+{
+    self = [ super initWithFrame:frame ];
+    [ self broadInit ];
+    
+    return self;
+}
+
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [ super initWithCoder:aDecoder ];
+    [ self broadInit ];
+    
+    return self;
+}
+
+-(void) broadInit
+{
+    _normalColour = self.backgroundColor;
+    _pitcherViews = [ [NSMutableArray alloc] init ];
+}
 
 -(void) changeTeam:(TeamNames)team
 {
@@ -32,9 +65,11 @@
 
 -(void) addPitchersToView:(NSArray *)pitchers
 {
+    [ _pitcherViews removeAllObjects ];
+    
     [ self setContentSize:CGSizeMake(self.frame.size.width, PLAYERVIEW_HEIGHT * pitchers.count) ];
     
-    CGRect frame = CGRectMake(SCROLL_INSET, 0, self.frame.size.width, PLAYERVIEW_HEIGHT);
+    CGRect frame = CGRectMake(0, 0, self.frame.size.width, PLAYERVIEW_HEIGHT);
     
     PitcherSideView *view = nil;
     
@@ -42,7 +77,13 @@
     {
         frame.origin.y = PLAYERVIEW_HEIGHT * i;
         view = [ [PitcherSideView alloc] initWithFrameAndPlayer:frame with:[ pitchers objectAtIndex:i ] ];
+        
+        //by default first pitcher is selected
+        if( i == 0 )
+            view.backgroundColor = [ UIColor SELECTED_COLOUR ];
+        
         [ self addSubview:view ];
+        [ _pitcherViews addObject:view ];
     }
 }
 
@@ -56,9 +97,29 @@
     NSArray *pitchers = [ database getTeamArray:_curr_team ];
     
     if( index < pitchers.count )
-        return [ pitchers objectAtIndex:index ];
+    {
+        //Colouring of background for currently selected pitcher
+        //old selection
+        [ [ _pitcherViews objectAtIndex:_tappedIndex ] setBackgroundColor:_normalColour ];
+        
+        //newly selected
+        _tappedIndex = index;
+        [ [ _pitcherViews objectAtIndex:_tappedIndex ] setBackgroundColor:[UIColor SELECTED_COLOUR] ];
+        //----------------------------------------------------//
+        
+        Pitcher *new_pitcher = [ pitchers objectAtIndex:index ];
+        return new_pitcher;
+    }
     else
+    {
         return nil;
+    }
+}
+
+-(void) setBackgroundColor:(UIColor *)backgroundColor
+{
+    [ super setBackgroundColor:backgroundColor ];
+    _normalColour = backgroundColor;
 }
 
 @end

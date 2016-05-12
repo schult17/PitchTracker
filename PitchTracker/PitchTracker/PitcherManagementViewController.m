@@ -84,7 +84,6 @@
               initWithTarget:self action:@selector(pitcherViewTap:)];
     tapper.cancelsTouchesInView = NO;
     [ _pitcherView addGestureRecognizer:tapper ];
-    
 }
 
 -(void)pitcherViewTap:(UITapGestureRecognizer *) sender
