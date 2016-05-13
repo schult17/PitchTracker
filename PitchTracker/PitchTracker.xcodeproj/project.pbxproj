@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5511A1B21CD39AB100F2932A /* PitcherSideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5511A1B11CD39AB100F2932A /* PitcherSideView.m */; };
+		551A0C1F1CE554800004B9C1 /* InGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 551A0C1E1CE554800004B9C1 /* InGameViewController.m */; };
 		5537DB541CD5AF4F0088AD4D /* SelectableLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */; };
 		5599008E1CD2890300D103FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5599008D1CD2890300D103FF /* main.m */; };
 		559900911CD2890300D103FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900901CD2890300D103FF /* AppDelegate.m */; };
@@ -37,6 +38,8 @@
 /* Begin PBXFileReference section */
 		5511A1B01CD39AB100F2932A /* PitcherSideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitcherSideView.h; sourceTree = "<group>"; };
 		5511A1B11CD39AB100F2932A /* PitcherSideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherSideView.m; sourceTree = "<group>"; };
+		551A0C1D1CE554800004B9C1 /* InGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InGameViewController.h; sourceTree = "<group>"; };
+		551A0C1E1CE554800004B9C1 /* InGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InGameViewController.m; sourceTree = "<group>"; };
 		5537DB521CD5AF4F0088AD4D /* SelectableLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectableLabel.h; sourceTree = "<group>"; };
 		5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectableLabel.m; sourceTree = "<group>"; };
 		559900891CD2890300D103FF /* PitchTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,6 +174,8 @@
 				559900A31CD29FBD00D103FF /* PitcherManagementViewController.h */,
 				559900A41CD29FBD00D103FF /* PitcherManagementViewController.m */,
 				559900A51CD29FBD00D103FF /* PitcherManagementViewController.xib */,
+				551A0C1D1CE554800004B9C1 /* InGameViewController.h */,
+				551A0C1E1CE554800004B9C1 /* InGameViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -269,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				559A60E81CD51C310037A1F3 /* PitcherSideScrollView.m in Sources */,
+				551A0C1F1CE554800004B9C1 /* InGameViewController.m in Sources */,
 				559900C71CD2B97000D103FF /* PitchInstance.m in Sources */,
 				5537DB541CD5AF4F0088AD4D /* SelectableLabel.m in Sources */,
 				559A60EB1CD537A50037A1F3 /* EditPitcherView.m in Sources */,

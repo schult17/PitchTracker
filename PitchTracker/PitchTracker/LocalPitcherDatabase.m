@@ -79,6 +79,7 @@
     return true;
 }
 
+//Singleton access - only one instance of the database
 +(id) sharedDatabase
 {
     static LocalPitcherDatabase *sharedInstance = nil;
@@ -89,6 +90,34 @@
     });
     
     return sharedInstance;
+}
+
+-(NSArray *) getTeamJSONArray:(TeamNames)team
+{
+    NSError *error;
+    NSMutableArray *json_array = [ [NSMutableArray alloc] init ];
+    
+    NSArray *pitchers = _team_to_players[team];
+    
+    for( Pitcher *pitcher in pitchers )
+        [ json_array addObject:pitcher.getAsJSONString ];
+    
+    return json_array;
+}
+
+-(void) writeDatabaseToDisk:(NSString *)file_path
+{
+    NSError *error;
+    
+    NSMutableDictionary *json = [ [NSMutableDictionary alloc] init ];
+    
+    //get all the teams JSON arrays
+    for( int i = 0; i < TEAMCOUNT; i++ )
+        [ json setValue:[self getTeamJSONArray:i] forKey:TEAM_NAME_STR[i] ];
+    
+    NSData* json_data = [ NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error ];
+    
+    [ json_data writeToFile:file_path atomically:YES ]; //YES??
 }
 
 @end

@@ -21,6 +21,7 @@
 -(bool) editPitcher:(Pitcher*)pitcher;
 -(NSArray*) getTeamArray: (TeamNames)team;
 +(id) sharedDatabase;
+-(void) writeDatabaseToDisk;
 
 @end
 

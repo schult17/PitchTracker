@@ -126,7 +126,7 @@
 {
     NSError *error;
     
-    NSMutableArray* json_array;
+    NSMutableArray* json_array = [ [NSMutableArray alloc] init ];
     for( int i = 0; i < _pitches.count; i++ )
         [ json_array addObject:[self getPitchString:(PitchType)_pitches[i]] ];
     

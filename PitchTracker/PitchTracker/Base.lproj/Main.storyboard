@@ -20,23 +20,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gdU-nY-bk1">
-                                <rect key="frame" x="243" y="285" width="115" height="30"/>
+                                <rect key="frame" x="174" y="405" width="253" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Manage Pitchers"/>
                                 <connections>
                                     <action selector="handleButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wxr-dJ-UIw"/>
                                     <segue destination="dVa-NH-Iw5" kind="show" id="tWD-kj-beG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2O-vw-Qch">
-                                <rect key="frame" x="263" y="220" width="75" height="30"/>
-                                <state key="normal" title="New Game"/>
-                                <connections>
-                                    <action selector="handleButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rbt-Jj-oTL"/>
-                                    <segue destination="TvQ-cX-poN" kind="show" id="Ksc-bn-a1S"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2pS-ej-MrI">
-                                <rect key="frame" x="268" y="350" width="64" height="30"/>
+                                <rect key="frame" x="174" y="509" width="253" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Statistics"/>
                                 <connections>
                                     <action selector="handleButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="O6c-DO-JC6"/>
@@ -44,11 +38,20 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="U of T Baseball PitchTracker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MZp-Mc-RkY" colorLabel="IBBuiltInLabel-Blue">
-                                <rect key="frame" x="174" y="134" width="253" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <rect key="frame" x="0.0" y="134" width="600" height="31"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="34"/>
                                 <color key="textColor" red="0.0" green="0.31039686661530158" blue="0.65056818181818188" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2O-vw-Qch">
+                                <rect key="frame" x="174" y="305" width="253" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="New Game"/>
+                                <connections>
+                                    <action selector="handleButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rbt-Jj-oTL"/>
+                                    <segue destination="TvQ-cX-poN" kind="show" id="Ksc-bn-a1S"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -56,11 +59,18 @@
                             <constraint firstItem="J2O-vw-Qch" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="200" id="IzF-28-8CH"/>
                             <constraint firstItem="gdU-nY-bk1" firstAttribute="centerX" secondItem="2pS-ej-MrI" secondAttribute="centerX" id="Qo6-nG-FmV"/>
                             <constraint firstItem="J2O-vw-Qch" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RCW-sA-aFj"/>
-                            <constraint firstItem="gdU-nY-bk1" firstAttribute="top" secondItem="J2O-vw-Qch" secondAttribute="bottom" constant="35" id="U4m-Ho-vkE"/>
-                            <constraint firstItem="2pS-ej-MrI" firstAttribute="top" secondItem="gdU-nY-bk1" secondAttribute="bottom" constant="35" id="d0k-tR-zq6"/>
+                            <constraint firstItem="MZp-Mc-RkY" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="70" id="Rjp-tx-ihH"/>
+                            <constraint firstItem="gdU-nY-bk1" firstAttribute="top" secondItem="J2O-vw-Qch" secondAttribute="bottom" constant="70" id="U4m-Ho-vkE"/>
+                            <constraint firstItem="2pS-ej-MrI" firstAttribute="top" secondItem="gdU-nY-bk1" secondAttribute="bottom" constant="70" id="d0k-tR-zq6"/>
+                            <constraint firstItem="MZp-Mc-RkY" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="oyQ-99-qTU"/>
                             <constraint firstItem="J2O-vw-Qch" firstAttribute="centerX" secondItem="gdU-nY-bk1" secondAttribute="centerX" id="p03-EJ-iLj"/>
-                            <constraint firstItem="J2O-vw-Qch" firstAttribute="top" secondItem="MZp-Mc-RkY" secondAttribute="bottom" constant="65" id="qWW-KC-bqr"/>
+                            <constraint firstItem="J2O-vw-Qch" firstAttribute="top" secondItem="MZp-Mc-RkY" secondAttribute="bottom" constant="140" id="qWW-KC-bqr"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="IzF-28-8CH"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="EJG-el-dXH"/>
                     <connections>
@@ -87,7 +97,7 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sY0-1A-LhB">
                                 <rect key="frame" x="20" y="285" width="271" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Team 1"/>
                                 <connections>
                                     <action selector="handleButtonClick:" destination="TvQ-cX-poN" eventType="touchUpInside" id="3qO-2z-6fZ"/>
@@ -95,7 +105,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qjJ-fl-uac">
                                 <rect key="frame" x="329" y="285" width="251" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                 <state key="normal" title="Team 2"/>
                                 <connections>
                                     <action selector="handleButtonClick:" destination="TvQ-cX-poN" eventType="touchUpInside" id="Nem-ds-DMA"/>
@@ -103,14 +113,17 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="VS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGQ-Ki-xpi">
                                 <rect key="frame" x="299" y="289" width="22" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Trw-LT-CzF">
-                                <rect key="frame" x="198" y="387" width="225" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <rect key="frame" x="198" y="410" width="225" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <state key="normal" title="Start Game"/>
+                                <connections>
+                                    <segue destination="RYY-h5-dic" kind="show" id="nyO-kP-0DZ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -124,7 +137,7 @@
                             <constraint firstItem="Trw-LT-CzF" firstAttribute="top" secondItem="aGQ-Ki-xpi" secondAttribute="bottom" constant="35" id="RII-k9-IPA"/>
                             <constraint firstItem="Trw-LT-CzF" firstAttribute="centerX" secondItem="aGQ-Ki-xpi" secondAttribute="centerX" id="Wbj-dW-1UI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="qjJ-fl-uac" secondAttribute="trailing" constant="20" id="YBS-yD-HtT"/>
-                            <constraint firstItem="Trw-LT-CzF" firstAttribute="top" secondItem="aGQ-Ki-xpi" secondAttribute="bottom" constant="77" id="aE3-Nj-GQs"/>
+                            <constraint firstItem="Trw-LT-CzF" firstAttribute="top" secondItem="aGQ-Ki-xpi" secondAttribute="bottom" constant="100" id="aE3-Nj-GQs"/>
                             <constraint firstItem="sY0-1A-LhB" firstAttribute="leading" secondItem="eSs-YF-Yhg" secondAttribute="leadingMargin" constant="20" id="kq8-OD-1el"/>
                             <constraint firstItem="aGQ-Ki-xpi" firstAttribute="centerY" secondItem="sY0-1A-LhB" secondAttribute="centerY" id="pP2-S3-gcT"/>
                             <constraint firstItem="aGQ-Ki-xpi" firstAttribute="leading" secondItem="sY0-1A-LhB" secondAttribute="trailing" constant="8" id="pTo-zv-Tsf"/>
@@ -152,6 +165,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mFb-nU-cNX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1825" y="-450"/>
+        </scene>
+        <!--In Game View Controller-->
+        <scene sceneID="ppb-B3-6dw">
+            <objects>
+                <viewController id="RYY-h5-dic" customClass="InGameViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EFD-CN-ipn"/>
+                        <viewControllerLayoutGuide type="bottom" id="Esp-h8-Fsr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="a6M-h8-Iup">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rh7-jw-UC7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2875" y="-425"/>
         </scene>
         <!--Pitcher Management View Controller-->
         <scene sceneID="1l5-zx-E7A">

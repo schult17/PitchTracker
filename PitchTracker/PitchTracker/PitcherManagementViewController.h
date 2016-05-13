@@ -16,7 +16,7 @@
 #define MODE_NEW 1
 #define MODE_EDIT 2
 
-@interface PitcherManagementViewController : UIViewController
+@interface PitcherManagementViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UIScrollViewDelegate>
 
 @property (strong, nonatomic) IBOutlet PitcherSideScrollView *pitcherScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *filterButton;

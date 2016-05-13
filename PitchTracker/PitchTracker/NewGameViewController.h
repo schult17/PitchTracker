@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Globals.h"
 
-@interface NewGameViewController : UIViewController
+@interface NewGameViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *team1Button;
 @property (strong, nonatomic) IBOutlet UIButton *team2Button;
 @property (strong, nonatomic) IBOutlet UIButton *startGameButton;

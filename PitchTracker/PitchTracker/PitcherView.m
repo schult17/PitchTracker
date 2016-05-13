@@ -27,6 +27,7 @@
     return self;
 }
 
+//This view is instantiated in the storyboard, so this init is called
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
     self = [ super initWithCoder:aDecoder ];
@@ -152,7 +153,6 @@
 -(void) setBackground
 {
     self.backgroundColor = [ UIColor blackColor ];
-    //self.alpha = 0.9;
 }
 
 -(void) switchToNewPitcher

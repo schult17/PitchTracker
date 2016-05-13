@@ -173,7 +173,7 @@
 {
     NSError *error;
     
-    NSMutableArray* json_array;
+    NSMutableArray* json_array = [ [NSMutableArray alloc] init ];
     for( AtPlate *i in _at_plates )
         [ json_array addObject:i.getAsString ];
     

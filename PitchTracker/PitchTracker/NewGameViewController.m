@@ -7,6 +7,7 @@
 //
 
 #import "NewGameViewController.h"
+#import "InGameViewController.h"
 
 @interface NewGameViewController ()
 
@@ -101,7 +102,7 @@
     
     name = TEAM_NAME_STR[ row ];
     
-    NSAttributedString *attString = [[NSAttributedString alloc] initWithString:name attributes:@{NSForegroundColorAttributeName:_team1Button.titleLabel.textColor}];
+    NSAttributedString *attString = [ [NSAttributedString alloc] initWithString:name attributes:@{NSForegroundColorAttributeName:_team1Button.titleLabel.textColor} ];
     
     return attString;
     
@@ -152,7 +153,10 @@
         _team2 = temp;
     }
     else
+    {
         NSLog(@"Bad team 1 or 2");
+    }
+    
     
     [ self setButtonsStrings ];
     
@@ -164,14 +168,20 @@
 }
 //-----------------------//
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
+ {
+     /* NOTE - segue and unwind are not the same! Only called when moving "forward"
+      * not unwinding backwards (if another button comes here, must distunguish between destination
+      * view controllers*/
+     
+     //Set the two selected teams for the game
+     InGameViewController *dest = (InGameViewController*)[ segue destinationViewController ];
+     
+     dest.team1 = _team1;
+     dest.team2 = _team2;
 }
-*/
 
 @end
