@@ -22,6 +22,14 @@
     return self;
 }
 
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [ super initWithCoder:aDecoder ];
+    [ self broadInit:nil ];
+    
+    return self;
+}
+
 -(id) initWithPlayer:(PitcherInfo*) info
 {
     self = [ super init ];

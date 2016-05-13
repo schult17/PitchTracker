@@ -43,6 +43,7 @@
 {
     //TODO - check for duplicates
     //Consider only storing PitcherInfo and going to disk to get PitchStats?
+    //Second thought - consider making this database a cache for the file system?
     [ [_team_to_players objectAtIndex:pitcher.info.team] addObject:pitcher ];
     
     _pitcher_id_count += 1;

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5511A1B21CD39AB100F2932A /* PitcherSideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5511A1B11CD39AB100F2932A /* PitcherSideView.m */; };
 		551A0C1F1CE554800004B9C1 /* InGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 551A0C1E1CE554800004B9C1 /* InGameViewController.m */; };
+		551A0C221CE586260004B9C1 /* ZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 551A0C211CE586260004B9C1 /* ZoneView.m */; };
+		551A0C251CE586AC0004B9C1 /* SingleZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 551A0C241CE586AC0004B9C1 /* SingleZoneView.m */; };
 		5537DB541CD5AF4F0088AD4D /* SelectableLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */; };
 		5599008E1CD2890300D103FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5599008D1CD2890300D103FF /* main.m */; };
 		559900911CD2890300D103FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900901CD2890300D103FF /* AppDelegate.m */; };
@@ -40,6 +42,10 @@
 		5511A1B11CD39AB100F2932A /* PitcherSideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherSideView.m; sourceTree = "<group>"; };
 		551A0C1D1CE554800004B9C1 /* InGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InGameViewController.h; sourceTree = "<group>"; };
 		551A0C1E1CE554800004B9C1 /* InGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InGameViewController.m; sourceTree = "<group>"; };
+		551A0C201CE586260004B9C1 /* ZoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoneView.h; sourceTree = "<group>"; };
+		551A0C211CE586260004B9C1 /* ZoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoneView.m; sourceTree = "<group>"; };
+		551A0C231CE586AC0004B9C1 /* SingleZoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleZoneView.h; sourceTree = "<group>"; };
+		551A0C241CE586AC0004B9C1 /* SingleZoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleZoneView.m; sourceTree = "<group>"; };
 		5537DB521CD5AF4F0088AD4D /* SelectableLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectableLabel.h; sourceTree = "<group>"; };
 		5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectableLabel.m; sourceTree = "<group>"; };
 		559900891CD2890300D103FF /* PitchTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +103,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		551A0C261CE586CA0004B9C1 /* ZoneViews */ = {
+			isa = PBXGroup;
+			children = (
+				551A0C201CE586260004B9C1 /* ZoneView.h */,
+				551A0C211CE586260004B9C1 /* ZoneView.m */,
+				551A0C231CE586AC0004B9C1 /* SingleZoneView.h */,
+				551A0C241CE586AC0004B9C1 /* SingleZoneView.m */,
+			);
+			name = ZoneViews;
+			sourceTree = "<group>";
+		};
 		558940931CD2E61E004841DA /* PitchingClasses */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +156,7 @@
 				559900951CD2890300D103FF /* Main.storyboard */,
 				559A60DC1CD3CF3C0037A1F3 /* PitcherViews */,
 				558940931CD2E61E004841DA /* PitchingClasses */,
+				551A0C261CE586CA0004B9C1 /* ZoneViews */,
 				559900BA1CD2B5C900D103FF /* Globals.h */,
 				5537DB521CD5AF4F0088AD4D /* SelectableLabel.h */,
 				5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */,
@@ -273,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				551A0C221CE586260004B9C1 /* ZoneView.m in Sources */,
 				559A60E81CD51C310037A1F3 /* PitcherSideScrollView.m in Sources */,
 				551A0C1F1CE554800004B9C1 /* InGameViewController.m in Sources */,
 				559900C71CD2B97000D103FF /* PitchInstance.m in Sources */,
@@ -290,6 +309,7 @@
 				559A60DB1CD3C6E00037A1F3 /* PitcherStatsView.m in Sources */,
 				559900A61CD29FBD00D103FF /* PitcherManagementViewController.m in Sources */,
 				559900911CD2890300D103FF /* AppDelegate.m in Sources */,
+				551A0C251CE586AC0004B9C1 /* SingleZoneView.m in Sources */,
 				559900C41CD2B95600D103FF /* PitchStats.m in Sources */,
 				5511A1B21CD39AB100F2932A /* PitcherSideView.m in Sources */,
 				5599008E1CD2890300D103FF /* main.m in Sources */,

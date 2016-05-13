@@ -75,6 +75,12 @@ typedef enum _PitchLocation
     E
 }PitchLocation;
 
+typedef enum _ZoneType
+{
+    STRIKE,
+    BALL
+}ZoneType;
+
 //outcome of a pitch
 typedef enum _PitchOutcome
 {

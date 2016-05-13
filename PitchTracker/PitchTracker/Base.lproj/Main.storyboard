@@ -177,8 +177,97 @@
                     <view key="view" contentMode="scaleToFill" id="a6M-h8-Iup">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J1f-vW-iRR">
+                                <rect key="frame" x="0.0" y="61" width="249" height="42"/>
+                                <color key="backgroundColor" red="0.1770241477" green="0.1088952203" blue="0.09334544015" alpha="0.73999999999999999" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="TEAM">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="handleButtonClick:" destination="RYY-h5-dic" eventType="touchUpInside" id="NaR-od-BWc"/>
+                                    <action selector="handleButtonClick:" destination="dVa-NH-Iw5" eventType="touchUpInside" id="XUW-Eb-niX"/>
+                                </connections>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ldg-hs-AOZ" customClass="PitcherSideScrollView">
+                                <rect key="frame" x="0.0" y="102" width="249" height="498"/>
+                                <color key="backgroundColor" red="0.1155105745" green="0.1155105745" blue="0.1155105745" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Ldg-hs-AOZ" secondAttribute="height" multiplier="1:2" id="703-IV-iJV"/>
+                                    <constraint firstAttribute="width" constant="299" id="YkC-Dq-GCK"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="YkC-Dq-GCK"/>
+                                    </mask>
+                                </variation>
+                            </scrollView>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sof-en-oja">
+                                <rect key="frame" x="247" y="64" width="353" height="326"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="10m-P4-bss">
+                                <rect key="frame" x="247" y="389" width="353" height="211"/>
+                                <color key="backgroundColor" red="0.1155105745" green="0.1155105745" blue="0.1155105745" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="10m-P4-bss" secondAttribute="height" multiplier="353:211" id="TWf-Te-nhG"/>
+                                    <constraint firstAttribute="width" secondItem="10m-P4-bss" secondAttribute="height" multiplier="353:295" id="Yuz-yQ-B9q"/>
+                                    <constraint firstAttribute="width" secondItem="10m-P4-bss" secondAttribute="height" multiplier="353:166" id="adX-q7-rr0"/>
+                                    <constraint firstAttribute="width" secondItem="10m-P4-bss" secondAttribute="height" multiplier="353:187" id="yM3-sM-rTg"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="TWf-Te-nhG"/>
+                                        <exclude reference="Yuz-yQ-B9q"/>
+                                        <exclude reference="adX-q7-rr0"/>
+                                        <exclude reference="yM3-sM-rTg"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ldg-hs-AOZ" secondAttribute="trailing" constant="281" id="2eB-Wk-EdX"/>
+                            <constraint firstItem="Ldg-hs-AOZ" firstAttribute="top" secondItem="J1f-vW-iRR" secondAttribute="bottom" constant="-1" id="6Pp-Dy-RRm"/>
+                            <constraint firstItem="Esp-h8-Fsr" firstAttribute="top" secondItem="10m-P4-bss" secondAttribute="bottom" id="9pe-yb-59U"/>
+                            <constraint firstItem="Sof-en-oja" firstAttribute="leading" secondItem="Ldg-hs-AOZ" secondAttribute="trailing" constant="-2" id="B4d-M0-dhg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="10m-P4-bss" secondAttribute="trailing" constant="-20" id="FeI-Wc-Ulq"/>
+                            <constraint firstItem="10m-P4-bss" firstAttribute="width" secondItem="Ldg-hs-AOZ" secondAttribute="height" multiplier="353:498" id="Gbi-f1-IXj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Sof-en-oja" secondAttribute="trailing" constant="-20" id="IcO-MF-3G5"/>
+                            <constraint firstItem="Sof-en-oja" firstAttribute="top" secondItem="EFD-CN-ipn" secondAttribute="bottom" id="LuT-z8-p28"/>
+                            <constraint firstItem="Esp-h8-Fsr" firstAttribute="top" secondItem="Sof-en-oja" secondAttribute="bottom" constant="292" id="V8I-Gd-wLf"/>
+                            <constraint firstItem="10m-P4-bss" firstAttribute="top" secondItem="Sof-en-oja" secondAttribute="bottom" id="XKx-bN-4y6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ldg-hs-AOZ" secondAttribute="trailing" constant="281" id="Ykx-Nl-dPz"/>
+                            <constraint firstItem="10m-P4-bss" firstAttribute="width" secondItem="Ldg-hs-AOZ" secondAttribute="height" multiplier="353:498" id="a4h-7d-7UT"/>
+                            <constraint firstItem="J1f-vW-iRR" firstAttribute="leading" secondItem="a6M-h8-Iup" secondAttribute="leadingMargin" constant="-20" id="a85-mS-ZPP"/>
+                            <constraint firstItem="Sof-en-oja" firstAttribute="width" secondItem="10m-P4-bss" secondAttribute="width" id="bTC-wB-Vgr"/>
+                            <constraint firstItem="Ldg-hs-AOZ" firstAttribute="leading" secondItem="a6M-h8-Iup" secondAttribute="leadingMargin" constant="-20" id="ceJ-Yg-agD"/>
+                            <constraint firstItem="10m-P4-bss" firstAttribute="top" secondItem="Sof-en-oja" secondAttribute="bottom" constant="-1" id="gEp-jY-ES9"/>
+                            <constraint firstItem="Sof-en-oja" firstAttribute="height" secondItem="10m-P4-bss" secondAttribute="height" id="j4S-xs-Gfd"/>
+                            <constraint firstItem="Ldg-hs-AOZ" firstAttribute="width" secondItem="J1f-vW-iRR" secondAttribute="width" id="mlk-Zz-ZXX"/>
+                            <constraint firstItem="10m-P4-bss" firstAttribute="leading" secondItem="Ldg-hs-AOZ" secondAttribute="trailing" constant="-2" id="mo7-ve-nuS"/>
+                            <constraint firstItem="Esp-h8-Fsr" firstAttribute="top" secondItem="Ldg-hs-AOZ" secondAttribute="bottom" id="oZp-Xq-OsJ"/>
+                            <constraint firstItem="J1f-vW-iRR" firstAttribute="top" secondItem="EFD-CN-ipn" secondAttribute="bottom" constant="-3" id="ue9-Od-1v0"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="2eB-Wk-EdX"/>
+                                <exclude reference="Ykx-Nl-dPz"/>
+                                <exclude reference="Gbi-f1-IXj"/>
+                                <exclude reference="XKx-bN-4y6"/>
+                                <exclude reference="a4h-7d-7UT"/>
+                                <exclude reference="V8I-Gd-wLf"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="infoView" destination="10m-P4-bss" id="3MS-PY-RyP"/>
+                        <outlet property="pitcherScrollView" destination="Ldg-hs-AOZ" id="85N-0F-r7T"/>
+                        <outlet property="teamToggleButton" destination="J1f-vW-iRR" id="dcF-en-1T2"/>
+                        <outlet property="zoneTeamView" destination="Sof-en-oja" id="y9c-L7-I5k"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rh7-jw-UC7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

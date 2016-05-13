@@ -20,6 +20,7 @@
 @property UILabel *displayInfoLabel;
 
 -(id) init;
+-(id) initWithCoder:(NSCoder *)aDecoder;
 -(id) initWithPlayer:(PitcherInfo*) info;
 -(id) initWithFrame:(CGRect)frame;
 -(id) initWithFrameAndPlayerInfo:(CGRect)frame with: (PitcherInfo*)info;

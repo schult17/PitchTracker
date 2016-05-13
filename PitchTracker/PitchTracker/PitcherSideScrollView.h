@@ -28,5 +28,6 @@
 -(void) addPitchersToView: (NSArray *) pitchers;
 -(Pitcher*) findPitcherFromTouch:(CGPoint)tap;
 -(void) setBackgroundColor:(UIColor *)backgroundColor;
+-(void) highlightPitcher:(int)pitcher_id;
 
 @end

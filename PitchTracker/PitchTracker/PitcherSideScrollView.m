@@ -85,6 +85,8 @@
         [ self addSubview:view ];
         [ _pitcherViews addObject:view ];
     }
+    
+    _tappedIndex = 0;
 }
 
 -(Pitcher*) findPitcherFromTouch:(CGPoint)tap
@@ -113,6 +115,26 @@
     else
     {
         return nil;
+    }
+}
+
+-(void) highlightPitcher:(int)pitcher_id
+{
+    for( int i = 0; i < _pitcherViews.count; i++ )
+    {
+        if( ((PitcherSideView*)[ _pitcherViews objectAtIndex:i ]).pitcher.pitcher_id == pitcher_id )
+        {
+            //Colouring of background for currently selected pitcher
+            //old selection
+            [ [ _pitcherViews objectAtIndex:_tappedIndex ] setBackgroundColor:_normalColour ];
+            
+            //newly selected
+            _tappedIndex = i;
+            [ [ _pitcherViews objectAtIndex:_tappedIndex ] setBackgroundColor:[UIColor SELECTED_COLOUR] ];
+            //----------------------------------------------------//
+            
+            break;
+        }
     }
 }
 
