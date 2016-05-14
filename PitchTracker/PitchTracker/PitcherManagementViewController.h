@@ -25,9 +25,10 @@
 @property (strong, nonatomic) IBOutlet UIPickerView *teamPicker;
 @property (strong, nonatomic) IBOutlet PitcherView *pitcherView;
 
+@property bool disable_editing;
 @property TeamNames currTeamFilter;
-
 @property int currViewType;
+@property Pitcher *seguePitcher;
 
 
 -(void) addPitchersToScroll;

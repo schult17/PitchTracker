@@ -267,6 +267,7 @@
                         <outlet property="pitcherScrollView" destination="Ldg-hs-AOZ" id="85N-0F-r7T"/>
                         <outlet property="teamToggleButton" destination="J1f-vW-iRR" id="dcF-en-1T2"/>
                         <outlet property="zoneTeamView" destination="Sof-en-oja" id="y9c-L7-I5k"/>
+                        <segue destination="dVa-NH-Iw5" kind="show" identifier="statsSegue" id="JDx-sO-fRQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rh7-jw-UC7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -313,7 +314,7 @@
                                 </connections>
                             </button>
                             <view alpha="0.90000000000000002" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C5p-TT-rbR" customClass="PitcherView">
-                                <rect key="frame" x="297" y="64" width="297" height="536"/>
+                                <rect key="frame" x="297" y="64" width="303" height="536"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -339,6 +340,7 @@
                             <constraint firstItem="C5p-TT-rbR" firstAttribute="height" secondItem="4Lt-oR-Tx9" secondAttribute="height" id="9AV-SG-8Xl"/>
                             <constraint firstItem="c4z-gr-uva" firstAttribute="top" secondItem="2qQ-YG-Yo9" secondAttribute="bottom" id="H7N-Up-Ds6"/>
                             <constraint firstItem="yFQ-4n-3cM" firstAttribute="width" secondItem="iQ6-hu-imu" secondAttribute="width" id="KDq-xN-YJQ"/>
+                            <constraint firstItem="JQo-AB-KiB" firstAttribute="top" secondItem="C5p-TT-rbR" secondAttribute="bottom" id="Ntn-Xd-WkS"/>
                             <constraint firstItem="yFQ-4n-3cM" firstAttribute="top" secondItem="iQ6-hu-imu" secondAttribute="bottom" id="Nvi-zQ-0cT"/>
                             <constraint firstItem="C5p-TT-rbR" firstAttribute="width" secondItem="4Lt-oR-Tx9" secondAttribute="width" id="Rai-5Y-Eqf"/>
                             <constraint firstItem="iQ6-hu-imu" firstAttribute="leading" secondItem="4Lt-oR-Tx9" secondAttribute="leadingMargin" constant="-20" id="Rpj-u3-TQ4"/>
@@ -346,7 +348,7 @@
                             <constraint firstItem="C5p-TT-rbR" firstAttribute="leading" secondItem="iQ6-hu-imu" secondAttribute="trailing" constant="-2" id="TWr-0Z-pjy"/>
                             <constraint firstItem="iQ6-hu-imu" firstAttribute="top" secondItem="c4z-gr-uva" secondAttribute="bottom" id="Wvg-2f-Fiu"/>
                             <constraint firstItem="iQ6-hu-imu" firstAttribute="height" secondItem="4Lt-oR-Tx9" secondAttribute="height" id="XIe-BW-Odl"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" constant="-20" id="eVg-86-8wD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" id="eVg-86-8wD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" id="eip-fK-PCg"/>
                             <constraint firstItem="C5p-TT-rbR" firstAttribute="top" secondItem="2qQ-YG-Yo9" secondAttribute="bottom" id="jpl-cQ-USS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" id="lTk-ld-Dof"/>
@@ -362,6 +364,7 @@
                                 <exclude reference="Rai-5Y-Eqf"/>
                                 <exclude reference="eip-fK-PCg"/>
                                 <exclude reference="lTk-ld-Dof"/>
+                                <exclude reference="sns-rm-aL0"/>
                                 <exclude reference="ySn-m4-gp4"/>
                             </mask>
                         </variation>
@@ -415,4 +418,7 @@
             <point key="canvasLocation" x="305" y="377"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="JDx-sO-fRQ"/>
+    </inferredMetricsTieBreakers>
 </document>

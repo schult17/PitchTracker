@@ -13,6 +13,7 @@
 @synthesize type = _type;
 @synthesize X = _X;
 @synthesize Y = _Y;
+@synthesize zoneSelected = _zoneSelected;
 
 -(id) initWithLocation:(PitchLocation) X with: (PitchLocation) Y
 {
@@ -51,7 +52,16 @@
 
 -(void) setZoneSelected
 {
-    [ self setBackgroundColor:[UIColor greenColor] ];   //TODO -- better selection
+    if( !_zoneSelected )
+    {
+        [ self setBackgroundColor:[UIColor greenColor] ];   //TODO -- better selection colour
+        _zoneSelected = true;
+    }
+    else
+    {
+        [ self setZoneColour ];
+        _zoneSelected = false;
+    }
 }
 
 @end

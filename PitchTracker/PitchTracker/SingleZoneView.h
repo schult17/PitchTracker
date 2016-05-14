@@ -14,6 +14,7 @@
 @property ZoneType type;
 @property PitchLocation X;
 @property PitchLocation Y;
+@property bool zoneSelected;
 
 /*
 -(id) init;

@@ -13,14 +13,6 @@
 @synthesize stats = _stats;
 @synthesize displayStatsLabel = _displayStatsLabel;
 
-/*
-@synthesize strikeBallLabel = _strikeBallLabel;
-@synthesize KWalkLabel = _KWalkLabel;
-@synthesize pitchPercLabel = _pitchPercLabel;
-@synthesize firstPitchPercLabel = _firstPitchPercLabel;
-@synthesize KPitchPercLabel = _KPitchPercLabel;
- */
-
 -(id) init
 {
     self = [ super init ];
@@ -37,25 +29,17 @@
     return self;
 }
 
--(id) initWithFrame:(CGRect)frame
+-(id) initWithCoder:(NSCoder *)aDecoder
 {
-    self = [ super initWithFrame:frame ];
+    self = [ super initWithCoder:aDecoder ];
     [ self initDisplay:nil ];
-    
-    return self;
-}
-
--(id) initWithFrameAndPlayerStats:(CGRect)frame with:(PitchStats *)stats
-{
-    self = [super initWithFrame:frame];
-    [ self initDisplay:stats ];
     
     return self;
 }
 
 -(void) initDisplay:(PitchStats*)stats
 {
-    _displayStatsLabel = [ [UILabel alloc] initWithFrame:CGRectMake(SIDE_BUF, TOP_BUF, self.frame.size.width - SIDE_BUF, self.frame.size.height - TOP_BUF) ];
+    _displayStatsLabel = [ [UILabel alloc] init ];
     
     _displayStatsLabel.textColor = [ UIColor lightTextColor ];
     _displayStatsLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -74,7 +58,7 @@
 {
     [ super setFrame:frame ];
     
-    _displayStatsLabel.frame = CGRectMake(SIDE_BUF, TOP_BUF, self.frame.size.width - SIDE_BUF, self.frame.size.height - TOP_BUF);
+    _displayStatsLabel.frame = CGRectMake(SIDE_BUF, 0, self.frame.size.width - SIDE_BUF, self.frame.size.height);
 }
 
 -(void) changePitcherStats:(PitchStats*) stats

@@ -10,17 +10,16 @@
 
 @implementation PitcherView
 
-@synthesize info_new_edit_view = _info_new_edit_view;
 @synthesize arm_view = _arm_view;
 @synthesize info_view = _info_view;
 @synthesize stats_view = _stats_view;
 @synthesize pitcher = _pitcher;
 @synthesize editButton = _editButton;
+@synthesize advancedStatsButton = _advancedStatsButton;
 
 -(id) init
 {
     self = [ super init ];
-    
     [ self setPitcherViews:nil ];
     [ self setBackground ];
     
@@ -40,7 +39,6 @@
 -(id) initWithPlayer:(Pitcher*)pitcher
 {
     self = [ super init ];
-    
     [ self setPitcherViews:pitcher ];
     [ self setBackground ];
     
@@ -50,7 +48,6 @@
 -(id) initWithFrame:(CGRect)frame
 {
     self = [ super initWithFrame:frame ];
-    
     [ self setPitcherViews:nil ];
     [ self setBackground ];
     
@@ -60,7 +57,6 @@
 -(id) initWithFrameAndPlayer:(CGRect)frame with: (Pitcher*)pitcher
 {
     self = [ super initWithFrame:frame ];
-    
     [ self setPitcherViews:pitcher ];
     [ self setBackground ];
     
@@ -83,41 +79,38 @@
     }
 }
 
--(void) setFrame:(CGRect)frame
+-(void) layoutView
 {
-    [ super setFrame:frame ];
-    
     CGRect frame_info, frame_stats, frame_edit;
     frame_info = frame_stats = self.frame;
     frame_info.origin.x = frame_stats.origin.x = 0;
     frame_info.origin.y = 0;
-    frame_info.size.height = self.frame.size.height *  0.5; //must use decimal here? No fractions...
+    frame_info.size.height = self.frame.size.height *  0.5;
     frame_stats.size.height = self.frame.size.height *  0.5;
     frame_stats.origin.y = frame_info.size.height;
     
-    frame_edit.origin.x = frame.size.width/2;
+    frame_edit.origin.x = self.frame.size.width/2;
     frame_edit.origin.y = 0;
-    frame_edit.size.width = frame.size.width/4;
+    frame_edit.size.width = self.frame.size.width/4;
     frame_edit.size.height = 50;
     
-    [ _info_new_edit_view setFrame:frame_info ];
     [ _info_view setFrame:frame_info ];
     [ _stats_view setFrame:frame_stats ];
     [ _arm_view setFrame:frame_info ];
     [ _editButton setFrame:frame_edit ];
+    
+    [ _advancedStatsButton setCenter:_editButton.center ];
+    CGRect frame_advanced = _advancedStatsButton.frame;
+    frame_advanced.size.width = 300;
+    frame_advanced.size.height = 30;
+    frame_advanced.origin.y = self.frame.size.height - 60;
+    [ _advancedStatsButton setFrame:frame_advanced ];
 }
+
 
 -(void) setPitcherViews:(Pitcher *)pitcher
 {
     _pitcher = pitcher;
-    
-    CGRect frame_info, frame_stats;
-    frame_info = frame_stats = self.frame;
-    frame_info.origin.x = frame_stats.origin.x = 0;
-    frame_info.origin.y = 0;
-    frame_info.size.height = self.frame.size.height *  0.5; //must use decimal here? No fractions...
-    frame_stats.size.height = self.frame.size.height *  0.5;
-    frame_stats.origin.y = frame_info.size.height;
     
     _editButton = [ [UILabel alloc] init ];
     _editButton.text = @"Edit Player";
@@ -126,28 +119,30 @@
     f = [f fontWithSize:35];
     _editButton.font = f;
     
+    _advancedStatsButton = [ [UIButton alloc] init ];
+    [ _advancedStatsButton setTitle:@"Advanced Stats" forState:UIControlStateNormal ];
+    [ _advancedStatsButton setTintColor:[UIColor whiteColor] ];
+    _advancedStatsButton.titleLabel.font = f;
+    
     if( pitcher == nil )
     {
-        _info_view = [ [PitcherInfoView alloc] initWithFrame:frame_info ];
-        _stats_view = [ [PitcherStatsView alloc] initWithFrame:frame_stats ];
+        _info_view = [ [PitcherInfoView alloc] init ];
+        _stats_view = [ [PitcherStatsView alloc] init ];
     }
     else
     {
-        _info_view = [ [PitcherInfoView alloc] initWithFrameAndPlayerInfo:frame_info with:pitcher.info ];
-        _stats_view = [ [PitcherStatsView alloc] initWithFrameAndPlayerStats:frame_stats with:pitcher.stats ];
+        _info_view = [ [PitcherInfoView alloc] initWithPlayer:pitcher.info ];
+        _stats_view = [ [PitcherStatsView alloc] initWithPitchStats:pitcher.stats ];
     }
     
-    _arm_view = [ [EditPitcherView alloc] initWithFrame:frame_info ];
+    _arm_view = [ [EditPitcherView alloc] init ];
     _arm_view.hidden = YES;
     
-    _info_new_edit_view = [ [UIView alloc] initWithFrame:frame_info ];
-    
-    [ _info_new_edit_view addSubview:_info_view ];
-    [ _info_new_edit_view addSubview:_arm_view ];
-    
-    [ self addSubview:_info_new_edit_view ];
+    [ self addSubview:_info_view ];
+    [ self addSubview:_arm_view ];
     [ self addSubview:_stats_view ];
     [ self addSubview:_editButton ];
+    [ self addSubview:_advancedStatsButton ];
 }
 
 -(void) setBackground

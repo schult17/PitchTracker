@@ -15,12 +15,12 @@
 
 @interface PitcherView : UIView
 
-@property UIView *info_new_edit_view;
 @property PitcherInfoView *info_view;
 @property EditPitcherView *arm_view;
 @property PitcherStatsView *stats_view;
 @property Pitcher* pitcher;
 @property UILabel *editButton;
+@property UIButton *advancedStatsButton;
 
 -(id) init;
 -(id) initWithCoder:(NSCoder *)aDecoder;
@@ -34,7 +34,7 @@
 -(void) cancelNewEditPitcherView;
 -(void) switchToEditPitcher;
 
--(void) setFrame:(CGRect)frame;
 -(bool) clickInsideEdit:(CGPoint)tap;
+-(void) layoutView;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "PitcherManagementViewController.h"
 #import "Globals.h"
 
 @interface ViewController ()
@@ -70,6 +71,18 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [ [segue destinationViewController] isKindOfClass:[PitcherManagementViewController class] ] )
+    {
+        PitcherManagementViewController *cont = (PitcherManagementViewController*)[ segue destinationViewController ];
+        cont.disable_editing = false;
+        cont.seguePitcher = nil;
+        cont.currTeamFilter = UOFT;
+    }
 }
 
 @end

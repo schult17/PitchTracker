@@ -25,7 +25,7 @@
 
 -(void) setFrame:(CGRect)frame;
 
--(void) handleTapInZone:(CGPoint) tap;
+-(SingleZoneView *) handleTapInZone:(CGPoint) tap;
 -(void) deSelectZone;
 
 @end

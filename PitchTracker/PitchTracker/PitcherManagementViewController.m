@@ -22,6 +22,8 @@
 @synthesize pitcherView = _pitcherView;
 @synthesize currTeamFilter = _currTeamFilter;
 @synthesize currViewType = _currViewType;
+@synthesize disable_editing = _disable_editing;
+@synthesize seguePitcher = _seguePitcher;
 
 //NOTE: Consider using database of pitchers to store pitcher info and
 //      pulling from disk for pitcher stats (memory already climbing).
@@ -32,10 +34,7 @@
     // Do any additional setup after loading the view from its nib.
     [ _pitcherScrollView setDelegate:self ];
     
-    _currTeamFilter = UOFT;
-    
     [ self initButtons ];
-    [ self addPitchersToScroll ];
     [ self setUpPitcherView:nil ];
     [ self setUpScrollTouch ];
     
@@ -48,36 +47,36 @@
     _teamPicker.hidden = YES;
 }
 
+-(void) viewDidAppear:(BOOL)animated
+{
+    [ super viewDidAppear:animated ];
+    
+    //TODO -- why is there a big space in this scroll view, but not in new game one...
+    [ self addPitchersToScroll ];
+}
+
 -(void) viewWillLayoutSubviews
 {
-    CGRect out_frame = _pitcherView.frame;
-    out_frame.size.width = self.view.frame.size.width - _pitcherScrollView.frame.size.width;
-    out_frame.size.height = self.view.frame.size.height;
-    
-    [ _pitcherView setFrame:out_frame ];
+    //important this is here
+    [ _pitcherView layoutView ];
 }
 
 -(void) setUpPitcherView:(Pitcher*) pitcher
 {
-    //need to do this stupid math for some reason, storyboard is not fun
-    CGRect out_frame = _pitcherView.frame;
-    out_frame.size.width = self.view.frame.size.width - _pitcherScrollView.frame.size.width;
-    out_frame.size.height = self.view.frame.size.height;
-    
     if( pitcher == nil )
     {
         LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
         NSArray *pitchers = [ database getTeamArray:self.currTeamFilter ];
         
-        if( pitchers.count > 0 )
+        if( pitchers.count > 0 && !_disable_editing )
             [ _pitcherView changePitcher:[ pitchers objectAtIndex:0 ] ];
+        else
+            [ _pitcherView changePitcher:_seguePitcher ];
     }
     else
     {
         [ _pitcherView changePitcher:pitcher ];
     }
-    
-    [ _pitcherView setFrame:out_frame ];
     
     //Gesture setup
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
@@ -90,14 +89,14 @@
 {
     bool refresh = false;
     
-    if( [_addPitcherButton.titleLabel.text isEqualToString:@"Cancel"] )
+    if( [_addPitcherButton.titleLabel.text isEqualToString:@"Cancel"] && !_disable_editing )
     {
         [ _pitcherView.arm_view endEditing:YES ];
         refresh = [ _pitcherView.arm_view checkTouchInSelectableLabels:[sender locationInView:_pitcherView] ];
     }
     else
     {
-        if( [_pitcherView clickInsideEdit:[sender locationInView:_pitcherView]] )
+        if( [_pitcherView clickInsideEdit:[sender locationInView:_pitcherView]] && !_disable_editing )
         {
             _currViewType = MODE_EDIT;
             [ self changePitcherViewToEditPitcher ];
@@ -125,9 +124,11 @@
 -(void) editPitcherLeaveView:(Pitcher*) pitcher
 {
     LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
+    [ pitcher setID:_pitcherView.pitcher.pitcher_id ];
     [ database editPitcher:pitcher ];
     
-    [ _pitcherScrollView changeTeam:_currTeamFilter ];  //possibly write a 'refresh' instead of dummy team change
+    [ _pitcherScrollView changeTeam:pitcher.info.team ];  //possibly write a 'refresh' instead of dummy team change
+    [ _pitcherScrollView highlightPitcher:pitcher.pitcher_id ];
     [ _pitcherView changePitcher:pitcher ];
     
     [ _pitcherView cancelNewEditPitcherView ];
@@ -149,7 +150,8 @@
     [ _pitcherView.arm_view endEditing:YES ];
     [ _pitcherView.arm_view clearFields ];
     
-    [ _pitcherScrollView changeTeam:_currTeamFilter ];
+    [ _pitcherScrollView changeTeam:pitcher.info.team ];
+    [ _pitcherScrollView highlightPitcher:pitcher.pitcher_id ];
     [ self changePitcherViewToNewPitcher ];
     
     _currViewType = MODE_VIEW;
@@ -190,7 +192,10 @@
 
 - (void) addPitchersToScroll
 {
-    [ _pitcherScrollView changeTeam:UOFT ];
+    [ _pitcherScrollView changeTeam:_currTeamFilter ];
+    
+    if( _seguePitcher != nil )
+        [ _pitcherScrollView highlightPitcher:_seguePitcher.pitcher_id ];
 }
 
 - (IBAction)handleButtonClick:(id)sender
@@ -220,17 +225,20 @@
 
 -(void) addPitcher
 {
-    NSString *text = _addPitcherButton.titleLabel.text;
-    
-    if( [text isEqualToString:@"Cancel"] )
+    if( !_disable_editing )
     {
-        [ self cancelNewEditPitcher ];
-    }
-    else    //button text is 'New Arm+"
-    {
-        _currViewType = MODE_NEW;
-        [ _pitcherView switchToNewPitcher ];
-        [ _addPitcherButton setTitle:@"Cancel" forState:UIControlStateNormal ];
+        NSString *text = _addPitcherButton.titleLabel.text;
+        
+        if( [text isEqualToString:@"Cancel"] )
+        {
+            [ self cancelNewEditPitcher ];
+        }
+        else    //button text is 'New Arm+"
+        {
+            _currViewType = MODE_NEW;
+            [ _pitcherView switchToNewPitcher ];
+            [ _addPitcherButton setTitle:@"Cancel" forState:UIControlStateNormal ];
+        }
     }
 }
 
@@ -239,7 +247,19 @@
     _filterButton.backgroundColor = _addPitcherButton.backgroundColor = _pitcherScrollView.backgroundColor;
     _filterButton.alpha = _addPitcherButton.alpha = _pitcherScrollView.alpha;
     _filterButton.layer.borderColor = _addPitcherButton.layer.borderColor = [UIColor blackColor].CGColor;
-    _filterButton.layer.borderWidth = _addPitcherButton.layer.borderWidth = 1.0f;
+    _filterButton.layer.borderWidth = _addPitcherButton.layer.borderWidth = 2.0f;
+    
+    //maybe black(or hidden) for disabled?
+    if( _disable_editing )
+    {
+        [ _addPitcherButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal ];
+        _pitcherView.editButton.textColor = [UIColor lightGrayColor];
+    }
+    else
+    {
+        [ _addPitcherButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal ];
+        _pitcherView.editButton.textColor = [UIColor whiteColor];
+    }
 }
 
 -(void) cancelNewEditPitcher

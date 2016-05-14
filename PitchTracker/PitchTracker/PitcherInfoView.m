@@ -38,32 +38,16 @@
     return self;
 }
 
--(id) initWithFrame:(CGRect)frame
-{
-    self = [ super initWithFrame:frame ];
-    [ self broadInit:nil ];
-    
-    return self;
-}
-
--(id) initWithFrameAndPlayerInfo:(CGRect)frame with:(PitcherInfo *)info
-{
-    self = [ super initWithFrame:frame ];
-    [ self broadInit:info ];
-    
-    return self;
-}
-
 -(void) setFrame:(CGRect)frame
 {
     [ super setFrame:frame ];
     
-    _displayInfoLabel.frame = CGRectMake(SIDE_BUFFER, TOP_BUFFER, self.frame.size.width - SIDE_BUFFER, self.frame.size.height);
+    _displayInfoLabel.frame = CGRectMake(SIDE_BUFFER, TOP_BUFFER, self.frame.size.width - 2*SIDE_BUFFER, self.frame.size.height - 2*TOP_BUFFER);
 }
 
 -(void) broadInit:(PitcherInfo *)info
 {
-    _displayInfoLabel = [ [UILabel alloc] initWithFrame:CGRectMake(SIDE_BUFFER, TOP_BUFFER, self.frame.size.width - SIDE_BUFFER, self.frame.size.height) ];
+    _displayInfoLabel = [ [UILabel alloc] init ];
     
     _displayInfoLabel.textColor = [ UIColor lightTextColor ];
     _displayInfoLabel.lineBreakMode = NSLineBreakByWordWrapping;

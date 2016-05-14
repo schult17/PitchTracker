@@ -11,7 +11,6 @@
 #import "PitchStats.h"
 
 #define SIDE_BUF 10
-#define TOP_BUF 10
 
 @interface PitcherStatsView : UIView
 
@@ -19,9 +18,8 @@
 @property UILabel *displayStatsLabel;
 
 -(id) init;
+-(id) initWithCoder:(NSCoder *)aDecoder;
 -(id) initWithPitchStats:(PitchStats*)stats;
--(id) initWithFrame:(CGRect)frame;
--(id) initWithFrameAndPlayerStats:(CGRect)frame with: (PitchStats*)stats;
 -(void) initDisplay:(PitchStats*)stats;
 -(void) changePitcherStats:(PitchStats*) stats;
 -(void) fillStatsFields;

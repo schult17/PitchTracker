@@ -76,9 +76,9 @@
     }
 }
 
-//Maybe different return type here?
--(void) handleTapInZone:(CGPoint) tap
+-(SingleZoneView*) handleTapInZone:(CGPoint) tap
 {
+    SingleZoneView *ret = nil;
     CGFloat zone_w = self.frame.size.width / ZONEDIM;
     CGFloat zone_h = self.frame.size.height / ZONEDIM;
     
@@ -86,14 +86,25 @@
     int y = floor( tap.y / zone_h );
     
     //De select old zone by switching back to original colour
+    //NOTE: setZoneSelected knows if it was already selected, and will de select
     if( _curr_zone_x != -1 && _curr_zone_y != -1 )
-        [ [[_zones objectAtIndex:_curr_zone_x] objectAtIndex:_curr_zone_y] setZoneColour ];
+        [ [[_zones objectAtIndex:_curr_zone_x] objectAtIndex:_curr_zone_y] setZoneSelected ];
     
-    //Select new tapped zone
-    [ [[_zones objectAtIndex:x] objectAtIndex:y] setZoneSelected ];
+    //Select new tapped zone if not same as old zone (allows de selecting of old zone)
+    if( !( _curr_zone_x == x && _curr_zone_y == y) )
+    {
+        ret = [[_zones objectAtIndex:x] objectAtIndex:y];
+        [ ret setZoneSelected ];
+        _curr_zone_x = x;
+        _curr_zone_y = y;
+    }
+    else    //clicked on same zone, no zones selected
+    {
+        _curr_zone_x = -1;
+        _curr_zone_y = -1;
+    }
     
-    _curr_zone_x = x;
-    _curr_zone_y = y;
+    return ret;
 }
 
 -(void) deSelectZone
