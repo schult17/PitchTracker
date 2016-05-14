@@ -30,6 +30,8 @@
 @synthesize currPitcher1 = _currPitcher1;
 @synthesize currPitcher2 = _currPitcher2;
 
+@synthesize zoneView = _zoneView;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -40,29 +42,10 @@
     //team 1 is visible first
     _team1visible = true;
     [ self createInfoLabels ];
+    [ self createZoneDisplay ];
 
     [ self setUpScrollTouch ];
-}
-
--(void) createInfoLabels
-{
-    _teamLabel = [ [UILabel alloc] init ];
-    _nameLabel = [ [UILabel alloc] init ];
-    _bodyLabel = [ [UILabel alloc] init ];
-    _numHandLabel = [ [UILabel alloc] init ];
-    _pitchesLabel = [ [UILabel alloc] init ];
-    _statsButton = [ [UIButton alloc] init ];
-    
-    _teamLabel.textColor = _nameLabel.textColor = _bodyLabel.textColor = _numHandLabel.textColor = _pitchesLabel.textColor = [ UIColor whiteColor ];
-    
-    UIFont *f = _nameLabel.font;
-    f = [ f fontWithSize:30 ];
-    _teamLabel.font = _nameLabel.font = _bodyLabel.font = _numHandLabel.font = _pitchesLabel.font = _statsButton.titleLabel.font = f;
-    
-    [ _statsButton setTitle:@"View Pitcher Stats" forState:UIControlStateNormal ];
-    [ _statsButton setTitleColor:[UIColor colorWithRed:0 green:122 blue:255 alpha:1] forState:UIControlStateNormal ];   //TODO -- better colour
-    
-    [ _statsButton addTarget:self action:@selector(statsButtonClicked) forControlEvents:UIControlEventTouchUpInside ];
+    [ self setUpZoneTouch ];
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -84,65 +67,9 @@
     
     //highlight default pitcher
     [ self changeInfoView:(_team1visible ? _currPitcher1 : _currPitcher2) ];
-}
-
--(void) layoutInfoElements
-{
-    CGFloat w = _infoView.frame.size.width;
-    CGFloat h = DISPLAY_LABEL_HEIGHT;
     
-    //being explicit with the math ( - 1 + 2 )
-    float delta = ( _infoView.frame.size.height - NUM_LABELS_IN_INFO_VIEW*h) / (NUM_LABELS_IN_INFO_VIEW - 1 + 2 );
-    
-    CGRect f = CGRectMake(0, delta, w, h);
-    [ _teamLabel setFrame:f ];
-    
-    f.origin.y += h + delta;
-    [ _nameLabel setFrame:f ];
-    
-    f.origin.y += h + delta;
-    [ _bodyLabel setFrame:f ];
-    
-    f.origin.y += h + delta;
-    [ _numHandLabel setFrame:f ];
-    
-    f.origin.y += h + delta;
-    [ _pitchesLabel setFrame:f ];
-    
-    f.origin.y += h + delta;
-    [ _statsButton setFrame:f ];
-    
-    [ _infoView addSubview:_teamLabel ];
-    [ _infoView addSubview:_nameLabel ];
-    [ _infoView addSubview:_bodyLabel ];
-    [ _infoView addSubview:_numHandLabel ];
-    [ _infoView addSubview:_pitchesLabel ];
-    [ _infoView addSubview:_statsButton ];
-}
-
--(void) setPitcher:(Pitcher*)pitcher
-{
-    if( pitcher != nil )
-    {
-        _teamLabel.text = [ NSString stringWithFormat:@"\t%@", pitcher.info.getTeamDisplayString ];
-        _nameLabel.text = [ NSString stringWithFormat:@"\t%@", pitcher.info.getNameDisplayString ];
-        _bodyLabel.text = [ NSString stringWithFormat:@"\t%@", pitcher.info.getPhysicalDisplayString ];
-        _numHandLabel.text = [ NSString stringWithFormat:@"\t%@", pitcher.info.getNumberHandDisplayString ];
-        _pitchesLabel.text = [ NSString stringWithFormat:@"\t%@", pitcher.info.getPitchDisplayString ];
-    }
-    else
-    {
-        _teamLabel.text = @"";
-        _nameLabel.text = @"\t\tNo pitchers to display for this team";
-        _bodyLabel.text = @"";
-        _numHandLabel.text = @"";
-        _pitchesLabel.text = @"";
-    }
-    
-    if( _team1visible )
-        _currPitcher1 = pitcher;
-    else
-        _currPitcher2 = pitcher;
+    //layout zone (don't do this in viewdidload)
+    [ self layoutZoneDisplay ];
 }
 
 -(void)toggleTeam
@@ -171,14 +98,103 @@
         [ self toggleTeam ];
 }
 
--(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue
+//-----Zone display-----//
+-(void) createZoneDisplay
 {
+    _zoneView = [ [ZoneView alloc] init ];
+    [ _zoneTeamView addSubview:_zoneView ];
 }
 
-- (void)didReceiveMemoryWarning
+-(void)layoutZoneDisplay
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    CGRect f = CGRectMake(_zoneTeamView.frame.size.width/2,
+                          0,
+                          _zoneTeamView.frame.size.width/2,
+                          _zoneTeamView.frame.size.height);
+    
+    [ _zoneView setFrame:f ];
+}
+//----------------------//
+
+//-----Pitcher info display-----//
+-(void) createInfoLabels
+{
+    _teamLabel = [ [UILabel alloc] init ];
+    _nameLabel = [ [UILabel alloc] init ];
+    _bodyLabel = [ [UILabel alloc] init ];
+    _numHandLabel = [ [UILabel alloc] init ];
+    _pitchesLabel = [ [UILabel alloc] init ];
+    _statsButton = [ [UIButton alloc] init ];
+    
+    _teamLabel.textColor = _nameLabel.textColor = _bodyLabel.textColor = _numHandLabel.textColor = _pitchesLabel.textColor = [ UIColor whiteColor ];
+    
+    UIFont *f = _nameLabel.font;
+    f = [ f fontWithSize:30 ];
+    _teamLabel.font = _nameLabel.font = _bodyLabel.font = _numHandLabel.font = _pitchesLabel.font = _statsButton.titleLabel.font = f;
+    
+    [ _statsButton setTitle:@"View Pitcher Stats" forState:UIControlStateNormal ];
+    [ _statsButton setTitleColor:[UIColor colorWithRed:0 green:122 blue:255 alpha:1] forState:UIControlStateNormal ];   //TODO -- better colour
+    
+    [ _statsButton addTarget:self action:@selector(statsButtonClicked) forControlEvents:UIControlEventTouchUpInside ];
+    
+    [ _infoView addSubview:_teamLabel ];
+    [ _infoView addSubview:_nameLabel ];
+    [ _infoView addSubview:_bodyLabel ];
+    [ _infoView addSubview:_numHandLabel ];
+    [ _infoView addSubview:_pitchesLabel ];
+    [ _infoView addSubview:_statsButton ];
+}
+
+-(void) layoutInfoElements
+{
+    CGFloat w = _infoView.frame.size.width;
+    CGFloat h = DISPLAY_LABEL_HEIGHT;
+    
+    //being explicit with the math ( - 1 + 2 )
+    float delta = ( _infoView.frame.size.height - NUM_LABELS_IN_INFO_VIEW*h) / (NUM_LABELS_IN_INFO_VIEW - 1 + 2 );
+    
+    CGRect f = CGRectMake(0, delta, w, h);
+    [ _teamLabel setFrame:f ];
+    
+    f.origin.y += h + delta;
+    [ _nameLabel setFrame:f ];
+    
+    f.origin.y += h + delta;
+    [ _bodyLabel setFrame:f ];
+    
+    f.origin.y += h + delta;
+    [ _numHandLabel setFrame:f ];
+    
+    f.origin.y += h + delta;
+    [ _pitchesLabel setFrame:f ];
+    
+    f.origin.y += h + delta;
+    [ _statsButton setFrame:f ];
+}
+
+-(void) setPitcher:(Pitcher*)pitcher
+{
+    if( pitcher != nil )
+    {
+        _teamLabel.text = [ NSString stringWithFormat:@"\t%@", pitcher.info.getTeamDisplayString ];
+        _nameLabel.text = [ NSString stringWithFormat:@"\t%@", pitcher.info.getNameDisplayString ];
+        _bodyLabel.text = [ NSString stringWithFormat:@"\t%@", pitcher.info.getPhysicalDisplayString ];
+        _numHandLabel.text = [ NSString stringWithFormat:@"\t%@", pitcher.info.getNumberHandDisplayString ];
+        _pitchesLabel.text = [ NSString stringWithFormat:@"\t%@", pitcher.info.getPitchDisplayString ];
+    }
+    else
+    {
+        _teamLabel.text = @"";
+        _nameLabel.text = @"\t\tNo pitchers to display for this team";
+        _bodyLabel.text = @"";
+        _numHandLabel.text = @"";
+        _pitchesLabel.text = @"";
+    }
+    
+    if( _team1visible )
+        _currPitcher1 = pitcher;
+    else
+        _currPitcher2 = pitcher;
 }
 
 -(void) changeInfoView:(Pitcher*)pitcher
@@ -198,6 +214,36 @@
         [ self setPitcher:pitcher ];
     }
 }
+//----------------------------------------//
+
+
+-(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue
+{
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+//----------Touching of zone view----------//
+-(void) setUpZoneTouch
+{
+    UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(zoneTap:)];
+    singleTapGestureRecognizer.numberOfTapsRequired = 1;
+    singleTapGestureRecognizer.enabled = YES;
+    singleTapGestureRecognizer.cancelsTouchesInView = NO;
+    
+    [_zoneView addGestureRecognizer:singleTapGestureRecognizer];
+}
+
+- (void)zoneTap:(UITapGestureRecognizer *)gesture
+{
+    CGPoint tap = [ gesture locationInView: _zoneView ];
+    [ _zoneView handleTapInZone:tap ];
+}
+//-----------------------------------------//
 
 //-----Touching of pitcher scroll view-----//
 -(void) setUpScrollTouch

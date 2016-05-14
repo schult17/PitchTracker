@@ -15,4 +15,11 @@
 @property PitchLocation X;
 @property PitchLocation Y;
 
+/*
+-(id) init;
+-(id) initWithFrame:(CGRect)frame;*/
+-(id) initWithLocation:(PitchLocation) X with: (PitchLocation) Y;
+-(void) setZoneColour;
+-(void) setZoneSelected;
+
 @end

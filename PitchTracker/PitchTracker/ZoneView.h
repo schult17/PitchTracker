@@ -10,8 +10,22 @@
 #import "Globals.h"
 #import "SingleZoneView.h"
 
+#define ZONEDIM 5       //5x5 single zones
+#define ZONECOUNT 25
+
 @interface ZoneView : UIView
 
-@property NSArray *zones;
+@property NSMutableArray *zones;
+@property int curr_zone_x;
+@property int curr_zone_y;
+
+-(id) init;
+-(id) initWithCoder:(NSCoder *)aDecoder;
+-(id) initWithFrame:(CGRect)frame;
+
+-(void) setFrame:(CGRect)frame;
+
+-(void) handleTapInZone:(CGPoint) tap;
+-(void) deSelectZone;
 
 @end

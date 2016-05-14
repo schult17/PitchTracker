@@ -11,6 +11,7 @@
 #import "PitcherSideScrollView.h"
 #import "PitcherInfoView.h"
 #import "Pitcher.h"
+#import "ZoneView.h"
 
 #define DISPLAY_LABEL_BUFFER 10
 #define DISPLAY_LABEL_HEIGHT 30
@@ -35,5 +36,7 @@
 @property bool team1visible;
 @property Pitcher *currPitcher1;
 @property Pitcher *currPitcher2;
+
+@property ZoneView *zoneView;
 
 @end

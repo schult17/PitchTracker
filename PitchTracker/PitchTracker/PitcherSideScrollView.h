@@ -10,7 +10,7 @@
 #import "PitcherSideView.h"
 #import "LocalPitcherDatabase.h"
 
-#define PLAYERVIEW_HEIGHT 80
+#define PLAYERVIEW_HEIGHT 100
 #define SELECTED_COLOUR blackColor
 
 @interface PitcherSideScrollView : UIScrollView

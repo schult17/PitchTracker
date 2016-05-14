@@ -148,11 +148,11 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="kq8-OD-1el"/>
+                                <exclude reference="YBS-yD-HtT"/>
                                 <exclude reference="Fe2-cC-Qm0"/>
                                 <exclude reference="RII-k9-IPA"/>
                                 <exclude reference="to1-iI-3sq"/>
                                 <exclude reference="xqB-HQ-395"/>
-                                <exclude reference="YBS-yD-HtT"/>
                             </mask>
                         </variation>
                     </view>
@@ -206,7 +206,7 @@
                             </scrollView>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sof-en-oja">
                                 <rect key="frame" x="247" y="64" width="353" height="326"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.1155105745" green="0.1155105745" blue="0.1155105745" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="10m-P4-bss">
                                 <rect key="frame" x="247" y="389" width="353" height="211"/>
