@@ -34,6 +34,13 @@
 
 @synthesize zoneView = _zoneView;
 
+@synthesize team1Label = _team1Label;
+@synthesize pitch1Label = _pitch1Label;
+@synthesize vsLabel = _vsLabel;
+@synthesize team2Label = _team2Label;
+@synthesize pitch2Label = _pitch2Label;
+@synthesize nextBatterButton = _nextBatterButton;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -43,6 +50,7 @@
     
     //team 1 is visible first
     _team1visible = true;
+    [ self createGameDisplay ];
     [ self createInfoLabels ];
     [ self createZoneDisplay ];
     [ self createPitchLabels ];
@@ -74,6 +82,7 @@
 
 -(void) viewDidLayoutSubviews
 {
+    [ self layoutGameDisplay ];
     [ self layoutInfoElements ];
     [ self layoutZoneDisplay ];
     [ self layoutPitchLabels ];
@@ -97,6 +106,8 @@
         [ self changeInfoView:_currPitcher1 ];
         [ _pitcherScrollView highlightPitcher:_currPitcher1.pitcher_id ];
     }
+    
+    [ self onTeamChangeChangeGameDisplay ];
 }
 
 - (IBAction)handleButtonClick:(id)sender
@@ -104,6 +115,100 @@
     if( sender == _teamToggleButton )
         [ self toggleTeam ];
 }
+
+//-----Game Display-----//
+-(void) createGameDisplay
+{
+    _team1Label = [ [UILabel alloc] init ];
+    _pitch1Label = [ [UILabel alloc] init ];
+    _vsLabel = [ [UILabel alloc] init ];
+    _team2Label = [ [UILabel alloc] init ];
+    _pitch2Label = [ [UILabel alloc] init ];
+    
+    _nextBatterButton = [ [UIButton alloc] init ];
+    [ _nextBatterButton addTarget:self action:@selector(nextBatterButtonClicked) forControlEvents:UIControlEventTouchUpInside ];
+    
+    [ self setGameLabels ];
+    [ _zoneTeamView addSubview:_team1Label ];
+    [ _zoneTeamView addSubview:_pitch1Label ];
+    [ _zoneTeamView addSubview:_vsLabel ];
+    [ _zoneTeamView addSubview:_team2Label ];
+    [ _zoneTeamView addSubview:_pitch2Label ];
+    [ _zoneTeamView addSubview:_nextBatterButton ];
+}
+
+-(void) layoutGameDisplay
+{
+    float h = DISPLAY_LABEL_HEIGHT;
+    float delta = ( _zoneTeamView.frame.size.height - (NUM_LABELS_IN_GAME_INFO + 1)*h) / (NUM_LABELS_IN_GAME_INFO - 1 + 2 );
+    
+    CGRect f = CGRectMake(0, delta, _zoneTeamView.frame.size.width/2, h);
+    
+    [ _team1Label setFrame:f ];
+    
+    f.origin.y += h + delta;
+    [ _pitch1Label setFrame:f ];
+    
+    f.origin.y += h + delta;
+    [ _vsLabel setFrame:f ];
+    
+    f.origin.y += h + delta;
+    [ _team2Label setFrame:f ];
+    
+    f.origin.y += h + delta;
+    [ _pitch2Label setFrame:f ];
+    
+    f.origin.y += h + delta;
+    [ _nextBatterButton setFrame:f ];
+}
+
+-(void) setGameLabels
+{
+    [ _team1Label setText:TEAM_NAME_STR[_team1] ];
+    [ _team2Label setText:TEAM_NAME_STR[_team2] ];
+    [ _vsLabel setText:@"VS" ];
+    [ _vsLabel setTextColor:[UIColor whiteColor] ];
+    
+    [ self resetPitcherLabels ];
+    [ self onTeamChangeChangeGameDisplay ];
+    
+    UIFont *f = _pitch1Label.font;
+    f = [ f fontWithSize:FONT_DISPLAY_SIZE ];
+    _team1Label.font = _pitch1Label.font = _vsLabel.font = _team2Label.font = _pitch2Label.font = _nextBatterButton.titleLabel.font = f;
+    
+    [ _nextBatterButton setTitle:@"NEW BATTER" forState:UIControlStateNormal ];
+    [ _nextBatterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal ];
+}
+
+-(void) onTeamChangeChangeGameDisplay
+{
+    if( _team1visible )
+    {
+        [ _pitch1Label setTextColor:[UIColor redColor] ];
+        [ _team1Label setTextColor:[UIColor redColor] ];
+        
+        [ _pitch2Label setTextColor:[UIColor whiteColor] ];
+        [ _team2Label setTextColor:[UIColor whiteColor] ];
+    }
+    else
+    {
+        [ _pitch1Label setTextColor:[UIColor whiteColor] ];
+        [ _team1Label setTextColor:[UIColor whiteColor] ];
+        
+        [ _pitch2Label setTextColor:[UIColor redColor] ];
+        [ _team2Label setTextColor:[UIColor redColor] ];
+    }
+}
+
+-(void) resetPitcherLabels
+{
+    if( _currPitcher1 != nil )[ _pitch1Label setText:_currPitcher1.info.getNameDisplayString ];
+    else [ _pitch1Label setText:@"None" ];
+    
+    if( _currPitcher2 != nil )[ _pitch2Label setText:_currPitcher2.info.getNameDisplayString ];
+    else [ _pitch2Label setText:@"None" ];
+}
+//----------------------//
 
 //-----Zone display-----//
 -(void) createZoneDisplay
@@ -135,7 +240,7 @@
     //TODO -- animate button like storyboard button?
     [ _addPitchButton addTarget:self action:@selector(addPitchButtonClicked) forControlEvents:UIControlEventTouchUpInside ];
     UIFont *f = _addPitchButton.titleLabel.font;
-    f = [ f fontWithSize:30 ];
+    f = [ f fontWithSize:FONT_DISPLAY_SIZE ];
     _addPitchButton.titleLabel.font = f;
     
     _selectedPitch = FASTBALL_4;
@@ -191,7 +296,7 @@
     _teamLabel.textColor = _nameLabel.textColor = _bodyLabel.textColor = _numHandLabel.textColor /*= _pitchesLabel.textColor*/ = [ UIColor whiteColor ];
     
     UIFont *f = _nameLabel.font;
-    f = [ f fontWithSize:30 ];
+    f = [ f fontWithSize:FONT_DISPLAY_SIZE ];
     _teamLabel.font = _nameLabel.font = _bodyLabel.font = _numHandLabel.font = _statsButton.titleLabel.font = f;
     
     //TODO -- animate button like storyboard button?
@@ -252,6 +357,7 @@
     else
         _currPitcher2 = pitcher;
     
+    [ self resetPitcherLabels ];
     [ self layoutPitchLabels ];
 }
 
@@ -373,6 +479,13 @@
     //then present them and ask the outcome of the pitch
 }
 //--------------------------------------//
+
+//-----Clicking in next batter button-----//
+-(void) nextBatterButtonClicked
+{
+    NSLog(@"Next Batter");
+}
+//----------------------------------------//
 
  #pragma mark - Navigation
  

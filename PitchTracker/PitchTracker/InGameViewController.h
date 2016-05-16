@@ -17,6 +17,8 @@
 #define DISPLAY_LABEL_BUFFER 10
 #define DISPLAY_LABEL_HEIGHT 35
 #define NUM_LABELS_IN_INFO_VIEW 5
+#define NUM_LABELS_IN_GAME_INFO 6
+#define FONT_DISPLAY_SIZE DISPLAY_LABEL_HEIGHT - 5
 
 @interface InGameViewController : UIViewController
 
@@ -44,8 +46,11 @@
 @property Pitcher *currPitcher1;
 @property Pitcher *currPitcher2;
 
-@property UILabel *gameTeamLabel;
-@property UILabel *currPitchersLabel;
+@property UILabel *team1Label;
+@property UILabel *pitch1Label;
+@property UILabel *vsLabel;
+@property UILabel *team2Label;
+@property UILabel *pitch2Label;
 @property UIButton *nextBatterButton;
 //-------------//
 
