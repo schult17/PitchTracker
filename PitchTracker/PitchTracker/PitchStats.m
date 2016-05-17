@@ -37,6 +37,30 @@
     [ _at_plates addObject:[[AtPlate alloc] initWithBatter:batter_hand ] ];
 }
 
+-(void) addAtPlate:(AtPlate *)result
+{
+    _total_balls += result.atbat_balls;
+    _total_strikes += result.atbat_strikes;
+    
+    switch( result.atbat_result )
+    {
+        case SO_LOOK:
+        case SO_SWING:
+            _total_k += 1;
+            break;
+        case WALK:
+            _total_walks += 1;
+            break;
+        case HIT:
+            _total_hits += 1;
+            break;
+        default:
+            break;
+    }
+    
+    [ _at_plates addObject:result ];
+}
+
 -(bool) addPitchToRecentBatter:(PitchType)type with:(PitchLocation)X with:(PitchLocation)Y with:(PitchOutcome)pitch_result
 {
     if( _at_plates.count > 0 )

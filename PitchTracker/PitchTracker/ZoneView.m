@@ -109,8 +109,9 @@
 
 -(void) deSelectZone
 {
+    //setZoneSelected is a toggle, if it is selected, it un selects it
     if( _curr_zone_x != -1 && _curr_zone_y != -1 )
-        [ [[_zones objectAtIndex:_curr_zone_x] objectAtIndex:_curr_zone_y] setZoneColour ];
+        [ [[_zones objectAtIndex:_curr_zone_x] objectAtIndex:_curr_zone_y] setZoneSelected ];
     
     _curr_zone_x = _curr_zone_y = -1;
 }

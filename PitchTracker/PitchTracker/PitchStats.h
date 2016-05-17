@@ -26,6 +26,7 @@
 -(id) init;
 -(void) newBatter:(Hand)batter_hand;
 -(bool) addPitchToRecentBatter:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with:(PitchOutcome) pitch_result;
+-(void) addAtPlate:(AtPlate *)result;
 -(bool) endRecentBatter:(AtPlateOutcome) outcome;
 
 -(float) getStrikePercentage;

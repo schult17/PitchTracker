@@ -40,6 +40,7 @@
 @synthesize team2Label = _team2Label;
 @synthesize pitch2Label = _pitch2Label;
 @synthesize nextBatterButton = _nextBatterButton;
+@synthesize currAtPlate = _currAtPlate;
 
 - (void)viewDidLoad
 {
@@ -119,11 +120,13 @@
 //-----Game Display-----//
 -(void) createGameDisplay
 {
+    _currAtPlate = [ [AtPlate alloc] init ];
     _team1Label = [ [UILabel alloc] init ];
     _pitch1Label = [ [UILabel alloc] init ];
     _vsLabel = [ [UILabel alloc] init ];
     _team2Label = [ [UILabel alloc] init ];
     _pitch2Label = [ [UILabel alloc] init ];
+    _countLabel = [ [UILabel alloc] init ];
     
     _nextBatterButton = [ [UIButton alloc] init ];
     [ _nextBatterButton addTarget:self action:@selector(nextBatterButtonClicked) forControlEvents:UIControlEventTouchUpInside ];
@@ -134,6 +137,7 @@
     [ _zoneTeamView addSubview:_vsLabel ];
     [ _zoneTeamView addSubview:_team2Label ];
     [ _zoneTeamView addSubview:_pitch2Label ];
+    [ _zoneTeamView addSubview:_countLabel ];
     [ _zoneTeamView addSubview:_nextBatterButton ];
 }
 
@@ -159,6 +163,9 @@
     [ _pitch2Label setFrame:f ];
     
     f.origin.y += h + delta;
+    [ _countLabel setFrame:f ];
+    
+    f.origin.y += h + delta;
     [ _nextBatterButton setFrame:f ];
 }
 
@@ -168,16 +175,20 @@
     [ _team2Label setText:TEAM_NAME_STR[_team2] ];
     [ _vsLabel setText:@"VS" ];
     [ _vsLabel setTextColor:[UIColor whiteColor] ];
+    [ _countLabel setTextColor:[UIColor whiteColor] ];
+    [ _countLabel setTextAlignment:NSTextAlignmentCenter ];
     
     [ self resetPitcherLabels ];
     [ self onTeamChangeChangeGameDisplay ];
     
     UIFont *f = _pitch1Label.font;
     f = [ f fontWithSize:FONT_DISPLAY_SIZE ];
-    _team1Label.font = _pitch1Label.font = _vsLabel.font = _team2Label.font = _pitch2Label.font = _nextBatterButton.titleLabel.font = f;
+    _team1Label.font = _pitch1Label.font = _vsLabel.font = _team2Label.font = _pitch2Label.font = _countLabel.font = _nextBatterButton.titleLabel.font = f;
+    
+    [ _countLabel setText:@"Strikes 0 : Balls 0" ];
     
     [ _nextBatterButton setTitle:@"NEW BATTER" forState:UIControlStateNormal ];
-    [ _nextBatterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal ];
+    [ _nextBatterButton setTitleColor:BUTTON_COLOUR_CODE forState:UIControlStateNormal ];
 }
 
 -(void) onTeamChangeChangeGameDisplay
@@ -208,6 +219,8 @@
     if( _currPitcher2 != nil )[ _pitch2Label setText:_currPitcher2.info.getNameDisplayString ];
     else [ _pitch2Label setText:@"None" ];
 }
+
+//TODO -- add flow for count label
 //----------------------//
 
 //-----Zone display-----//
@@ -235,7 +248,7 @@
     _pitchLabels = [ [NSMutableArray alloc] init ];
     _addPitchButton = [ [UIButton alloc] init ];
     [ _addPitchButton setTitle:@"ADD PITCH" forState:UIControlStateNormal ];
-    [ _addPitchButton setTitleColor:[UIColor colorWithRed:0 green:122 blue:255 alpha:1] forState:UIControlStateNormal ];   //TODO -- better colour
+    [ _addPitchButton setTitleColor:BUTTON_COLOUR_CODE forState:UIControlStateNormal ];   //TODO -- better colour
     
     //TODO -- animate button like storyboard button?
     [ _addPitchButton addTarget:self action:@selector(addPitchButtonClicked) forControlEvents:UIControlEventTouchUpInside ];
@@ -436,9 +449,6 @@
         }
         index += 1;
     }
-
-    _selectedPitch = FASTBALL_4;
-    _selectedPitchLabel = nil;
 }
 //-----------------------------------------//
 
@@ -474,16 +484,81 @@
 //-----Clicking in add Pitch Button-----//
 -(void) addPitchButtonClicked
 {
-    NSLog(@"Add Current Pitch");
-    //TODO -- make sure a zone is selected and a pitch is selected
-    //then present them and ask the outcome of the pitch
+    if( _selectedView == nil || _selectedPitchLabel == nil )
+    {
+        NSString *_message = ( _selectedView == nil ) ? @"You must select the zone of the pitch" : @"You must select the pitch type by clicking on the label";
+        
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                       message:_message
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action){}];
+        
+        [ alert addAction:okAction ];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    else
+    {
+        NSString *_message = @"Select the outcome of the pitch";
+        
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                       message:_message
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* strikeSwingAction = [UIAlertAction actionWithTitle:@"Strike Swinging" style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action)
+                                     { [self addPitchWithPitchOutcome:S_SWING]; }];
+        
+        UIAlertAction* strikeLookAction = [UIAlertAction actionWithTitle:@"Strike Looking" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action)
+                                     { [self addPitchWithPitchOutcome:S_LOOK]; }];
+        
+        UIAlertAction* foulAction = [UIAlertAction actionWithTitle:@"Foul" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action)
+                                     { [self addPitchWithPitchOutcome:FOUL]; }];
+        
+        UIAlertAction* ballAction = [UIAlertAction actionWithTitle:@"Ball" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action)
+                                     { [self addPitchWithPitchOutcome:BALL]; }];
+        
+        UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action){}];
+
+        
+        [ alert addAction:strikeSwingAction ];
+        [ alert addAction:strikeLookAction ];
+        [ alert addAction:foulAction ];
+        [ alert addAction:ballAction ];
+        [ alert addAction:cancelAction ];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+-(void) addPitchWithPitchOutcome:(PitchOutcome)result
+{
+    [ _currAtPlate addPitch:_selectedPitch with:_selectedView.X with:_selectedView.Y with:result ];
+    [ _zoneView deSelectZone ];
+    [ _selectedPitchLabel setSelect:false ];
+    
+    _selectedView = nil;
+    _selectedPitchLabel = nil;
+    _selectedPitch = FASTBALL_4;
 }
 //--------------------------------------//
 
 //-----Clicking in next batter button-----//
 -(void) nextBatterButtonClicked
 {
-    NSLog(@"Next Batter");
+    Pitcher *pitcher = _team1visible ? _currPitcher1 : _currPitcher2;
+    
+    [ pitcher.stats addAtPlate:_currAtPlate ];
+    
+    //TODO --  set batter hand
+    //TODO -- get outcome of at bat
+    _currAtPlate = [ [AtPlate alloc] init ];
 }
 //----------------------------------------//
 

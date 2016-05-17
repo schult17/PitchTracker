@@ -13,12 +13,14 @@
 #import "Pitcher.h"
 #import "SelectableLabel.h"
 #import "ZoneView.h"
+#import "PitchInstance.h"
 
 #define DISPLAY_LABEL_BUFFER 10
 #define DISPLAY_LABEL_HEIGHT 35
 #define NUM_LABELS_IN_INFO_VIEW 5
-#define NUM_LABELS_IN_GAME_INFO 6
+#define NUM_LABELS_IN_GAME_INFO 7
 #define FONT_DISPLAY_SIZE DISPLAY_LABEL_HEIGHT - 5
+#define BUTTON_COLOUR_CODE [UIColor colorWithRed:0 green:122 blue:255 alpha:1]
 
 @interface InGameViewController : UIViewController
 
@@ -51,7 +53,10 @@
 @property UILabel *vsLabel;
 @property UILabel *team2Label;
 @property UILabel *pitch2Label;
+@property UILabel *countLabel;
 @property UIButton *nextBatterButton;
+
+@property AtPlate *currAtPlate;
 //-------------//
 
 //--Pitch info--//
