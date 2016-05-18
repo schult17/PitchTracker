@@ -10,7 +10,7 @@
 #import "Globals.h"
 #import "PitchStats.h"
 
-#define SIDE_BUF 10
+#define SIDE_BUF 20
 
 @interface PitcherStatsView : UIView
 

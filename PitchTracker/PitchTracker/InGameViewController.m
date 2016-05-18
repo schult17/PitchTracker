@@ -21,6 +21,9 @@
 @synthesize pitcherScrollView = _pitcherScrollView;
 @synthesize zoneTeamView = _zoneTeamView;
 @synthesize infoView = _infoView;
+@synthesize countLabel = _countLabel;
+@synthesize countStrikes = _countStrikes;
+@synthesize countBalls = _countBalls;
 
 @synthesize teamLabel = _teamLabel;
 @synthesize nameLabel = _nameLabel;
@@ -220,7 +223,69 @@
     else [ _pitch2Label setText:@"None" ];
 }
 
-//TODO -- add flow for count label
+-(void) changeCount:(PitchOutcome)new_pitch
+{
+    switch( new_pitch )
+    {
+        case S_SWING:
+        case S_LOOK:
+        {
+            //maybe loose this? Automatic ending of at bat
+            if( _countStrikes == 2 )
+            {
+                //return to avoid multiple setting of count label
+                [ self endCurrentBatterWithOutcome:( (new_pitch == S_SWING ) ? SO_SWING : SO_LOOK ) ];
+                return;
+            }
+            else
+            {
+                _countStrikes += 1;
+            }
+            
+            break;
+        }
+        case FOUL:
+        {
+            if( _countStrikes < 2 )
+                _countStrikes += 1;
+            
+            break;
+        }
+        case BALL:
+        {
+            //maybe loose this? Automatic ending of at bat
+            if( _countBalls == 3 )
+            {
+                //return to avoid multiple setting of count label
+                [ self endCurrentBatterWithOutcome:WALK ];
+                return;
+            }
+            else
+            {
+                _countBalls += 1;
+            }
+            
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+    
+    [ self changeCountLabel ];
+}
+
+-(void) resetCount
+{
+    _countBalls = _countStrikes = 0;
+    [ self changeCountLabel ];
+}
+
+-(void) changeCountLabel
+{
+    [ _countLabel setText:[ NSString stringWithFormat:@"Strikes %i : Balls %i", _countStrikes, _countBalls ] ];
+}
 //----------------------//
 
 //-----Zone display-----//
@@ -505,7 +570,7 @@
         
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
                                                                        message:_message
-                                                                preferredStyle:UIAlertControllerStyleAlert];
+                                                                preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction* strikeSwingAction = [UIAlertAction actionWithTitle:@"Strike Swinging" style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * action)
@@ -533,6 +598,14 @@
         [ alert addAction:ballAction ];
         [ alert addAction:cancelAction ];
         
+        UIPopoverPresentationController *popPresenter = [alert popoverPresentationController];
+        popPresenter.sourceView = _addPitchButton;
+        popPresenter.sourceRect = _addPitchButton.bounds;
+        popPresenter.permittedArrowDirections = UIPopoverArrowDirectionDown;
+        
+        //Surpresses snapshotting error from popover view
+        [ alert.view layoutIfNeeded ];
+        
         [self presentViewController:alert animated:YES completion:nil];
     }
 }
@@ -546,19 +619,70 @@
     _selectedView = nil;
     _selectedPitchLabel = nil;
     _selectedPitch = FASTBALL_4;
+    [ self changeCount:result ];
 }
 //--------------------------------------//
 
 //-----Clicking in next batter button-----//
 -(void) nextBatterButtonClicked
 {
-    Pitcher *pitcher = _team1visible ? _currPitcher1 : _currPitcher2;
+    NSString *_message = @"Select the outcome of the at plate";
     
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                   message:_message
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* kLookAction = [UIAlertAction actionWithTitle:@"K Swinging" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action)
+                                        { [self endCurrentBatterWithOutcome:SO_SWING]; }];
+    
+    UIAlertAction* kSwingAction = [UIAlertAction actionWithTitle:@"K Looking" style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction * action)
+                                       { [self endCurrentBatterWithOutcome:SO_LOOK]; }];
+    
+    UIAlertAction* hitAction = [UIAlertAction actionWithTitle:@"Hit" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 { [self endCurrentBatterWithOutcome:HIT]; }];
+    
+    UIAlertAction* walkAction = [UIAlertAction actionWithTitle:@"Walk" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 { [self endCurrentBatterWithOutcome:WALK]; }];
+    
+    UIAlertAction* errorAction = [UIAlertAction actionWithTitle:@"Error" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+                                 { [self endCurrentBatterWithOutcome:ERROR]; }];
+    
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action){}];
+    
+    [ alert addAction:kSwingAction ];
+    [ alert addAction:kLookAction ];
+    [ alert addAction:hitAction ];
+    [ alert addAction:walkAction ];
+    [ alert addAction:errorAction ];
+    [ alert addAction:cancelAction ];
+    
+    UIPopoverPresentationController *popPresenter = [alert popoverPresentationController];
+    popPresenter.sourceView = _nextBatterButton;
+    popPresenter.sourceRect = _nextBatterButton.bounds;
+    popPresenter.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    
+    //Surpresses snapshotting error from popover view
+    [ alert.view layoutIfNeeded ];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void) endCurrentBatterWithOutcome:(AtPlateOutcome)result
+{
+    //TODO -- get batter hand!
+    _currAtPlate.atbat_result = result;
+    Pitcher *pitcher = _team1visible ? _currPitcher1 : _currPitcher2;
     [ pitcher.stats addAtPlate:_currAtPlate ];
     
-    //TODO --  set batter hand
-    //TODO -- get outcome of at bat
+    //TODO -- reset the count label
     _currAtPlate = [ [AtPlate alloc] init ];
+    [ self resetCount ];
 }
 //----------------------------------------//
 
@@ -574,6 +698,7 @@
     cont.disable_editing = true;
 }
 
+//Helper
 -(NSString*) getPitchString:(PitchType)type
 {
     NSString *ret;

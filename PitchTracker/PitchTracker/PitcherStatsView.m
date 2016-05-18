@@ -46,7 +46,7 @@
     _displayStatsLabel.numberOfLines = 0;
     
     UIFont *font = _displayStatsLabel.font;
-    _displayStatsLabel.font = [font fontWithSize:20];
+    _displayStatsLabel.font = [font fontWithSize:22];
     
     [ self addSubview:_displayStatsLabel ];
     
@@ -85,7 +85,7 @@
 
 -(NSString*) getFormattedDisplayString
 {
-    NSString *line1 = [ NSString stringWithFormat:@"\t\tStrikes: %i\t\t Balls: %i\t\t StrikePer: %f\t\t BallPer: %f\n\n", _stats.total_strikes, _stats.total_balls, [_stats getStrikePercentage], [_stats getBallPercentage] ];
+    NSString *line1 = [ NSString stringWithFormat:@"\t\tStrikes: %i\t\t Balls: %i\t\t StrikePer: %.02f\t\t BallPer: %.02f\n\n", _stats.total_strikes, _stats.total_balls, [_stats getStrikePercentage], [_stats getBallPercentage] ];
     
     NSString *line2 = [ NSString stringWithFormat:@"\t\tStrike Outs: %i\t\t Walks: %i\n\n", _stats.total_k, _stats.total_walks ];
     
@@ -104,9 +104,9 @@
     
     for( NSNumber *i in array )
     {
-        if( [ i floatValue ] > 0 || true )  //no pitches, don't show it
+        if( [ i floatValue ] > 0 )  //no pitches, don't show it
         {
-            NSString* add = [ NSString stringWithFormat:@"  - %@  %f", [self getPitchString:(PitchType)index], [i floatValue] ];
+            NSString* add = [ NSString stringWithFormat:@"  - %@  %.02f", [self getPitchString:(PitchType)index], [i floatValue] ];
             [ ret appendString: add ];
         }
         

@@ -98,7 +98,8 @@ typedef enum _AtPlateOutcome
     WALK,
     ERROR,
     HIT,
-    HBP
+    PITCH_CHANGE,
+    HBP     //deprecated
 }AtPlateOutcome;
 
 #endif /* Globals_h */

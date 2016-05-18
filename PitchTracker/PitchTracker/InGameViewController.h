@@ -55,6 +55,8 @@
 @property UILabel *pitch2Label;
 @property UILabel *countLabel;
 @property UIButton *nextBatterButton;
+@property int countStrikes;
+@property int countBalls;
 
 @property AtPlate *currAtPlate;
 //-------------//

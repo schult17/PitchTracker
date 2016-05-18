@@ -41,6 +41,7 @@
 {
     _total_balls += result.atbat_balls;
     _total_strikes += result.atbat_strikes;
+    _total_pitches += result.atbat_pitches.count;
     
     switch( result.atbat_result )
     {
@@ -121,12 +122,12 @@
 
 -(float) getStrikePercentage;
 {
-    return ( (float)_total_strikes/(float)_total_pitches );
+    return ( ((float)_total_strikes/(float)_total_pitches) * 100.00 );
 }
 
 -(float) getBallPercentage
 {
-    return ( (float)_total_balls/(float)_total_pitches );
+    return ( ((float)_total_balls/(float)_total_pitches) * 100.00 );
 }
 
 -(NSArray*) getPitchPercentage
@@ -151,6 +152,7 @@
     {
         temp_count = (NSNumber*)[ pitchs_count objectAtIndex:i ];
         temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] / (float)_total_pitches ) ];
+        temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] * 100.00) ];
         [ pitchs_count replaceObjectAtIndex:i withObject:temp_count ];
     }
     
@@ -168,7 +170,7 @@
     
     for( AtPlate* i in _at_plates )
     {
-        if( i.atbat_pitches.count > 0 )
+        if( i.atbat_pitches.count > 0 ) //should be true...
         {
             temp_count = (NSNumber*)[ first_pitchs_count objectAtIndex:inst.type ];
             temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] + 1 ) ]; //temp_count ++;
@@ -180,6 +182,7 @@
     {
         temp_count = (NSNumber*)[ first_pitchs_count objectAtIndex:i ];
         temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] / (float)_at_plates.count ) ];
+        temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] * 100.00) ];
         [ first_pitchs_count replaceObjectAtIndex:i withObject:temp_count ];
     }
     
