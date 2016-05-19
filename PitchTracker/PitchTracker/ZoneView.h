@@ -18,6 +18,7 @@
 @property NSMutableArray *zones;
 @property int curr_zone_x;
 @property int curr_zone_y;
+@property bool interaction_enabled;
 
 -(id) init;
 -(id) initWithCoder:(NSCoder *)aDecoder;
@@ -27,5 +28,6 @@
 
 -(SingleZoneView *) handleTapInZone:(CGPoint) tap;
 -(void) deSelectZone;
+-(void) setZoneInteractionEnabled:(bool)enabled;
 
 @end

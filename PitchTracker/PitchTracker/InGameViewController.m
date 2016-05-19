@@ -6,6 +6,7 @@
 //  Copyright © 2016 UofTBaseball. All rights reserved.
 //
 
+//TODO -- if _currentAtPlate has UKNWN hand, ask to input batters hand
 #import "InGameViewController.h"
 #import "LocalPitcherDatabase.h"
 #import "PitcherManagementViewController.h"
@@ -680,7 +681,6 @@
     Pitcher *pitcher = _team1visible ? _currPitcher1 : _currPitcher2;
     [ pitcher.stats addAtPlate:_currAtPlate ];
     
-    //TODO -- reset the count label
     _currAtPlate = [ [AtPlate alloc] init ];
     [ self resetCount ];
 }

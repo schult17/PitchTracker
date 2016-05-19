@@ -89,7 +89,7 @@
     _atbat_balls = 0;
     _atbat_foul = 0;
     _atbat_result = SO_LOOK;
-    _batter_hand = LEFT;
+    _batter_hand = UNKWN;
     [ self setDate:[NSDate date] ];
     
     return self;

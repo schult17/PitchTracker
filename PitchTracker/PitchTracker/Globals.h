@@ -59,7 +59,8 @@ typedef enum _Hand
 {
     LEFT,
     RIGHT,
-    SWITCH
+    SWITCH,
+    UNKWN
 }Hand;
 //--------------------//
 

@@ -6,6 +6,7 @@
 //  Copyright © 2016 UofTBaseball. All rights reserved.
 //
 
+//TODO -- slide left delete of pitchers
 #import "PitcherSideScrollView.h"
 
 @implementation PitcherSideScrollView

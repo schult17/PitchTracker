@@ -29,6 +29,7 @@
     return self;
 }
 
+//-----locals-----//
 -(void) locationToZoneType
 {
     if( (_X > A && _X < E) && (_Y > A && _Y < E) )
@@ -39,29 +40,35 @@
 
 -(void) setZoneColour
 {
-    if( _type == STRIKE_ZONE )
-        [ self setBackgroundColor:[UIColor redColor] ];
-    else
-        [ self setBackgroundColor:[UIColor blueColor] ];
-    
-    [ self setAlpha:0.6 ];
+    [ self setZoneNormalBackgroundColour ];
+    [ self setAlpha:0.65 ];
     
     [ self.layer setBorderColor:[UIColor blackColor].CGColor ];
     [ self.layer setBorderWidth:1.5f ];
 }
 
--(void) setZoneSelected
+-(void) setZoneNormalBackgroundColour
+{
+    if( _type == STRIKE_ZONE )
+        [ self setBackgroundColor:[UIColor redColor] ];
+    else
+        [ self setBackgroundColor:[UIColor blueColor] ];
+}
+
+-(void) setZoneSelectedBackgroundColour
+{
+    [ self setBackgroundColor:[UIColor greenColor] ];   //TODO -- better selection colour??
+}
+//----------------//
+
+-(void) toggleZoneSelected
 {
     if( !_zoneSelected )
-    {
-        [ self setBackgroundColor:[UIColor greenColor] ];   //TODO -- better selection colour
-        _zoneSelected = true;
-    }
+        [ self setZoneSelectedBackgroundColour ];
     else
-    {
-        [ self setZoneColour ];
-        _zoneSelected = false;
-    }
+        [ self setZoneNormalBackgroundColour ];
+    
+    _zoneSelected = !_zoneSelected;
 }
 
 @end

@@ -14,6 +14,7 @@
 @synthesize zones = _zones;
 @synthesize curr_zone_x = _curr_zone_x;
 @synthesize curr_zone_y = _curr_zone_y;
+@synthesize interaction_enabled = _interaction_enabled;
 
 -(id) init
 {
@@ -56,6 +57,7 @@
     }
     
     _curr_zone_x = _curr_zone_y = -1;
+    _interaction_enabled = true;
 }
 
 -(void) setFrame:(CGRect)frame
@@ -78,30 +80,35 @@
 
 -(SingleZoneView*) handleTapInZone:(CGPoint) tap
 {
+    //returns nil if zone interaction is disabled
     SingleZoneView *ret = nil;
-    CGFloat zone_w = self.frame.size.width / ZONEDIM;
-    CGFloat zone_h = self.frame.size.height / ZONEDIM;
     
-    int x = floor( tap.x / zone_w );
-    int y = floor( tap.y / zone_h );
-    
-    //De select old zone by switching back to original colour
-    //NOTE: setZoneSelected knows if it was already selected, and will de select
-    if( _curr_zone_x != -1 && _curr_zone_y != -1 )
-        [ [[_zones objectAtIndex:_curr_zone_x] objectAtIndex:_curr_zone_y] setZoneSelected ];
-    
-    //Select new tapped zone if not same as old zone (allows de selecting of old zone)
-    if( !( _curr_zone_x == x && _curr_zone_y == y) )
+    if( _interaction_enabled )
     {
-        ret = [[_zones objectAtIndex:x] objectAtIndex:y];
-        [ ret setZoneSelected ];
-        _curr_zone_x = x;
-        _curr_zone_y = y;
-    }
-    else    //clicked on same zone, no zones selected
-    {
-        _curr_zone_x = -1;
-        _curr_zone_y = -1;
+        CGFloat zone_w = self.frame.size.width / ZONEDIM;
+        CGFloat zone_h = self.frame.size.height / ZONEDIM;
+        
+        //find tapped zone
+        int x = floor( tap.x / zone_w );
+        int y = floor( tap.y / zone_h );
+        
+        //Toggle currently selected zone de selected
+        if( _curr_zone_x != -1 && _curr_zone_y != -1 )
+            [ [[_zones objectAtIndex:_curr_zone_x] objectAtIndex:_curr_zone_y] toggleZoneSelected ];
+        
+        //Select new tapped zone if not same as old zone (allows de selecting of old zone)
+        if( !( _curr_zone_x == x && _curr_zone_y == y) )
+        {
+            ret = [[_zones objectAtIndex:x] objectAtIndex:y];
+            [ ret toggleZoneSelected ];
+            _curr_zone_x = x;
+            _curr_zone_y = y;
+        }
+        else    //clicked on same zone, no zones selected
+        {
+            _curr_zone_x = -1;
+            _curr_zone_y = -1;
+        }
     }
     
     return ret;
@@ -111,9 +118,14 @@
 {
     //setZoneSelected is a toggle, if it is selected, it un selects it
     if( _curr_zone_x != -1 && _curr_zone_y != -1 )
-        [ [[_zones objectAtIndex:_curr_zone_x] objectAtIndex:_curr_zone_y] setZoneSelected ];
+        [ [[_zones objectAtIndex:_curr_zone_x] objectAtIndex:_curr_zone_y] toggleZoneSelected ];
     
     _curr_zone_x = _curr_zone_y = -1;
+}
+
+-(void) setZoneInteractionEnabled:(bool)enabled
+{
+    _interaction_enabled = enabled;
 }
 
 @end

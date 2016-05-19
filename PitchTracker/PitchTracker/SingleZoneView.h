@@ -20,7 +20,6 @@
 -(id) init;
 -(id) initWithFrame:(CGRect)frame;*/
 -(id) initWithLocation:(PitchLocation) X with: (PitchLocation) Y;
--(void) setZoneColour;
--(void) setZoneSelected;
+-(void) toggleZoneSelected;
 
 @end
