@@ -10,15 +10,24 @@
 #import "PitcherSideView.h"
 #import "LocalPitcherDatabase.h"
 
-#define PLAYERVIEW_HEIGHT 100
 #define SELECTED_COLOUR blackColor
 
-@interface PitcherSideScrollView : UIScrollView
+typedef enum _ScrollTouchLocation
+{
+    IN_PITCHER,
+    IN_PITCHER_DELETE,
+    OUTSIDE_PITCHERS
+}ScrollTouchLocation;
+
+@interface PitcherSideScrollView : UIScrollView <UIScrollViewDelegate>
 
 @property TeamNames curr_team;
 @property UIColor *normalColour;
 @property int tappedIndex;
 @property NSMutableArray *pitcherViews;
+@property CGPoint scrollPointStart;
+@property CGPoint scrollPointEnd;
+@property ScrollTouchLocation lastTouchLocation;
 
 -(id) init;
 -(id) initWithFrame:(CGRect)frame;

@@ -44,7 +44,7 @@
     [ _info setDetails:team with:first_name with:last_name with:jersey_num with:hand with:age with:weight with:height_f with:height_i with:pitches ];
 }
 
--(void) setID:(int) new_id
+-(void) setID:(unsigned int) new_id
 {
     _pitcher_id = new_id;
 }

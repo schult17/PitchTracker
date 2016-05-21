@@ -359,7 +359,42 @@
     Pitcher *clicked_guy = [ _pitcherScrollView findPitcherFromTouch:tap ];
     
     if( clicked_guy != nil )
-       [ self changePitcherView:clicked_guy ];
+    {
+        if( _pitcherScrollView.lastTouchLocation == IN_PITCHER_DELETE )
+            [ self deleteSelectedPitcher:clicked_guy ];
+        else
+            [ self changePitcherView:clicked_guy ];
+    }
+}
+
+-(void) deleteSelectedPitcher:(Pitcher *)pitcher
+{
+    NSString *_message = @"Are you sure you want to delete this pitcher?";
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                   message:_message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction * action)
+                                {
+                                    TeamNames team = pitcher.info.team;
+                                    
+                                    LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
+                                    [ database deletePitcher:pitcher];
+                                    
+                                    //refresh after delete
+                                    [ _pitcherScrollView changeTeam:team ];
+                                    [ self changePitcherView:nil ];
+                                }];
+    
+    UIAlertAction* noAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action){}];
+    
+    [ alert addAction:yesAction ];
+    [ alert addAction:noAction ];
+    
+    [ self presentViewController:alert animated:YES completion:nil ];
 }
 //-----------------------------------------//
 

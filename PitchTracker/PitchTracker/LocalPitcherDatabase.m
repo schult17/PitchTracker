@@ -10,7 +10,7 @@
 
 @implementation LocalPitcherDatabase
 @synthesize team_to_players = _team_to_players;
-@synthesize pitcher_id_count = _pitcher_id_count;
+@synthesize next_pitcher_id = _next_pitcher_id;
 
 -(id) init
 {
@@ -22,15 +22,15 @@
         for( int i = 0; i < TEAMCOUNT - 1; i++ )
             [ _team_to_players insertObject:[[NSMutableArray alloc] init] atIndex:i ];
         
-        _pitcher_id_count = 1;
+        _next_pitcher_id = 1;
     }
     
     return self;
 }
 
--(int) getNewPitcherID
+-(unsigned int) getNewPitcherID
 {
-    return _pitcher_id_count;   //get the ID for the new pitcher
+    return _next_pitcher_id;   //get the ID for the new pitcher
 }
 
 -(NSArray*) getTeamArray: (TeamNames)team
@@ -46,7 +46,7 @@
     //Second thought - consider making this database a cache for the file system?
     [ [_team_to_players objectAtIndex:pitcher.info.team] addObject:pitcher ];
     
-    _pitcher_id_count += 1;
+    _next_pitcher_id += 1;
     
     return true;    //success, didn't already exist
 }
@@ -78,6 +78,27 @@
     }
     
     return true;
+}
+
+-(void) deletePitcher:(Pitcher *)pitcher;
+{
+    if( pitcher != nil )
+    {
+        NSArray *team_pitchers = [ self getTeamArray:pitcher.info.team ];
+        
+        //find the index of the pitcher to delete on this team
+        int index = 0;
+        for( Pitcher *i in team_pitchers )
+        {
+            if( i.pitcher_id == pitcher.pitcher_id )
+                break;
+            
+            index ++;
+        }
+        
+        if( index < team_pitchers.count )   //should always be true...
+            [ [_team_to_players objectAtIndex:pitcher.info.team] removeObjectAtIndex:index ];
+    }
 }
 
 //Singleton access - only one instance of the database

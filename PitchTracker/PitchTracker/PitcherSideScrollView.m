@@ -15,6 +15,9 @@
 @synthesize normalColour = _normalColour;
 @synthesize tappedIndex = _tappedIndex;
 @synthesize pitcherViews = _pitcherViews;
+@synthesize scrollPointStart = _scrollPointStart;
+@synthesize scrollPointEnd = _scrollPointEnd;
+@synthesize lastTouchLocation = _lastTouchLocation;
 
 -(id) init
 {
@@ -44,6 +47,8 @@
 {
     _normalColour = self.backgroundColor;
     _pitcherViews = [ [NSMutableArray alloc] init ];
+    
+    _scrollPointStart = CGPointMake(0, 0);
 }
 
 -(void) changeTeam:(TeamNames)team
@@ -83,6 +88,8 @@
         if( i == 0 )
             view.backgroundColor = [ UIColor SELECTED_COLOUR ];
         
+        view.delegate = self;
+        
         [ self addSubview:view ];
         [ _pitcherViews addObject:view ];
     }
@@ -111,10 +118,19 @@
         //----------------------------------------------------//
         
         Pitcher *new_pitcher = [ pitchers objectAtIndex:index ];
+        
+        CGPoint transform_point = [ self convertPoint:tap toView:_pitcherViews[index] ];
+        
+        if( [[_pitcherViews objectAtIndex:index] touchInsideDelete:transform_point] )
+            _lastTouchLocation = IN_PITCHER_DELETE;
+        else
+            _lastTouchLocation = IN_PITCHER;
+        
         return new_pitcher;
     }
     else
     {
+        _lastTouchLocation = OUTSIDE_PITCHERS;
         return nil;
     }
 }
@@ -144,5 +160,27 @@
     [ super setBackgroundColor:backgroundColor ];
     _normalColour = backgroundColor;
 }
+
+//-----Inner pitcher view scroll delegation-----//
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    _scrollPointStart = scrollView.contentOffset;
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView
+                  willDecelerate:(BOOL)decelerate
+{
+    _scrollPointEnd = scrollView.contentOffset;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    //swipe left (if) or swipe right (else)
+    if( _scrollPointStart.x < _scrollPointEnd.x )
+        [ scrollView setContentOffset:CGPointMake(DEL_BUTTON_DIM, 0) animated:YES ];
+    else
+        [ scrollView setContentOffset:CGPointMake(0, 0) animated:YES ];
+}
+//----------------------------------------------//
 
 @end

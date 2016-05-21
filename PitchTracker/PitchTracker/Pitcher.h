@@ -15,7 +15,7 @@
 
 @property PitcherInfo *info;
 @property PitchStats *stats;
-@property int pitcher_id;
+@property unsigned int pitcher_id;
 
 -(id) init; //shouldn't really be used
 
@@ -23,7 +23,7 @@
 
 -(void) setDetails: (TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
 
--(void) setID:(int) new_id;
+-(void) setID:(unsigned int) new_id;
 
 -(NSString*) getAsJSONString;
 

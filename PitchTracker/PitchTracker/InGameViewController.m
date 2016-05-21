@@ -150,7 +150,7 @@
     float h = DISPLAY_LABEL_HEIGHT;
     float delta = ( _zoneTeamView.frame.size.height - (NUM_LABELS_IN_GAME_INFO + 1)*h) / (NUM_LABELS_IN_GAME_INFO - 1 + 2 );
     
-    CGRect f = CGRectMake(0, delta, _zoneTeamView.frame.size.width/2, h);
+    CGRect f = CGRectMake( GAME_LABEL_INSET, delta, _zoneTeamView.frame.size.width/2, h );
     
     [ _team1Label setFrame:f ];
     
@@ -426,7 +426,7 @@
     else
     {
         _teamLabel.text = @"";
-        _nameLabel.text = @"\t\tNo pitchers to display for this team";
+        _nameLabel.text = @"\t\tNo pitchers to display";
         _bodyLabel.text = @"";
         _numHandLabel.text = @"";
     }
@@ -536,7 +536,42 @@
     Pitcher *clicked_guy = [ _pitcherScrollView findPitcherFromTouch:tap ];
     
     if( clicked_guy != nil )
-        [ self changeInfoView:clicked_guy ];
+    {
+        if( _pitcherScrollView.lastTouchLocation == IN_PITCHER_DELETE )
+            [ self deleteSelectedPitcher:clicked_guy ];
+        else
+            [ self changeInfoView:clicked_guy ];
+    }
+}
+
+-(void) deleteSelectedPitcher:(Pitcher *)pitcher
+{
+    NSString *_message = @"Are you sure you want to delete this pitcher?";
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                   message:_message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction * action)
+                                {
+                                    TeamNames team = pitcher.info.team;
+                                    
+                                    LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
+                                    [ database deletePitcher:pitcher];
+                                    
+                                    //refresh after delete
+                                    [ _pitcherScrollView changeTeam:team ];
+                                    [ self changeInfoView:nil ];
+                                }];
+    
+    UIAlertAction* noAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action){}];
+    
+    [ alert addAction:yesAction ];
+    [ alert addAction:noAction ];
+    
+    [ self presentViewController:alert animated:YES completion:nil ];
 }
 //-----------------------------------------//
 

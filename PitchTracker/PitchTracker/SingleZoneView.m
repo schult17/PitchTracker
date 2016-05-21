@@ -57,6 +57,7 @@
 
 -(void) setZoneSelectedBackgroundColour
 {
+    //Consider changing alpha value for selection? (usually invisible, increase alpha?)
     [ self setBackgroundColor:[UIColor greenColor] ];   //TODO -- better selection colour??
 }
 //----------------//

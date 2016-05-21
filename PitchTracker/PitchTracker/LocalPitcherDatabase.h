@@ -13,15 +13,16 @@
 @interface LocalPitcherDatabase : NSObject
 
 @property NSMutableArray *team_to_players;
-@property int pitcher_id_count;
+@property unsigned int next_pitcher_id;
 
 -(id) init;
 -(bool) addPitcher:(Pitcher*)pitcher;
--(int) getNewPitcherID;
 -(bool) editPitcher:(Pitcher*)pitcher;
--(NSArray*) getTeamArray: (TeamNames)team;
+-(void) deletePitcher:(Pitcher *)pitcher;
+-(unsigned int) getNewPitcherID;
+-(NSArray*) getTeamArray:(TeamNames)team;
 +(id) sharedDatabase;
--(void) writeDatabaseToDisk;
+-(void) writeDatabaseToDisk:(NSString *)file_path;
 
 @end
 

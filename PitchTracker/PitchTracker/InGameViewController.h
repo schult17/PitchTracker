@@ -15,7 +15,7 @@
 #import "ZoneView.h"
 #import "PitchInstance.h"
 
-#define DISPLAY_LABEL_BUFFER 10
+#define GAME_LABEL_INSET 15
 #define DISPLAY_LABEL_HEIGHT 35
 #define NUM_LABELS_IN_INFO_VIEW 5
 #define NUM_LABELS_IN_GAME_INFO 7

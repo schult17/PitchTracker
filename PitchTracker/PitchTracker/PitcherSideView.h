@@ -10,9 +10,13 @@
 #import "Globals.h"
 #import "Pitcher.h"
 
-#define TEXT_INSET 10
+#define PLAYERVIEW_HEIGHT 100
 
-@interface PitcherSideView : UIView
+#define TEXT_INSET 10
+#define DEL_BUTTON_DIM PLAYERVIEW_HEIGHT
+#define DEL_BUTTON_TEXT_SIZE 25
+
+@interface PitcherSideView : UIScrollView
 
 @property Pitcher *pitcher;
 @property UILabel *team_label;
@@ -24,5 +28,6 @@
 -(void) updatePitcher:(Pitcher*)pitcher;
 -(void) setLabels;
 -(void) updateLabelText;
+-(bool) touchInsideDelete:(CGPoint) tap;
 
 @end
