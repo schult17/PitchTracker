@@ -337,10 +337,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="JQo-AB-KiB" firstAttribute="top" secondItem="C5p-TT-rbR" secondAttribute="bottom" id="7pe-zr-5kP"/>
                             <constraint firstItem="C5p-TT-rbR" firstAttribute="height" secondItem="4Lt-oR-Tx9" secondAttribute="height" id="9AV-SG-8Xl"/>
-                            <constraint firstItem="c4z-gr-uva" firstAttribute="top" secondItem="2qQ-YG-Yo9" secondAttribute="bottom" id="H7N-Up-Ds6"/>
                             <constraint firstItem="yFQ-4n-3cM" firstAttribute="width" secondItem="iQ6-hu-imu" secondAttribute="width" id="KDq-xN-YJQ"/>
-                            <constraint firstItem="JQo-AB-KiB" firstAttribute="top" secondItem="C5p-TT-rbR" secondAttribute="bottom" id="Ntn-Xd-WkS"/>
+                            <constraint firstItem="C5p-TT-rbR" firstAttribute="top" secondItem="2qQ-YG-Yo9" secondAttribute="bottom" id="N4O-Wu-epz"/>
                             <constraint firstItem="yFQ-4n-3cM" firstAttribute="top" secondItem="iQ6-hu-imu" secondAttribute="bottom" id="Nvi-zQ-0cT"/>
                             <constraint firstItem="C5p-TT-rbR" firstAttribute="width" secondItem="4Lt-oR-Tx9" secondAttribute="width" id="Rai-5Y-Eqf"/>
                             <constraint firstItem="iQ6-hu-imu" firstAttribute="leading" secondItem="4Lt-oR-Tx9" secondAttribute="leadingMargin" constant="-20" id="Rpj-u3-TQ4"/>
@@ -348,14 +348,14 @@
                             <constraint firstItem="C5p-TT-rbR" firstAttribute="leading" secondItem="iQ6-hu-imu" secondAttribute="trailing" constant="-2" id="TWr-0Z-pjy"/>
                             <constraint firstItem="iQ6-hu-imu" firstAttribute="top" secondItem="c4z-gr-uva" secondAttribute="bottom" id="Wvg-2f-Fiu"/>
                             <constraint firstItem="iQ6-hu-imu" firstAttribute="height" secondItem="4Lt-oR-Tx9" secondAttribute="height" id="XIe-BW-Odl"/>
+                            <constraint firstItem="JQo-AB-KiB" firstAttribute="top" secondItem="C5p-TT-rbR" secondAttribute="bottom" id="YAQ-F7-qON"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" constant="-20" id="eVg-86-8wD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" id="eip-fK-PCg"/>
-                            <constraint firstItem="C5p-TT-rbR" firstAttribute="top" secondItem="2qQ-YG-Yo9" secondAttribute="bottom" id="jpl-cQ-USS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" id="lTk-ld-Dof"/>
                             <constraint firstItem="iQ6-hu-imu" firstAttribute="width" secondItem="4Lt-oR-Tx9" secondAttribute="height" multiplier="1:4" id="nXH-Hy-x5z"/>
+                            <constraint firstItem="c4z-gr-uva" firstAttribute="top" secondItem="2qQ-YG-Yo9" secondAttribute="bottom" id="ptM-w9-xmp"/>
                             <constraint firstItem="C5p-TT-rbR" firstAttribute="height" secondItem="4Lt-oR-Tx9" secondAttribute="height" id="sns-rm-aL0"/>
-                            <constraint firstItem="JQo-AB-KiB" firstAttribute="top" secondItem="yFQ-4n-3cM" secondAttribute="bottom" id="wsV-gm-beg"/>
-                            <constraint firstItem="JQo-AB-KiB" firstAttribute="top" secondItem="C5p-TT-rbR" secondAttribute="bottom" id="ySn-m4-gp4"/>
+                            <constraint firstItem="JQo-AB-KiB" firstAttribute="top" secondItem="yFQ-4n-3cM" secondAttribute="bottom" id="yMa-Xa-Xdj"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -365,7 +365,6 @@
                                 <exclude reference="eip-fK-PCg"/>
                                 <exclude reference="lTk-ld-Dof"/>
                                 <exclude reference="sns-rm-aL0"/>
-                                <exclude reference="ySn-m4-gp4"/>
                             </mask>
                         </variation>
                     </view>
@@ -374,6 +373,7 @@
                         <outlet property="filterButton" destination="yFQ-4n-3cM" id="ZLH-ev-rjN"/>
                         <outlet property="pitcherScrollView" destination="iQ6-hu-imu" id="ogV-OK-5Hv"/>
                         <outlet property="pitcherView" destination="C5p-TT-rbR" id="JeO-Io-Xw5"/>
+                        <segue destination="wDT-OZ-MKs" kind="show" identifier="advancedStatsSegue" id="k2V-wa-RFb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ncB-Vi-RB5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -392,8 +392,72 @@
                     <view key="view" contentMode="scaleToFill" id="mPn-WH-Z3b">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bde-Ai-yyc">
+                                <rect key="frame" x="0.0" y="63" width="249" height="42"/>
+                                <color key="backgroundColor" red="0.1770241477" green="0.1088952203" blue="0.09334544015" alpha="0.73999999999999999" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="TEAM">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="handleButtonClick:" destination="dVa-NH-Iw5" eventType="touchUpInside" id="mBg-6p-E2y"/>
+                                    <action selector="handleButtonClick:" destination="RYY-h5-dic" eventType="touchUpInside" id="oUa-A5-FAr"/>
+                                    <action selector="handleButtonClicked:" destination="wDT-OZ-MKs" eventType="touchUpInside" id="7nd-T9-hV5"/>
+                                </connections>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Ut-oE-FoF" customClass="PitcherSideScrollView">
+                                <rect key="frame" x="0.0" y="105" width="249" height="498"/>
+                                <color key="backgroundColor" red="0.1155105745" green="0.1155105745" blue="0.1155105745" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="299" id="6bK-Vq-A0E"/>
+                                    <constraint firstAttribute="width" secondItem="6Ut-oE-FoF" secondAttribute="height" multiplier="1:2" id="uu7-bI-S9x"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="uu7-bI-S9x"/>
+                                        <exclude reference="6bK-Vq-A0E"/>
+                                    </mask>
+                                </variation>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lba-l9-2sU">
+                                <rect key="frame" x="248" y="64" width="352" height="536"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6Ut-oE-FoF" firstAttribute="width" secondItem="6Ut-oE-FoF" secondAttribute="height" multiplier="1:2" id="25U-Je-cE7"/>
+                            <constraint firstItem="lba-l9-2sU" firstAttribute="width" secondItem="6Ut-oE-FoF" secondAttribute="height" multiplier="176:249" id="3tF-kJ-8RG"/>
+                            <constraint firstItem="6Ut-oE-FoF" firstAttribute="width" secondItem="Bde-Ai-yyc" secondAttribute="width" id="4ZQ-Ii-FQ8"/>
+                            <constraint firstItem="lba-l9-2sU" firstAttribute="centerX" secondItem="mPn-WH-Z3b" secondAttribute="centerX" id="5py-nM-Neb"/>
+                            <constraint firstItem="Bde-Ai-yyc" firstAttribute="top" secondItem="UuS-m3-7fV" secondAttribute="bottom" id="J5P-rW-15b"/>
+                            <constraint firstItem="Bde-Ai-yyc" firstAttribute="leading" secondItem="mPn-WH-Z3b" secondAttribute="leadingMargin" constant="-20" id="OII-e7-8aM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="lba-l9-2sU" secondAttribute="trailing" constant="-20" id="YbT-kS-r4W"/>
+                            <constraint firstItem="d0d-xA-sy7" firstAttribute="top" secondItem="lba-l9-2sU" secondAttribute="bottom" id="dZs-RO-kMZ"/>
+                            <constraint firstItem="6Ut-oE-FoF" firstAttribute="top" secondItem="Bde-Ai-yyc" secondAttribute="bottom" constant="-1" id="eHB-gX-yzD"/>
+                            <constraint firstItem="lba-l9-2sU" firstAttribute="centerX" secondItem="mPn-WH-Z3b" secondAttribute="centerX" id="eOk-W3-K1j"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6Ut-oE-FoF" secondAttribute="trailing" constant="331" id="lA6-Lv-MUj"/>
+                            <constraint firstItem="lba-l9-2sU" firstAttribute="leading" secondItem="6Ut-oE-FoF" secondAttribute="trailing" constant="-1" id="n6y-7r-SnM"/>
+                            <constraint firstItem="6Ut-oE-FoF" firstAttribute="leading" secondItem="mPn-WH-Z3b" secondAttribute="leadingMargin" constant="-20" id="qvR-Ms-Rbq"/>
+                            <constraint firstItem="d0d-xA-sy7" firstAttribute="top" secondItem="6Ut-oE-FoF" secondAttribute="bottom" constant="-3" id="zAD-yy-PLZ"/>
+                            <constraint firstItem="lba-l9-2sU" firstAttribute="top" secondItem="UuS-m3-7fV" secondAttribute="bottom" id="zyG-uN-eCD"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="lA6-Lv-MUj"/>
+                                <exclude reference="3tF-kJ-8RG"/>
+                                <exclude reference="5py-nM-Neb"/>
+                                <exclude reference="eOk-W3-K1j"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="pitcherScrollView" destination="6Ut-oE-FoF" id="w7U-0Y-OzG"/>
+                        <outlet property="statsView" destination="lba-l9-2sU" id="4Q6-qO-mTV"/>
+                        <outlet property="teamFilterButton" destination="Bde-Ai-yyc" id="r1K-MW-HGm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lwK-XT-X2N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -419,6 +483,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="k2V-wa-RFb"/>
         <segue reference="JDx-sO-fRQ"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -297,7 +297,7 @@
 //-----Zone display-----//
 -(void) createZoneDisplay
 {
-    _zoneView = [ [ZoneView alloc] init ];
+    _zoneView = [ [ZoneView alloc] initWithInfo:false ];
     [ _zoneTeamView addSubview:_zoneView ];
     _selectedView = nil;
 }

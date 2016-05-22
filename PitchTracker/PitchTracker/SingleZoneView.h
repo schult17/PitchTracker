@@ -9,17 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "Globals.h"
 
+#define PERCENTAGE_FONT_SIZE 25
+
 @interface SingleZoneView : UIView
 
 @property ZoneType type;
 @property PitchLocation X;
 @property PitchLocation Y;
 @property bool zoneSelected;
+@property UILabel *percentageLabel;
 
 /*
 -(id) init;
 -(id) initWithFrame:(CGRect)frame;*/
--(id) initWithLocation:(PitchLocation) X with: (PitchLocation) Y;
+-(id) initWithLocation:(PitchLocation) X with: (PitchLocation) Y with:(bool) perc_visible;
+-(void) setFrame:(CGRect)frame;
 -(void) toggleZoneSelected;
+-(void) setPercentageToDisplay:(CGFloat) perc;
 
 @end

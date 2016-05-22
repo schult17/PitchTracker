@@ -14,19 +14,45 @@
 @synthesize X = _X;
 @synthesize Y = _Y;
 @synthesize zoneSelected = _zoneSelected;
+@synthesize percentageLabel = _percentageLabel;
 
--(id) initWithLocation:(PitchLocation) X with: (PitchLocation) Y
+-(id) initWithLocation:(PitchLocation) X with: (PitchLocation) Y with:(bool) perc_visible
 {
     self = [ super init ];
     
     //Order important here
     _X = X;
     _Y = Y;
-    
     [ self locationToZoneType ];
     [ self setZoneColour ];
     
+    if( perc_visible )
+    {
+        _percentageLabel = [ [UILabel alloc] init ];
+        _percentageLabel.textAlignment = NSTextAlignmentCenter;
+        _percentageLabel.textColor = [UIColor blackColor];
+        _percentageLabel.text = @"0%";
+        _percentageLabel.font = [_percentageLabel.font fontWithSize:PERCENTAGE_FONT_SIZE];
+        [ self addSubview:_percentageLabel ];
+    }
+    else
+    {
+        _percentageLabel = nil;
+    }
+    
     return self;
+}
+
+-(void) setFrame:(CGRect)frame
+{
+    [ super setFrame:frame ];
+    [ self setPercentageFrame ];
+}
+
+-(void) setPercentageToDisplay:(CGFloat) perc
+{
+    if( _percentageLabel != nil )
+        _percentageLabel.text = [ NSString stringWithFormat:@"%f%%", perc ];
 }
 
 //-----locals-----//
@@ -59,6 +85,12 @@
 {
     //Consider changing alpha value for selection? (usually invisible, increase alpha?)
     [ self setBackgroundColor:[UIColor greenColor] ];   //TODO -- better selection colour??
+}
+
+-(void) setPercentageFrame
+{
+    if( _percentageLabel != nil )
+        _percentageLabel.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
 }
 //----------------//
 

@@ -20,7 +20,7 @@
 @property int curr_zone_y;
 @property bool interaction_enabled;
 
--(id) init;
+-(id) initWithInfo:(bool)perc;
 -(id) initWithCoder:(NSCoder *)aDecoder;
 -(id) initWithFrame:(CGRect)frame;
 

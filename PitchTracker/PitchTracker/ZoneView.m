@@ -16,10 +16,10 @@
 @synthesize curr_zone_y = _curr_zone_y;
 @synthesize interaction_enabled = _interaction_enabled;
 
--(id) init
+-(id) initWithInfo:(bool)perc
 {
     self = [ super init ];
-    [ self broadInit ];
+    [ self broadInit:perc ];
     
     return self;
 }
@@ -27,7 +27,7 @@
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
     self = [ super initWithCoder:aDecoder ];
-    [ self broadInit ];
+    [ self broadInit:false ];
     
     return self;
 }
@@ -35,12 +35,12 @@
 -(id) initWithFrame:(CGRect)frame
 {
     self = [ super initWithFrame:frame ];
-    [ self broadInit ];
+    [ self broadInit:false ];
     
     return self;
 }
 
--(void) broadInit
+-(void) broadInit:(bool) perc
 {
     _zones = [ [NSMutableArray alloc] init ];
     
@@ -50,7 +50,7 @@
         
         for( int j = 0; j < ZONEDIM; j++ )
         {
-            SingleZoneView *single_zone = [[SingleZoneView alloc] initWithLocation:i with:j];
+            SingleZoneView *single_zone = [ [SingleZoneView alloc] initWithLocation:i with:j with:perc ];
             [ [ _zones objectAtIndex:i ] insertObject:single_zone atIndex:j ];
             [ self addSubview:single_zone ];
         }

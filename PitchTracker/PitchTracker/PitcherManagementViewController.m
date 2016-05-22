@@ -8,6 +8,7 @@
 
 #import "PitcherManagementViewController.h"
 #import "LocalPitcherDatabase.h"
+#import "StatsViewController.h"
 
 @interface PitcherManagementViewController ()
 
@@ -34,9 +35,9 @@
     // Do any additional setup after loading the view from its nib.
     [ _pitcherScrollView setDelegate:self ];
     
-    [ self initButtons ];
     [ self setUpPitcherView:nil ];
     [ self setUpScrollTouch ];
+    [ self initButtons ];           //must do this AFTER setting up pitcher view
     
     [ self loadPicker ];
 }
@@ -230,7 +231,7 @@
 //changing the current team
 -(void) teamFilterChanged: (TeamNames) team
 {
-    self.currTeamFilter = team;
+    _currTeamFilter = team;
     [ _pitcherScrollView changeTeam:team ];
     [ self changePitcherView:nil ];
 }
@@ -271,6 +272,8 @@
     _filterButton.alpha = _addPitcherButton.alpha = _pitcherScrollView.alpha;
     _filterButton.layer.borderColor = _addPitcherButton.layer.borderColor = [UIColor blackColor].CGColor;
     _filterButton.layer.borderWidth = _addPitcherButton.layer.borderWidth = 2.0f;
+    
+    [ _pitcherView.advancedStatsButton addTarget:self action:@selector(advancedStatsButtonClicked) forControlEvents:UIControlEventTouchUpInside ];
     
     //maybe black(or hidden) for disabled?
     if( _disable_editing )
@@ -314,7 +317,7 @@
 }
 
 
-//--Team picker methods--//
+//--Team picker delegate methods--//
 -(void) loadPicker
 {
     _teamPicker = [ UIPickerView new ];
@@ -365,6 +368,13 @@
     
 }
 //-----------------------//
+
+//-----Tapping advanced stats-----//
+-(void) advancedStatsButtonClicked
+{
+    [ self performSegueWithIdentifier:@"advancedStatsSegue" sender:self ];
+}
+//--------------------------------//
 
 //-----Touching of pitcher scroll view-----//
 -(void) setUpScrollTouch
@@ -422,14 +432,16 @@
 }
 //-----------------------------------------//
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    StatsViewController *dest = [ segue destinationViewController ];
+    
+    [ dest changeTeamFilter:_currTeamFilter ];
+    [ dest changePitcher:_pitcherView.pitcher ];
 }
-*/
 
 @end
