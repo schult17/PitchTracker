@@ -10,9 +10,11 @@
 #import "Pitcher.h"
 #import "Globals.h"
 
+#define SAVE_FILE_NAME @"/Documents/savefile.txt"
+
 @interface LocalPitcherDatabase : NSObject
 
-@property NSMutableArray *team_to_players;
+@property NSMutableArray *team_to_pitchers;
 @property unsigned int next_pitcher_id;
 
 -(id) init;
@@ -22,7 +24,8 @@
 -(unsigned int) getNewPitcherID;
 -(NSArray*) getTeamArray:(TeamNames)team;
 +(id) sharedDatabase;
--(void) writeDatabaseToDisk:(NSString *)file_path;
+-(void) loadDatabaseFromDisk;
+-(void) writeDatabaseToDisk;
 
 @end
 

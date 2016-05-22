@@ -8,6 +8,10 @@
 
 #import "Pitcher.h"
 
+#define PITCHID_JSON_KEY @"ID"
+#define INFO_JSON_KEY @"info"
+#define STATS_JSON_KEY @"stats"
+
 @implementation Pitcher
 
 @synthesize info = _info;
@@ -23,13 +27,24 @@
     return self;
 }
 
+-(id) initWithJSON:(NSDictionary *)json
+{
+    self = [ super init ];
+    
+    _pitcher_id = [ [json objectForKey:PITCHID_JSON_KEY] unsignedIntValue ];
+    _info = [ [PitcherInfo alloc] initWithJSON:[ json objectForKey:INFO_JSON_KEY ] ];
+    _stats = [ [PitchStats alloc] initWithJSON:[ json objectForKey:STATS_JSON_KEY ] ];
+    
+    return self;
+}
+
 -(id) initWithDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
 {
     if( team < TEAMCOUNT )
     {
         _info = [ [PitcherInfo alloc] initWithDetails:team with:first_name with:last_name with:jersey_num with:hand with:age with:weight with:height_f with:height_i with:pitches ];
         
-        _stats = [ [PitchStats alloc] init ];         //if we remove *, does alloc go away?
+        _stats = [ [PitchStats alloc] init ];
     }
     else
     {
@@ -49,20 +64,13 @@
     _pitcher_id = new_id;
 }
 
--(NSString*) getAsJSONString
+-(NSDictionary*) getAsJSON
 {
-    NSError *error;
-    
-    //total strikes/balls can be re calculated when re opened, saves space
-    NSDictionary* json = [ NSDictionary dictionaryWithObjectsAndKeys:
-                          _info.getAsJSONString, @"Info",
-                          _stats.getAsJSONString, @"Stats",
-                          [NSNumber numberWithInt:_pitcher_id], @"ID", nil];
-    
-    //TODO get rid of pretty, make it compact
-    NSData* json_data = [ NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error ];
-    
-    return [ [NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding ];
+    //total strikes and balls can be re calculated when re opened, saves space
+    return [ NSDictionary dictionaryWithObjectsAndKeys:
+            _info.getAsJSON, INFO_JSON_KEY,
+            _stats.getAsJSON, STATS_JSON_KEY,
+            [NSNumber numberWithUnsignedInt:_pitcher_id], PITCHID_JSON_KEY, nil];
 }
 
 @end

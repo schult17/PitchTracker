@@ -18,11 +18,12 @@
 @property PitchOutcome pitch_result;
 
 -(id)init;
+-(id) initWithJSON:(NSDictionary *)json;
 -(id)initWithPitch:(PitchType) type with:(PitchLocation) X with:(PitchLocation)  Y with:(PitchOutcome) pitch_result;
 -(void)setPitchPosition:(PitchLocation) X with:(PitchLocation) Y;
 -(void)setPitchResult:(PitchOutcome) result;
 -(void)setPitchType:(PitchType) type;
--(NSString*) getAsString;
+-(NSDictionary *) getAsJSON;
 
 @end
 //-------------------//
@@ -39,11 +40,12 @@
 @property NSDate *atbat_date;
 
 -(id) init;
+-(id) initWithJSON:(NSDictionary *)json;
 -(id) initWithBatter:(Hand)batter_hand;
 -(void) addPitch:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with:(PitchOutcome) pitch_result;
 -(void) endAtPlate:(AtPlateOutcome) atbat_result;
 
--(NSString*) getAsString;
+-(NSDictionary *) getAsJSON;
 
 @end
 //-------------------//

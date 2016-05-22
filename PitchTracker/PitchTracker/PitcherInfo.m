@@ -8,6 +8,17 @@
 
 #import "PitcherInfo.h"
 
+#define TEAMID_JSON_KEY @"TeamID"
+#define FIRSTNAME_JSON_KEY @"First"
+#define LASTNAME_JSON_KEY @"Last"
+#define JERSEY_JSON_KEY @"Number"
+#define HAND_JSON_KEY @"Hand"
+#define AGE_JSON_KEY @"Age"
+#define WEIGHT_JSON_KEY @"Weight"
+#define HEIGHTF_JSON_KEY @"HeightF"
+#define HEIGHTI_JSON_KEY @"HeightI"
+#define PITCHES_JSON_KEY @"Pitches"
+
 @implementation PitcherInfo
 
 @synthesize team = _team;
@@ -29,6 +40,28 @@
     [ def addObject:@(CURVE_1) ];
     [ def addObject:@(CHANGE)];
     [ self setDetails:UOFT with:@"Tyler" with:@"Durden" with:7 with:SWITCH with: 19 with: 200 with: 6 with: 1 with: def];
+    
+    return self;
+}
+
+-(id) initWithJSON:(NSDictionary *)json
+{
+    self = [ super init ];
+    
+    _team = [ [json objectForKey:TEAMID_JSON_KEY] intValue ];
+    _first_name = [ json objectForKey:FIRSTNAME_JSON_KEY ];
+    _last_name = [ json objectForKey:LASTNAME_JSON_KEY ];
+    _jersey_num = [ [json objectForKey:JERSEY_JSON_KEY] intValue ];
+    _hand = [ [json objectForKey:HAND_JSON_KEY] intValue ];
+    _age = [ [json objectForKey:AGE_JSON_KEY] intValue ];
+    _weight = [ [json objectForKey:WEIGHT_JSON_KEY] intValue ];
+    _height_f = [ [json objectForKey:HEIGHTF_JSON_KEY] intValue ];
+    _height_i = [ [json objectForKey:HEIGHTI_JSON_KEY] intValue ];
+    _pitches = [ [NSMutableArray alloc] init ];
+    
+    NSArray *pitches = [ json objectForKey:PITCHES_JSON_KEY ];
+    for( int i = 0; i < pitches.count; i++ )
+        [ _pitches addObject:[NSNumber numberWithInt:[[pitches objectAtIndex:i] intValue]] ];
     
     return self;
 }
@@ -122,32 +155,28 @@
     return ret;
 }
 
--(NSString*) getAsJSONString
+-(NSDictionary*) getAsJSON
 {
-    NSError *error;
-    
     NSMutableArray* json_array = [ [NSMutableArray alloc] init ];
     for( int i = 0; i < _pitches.count; i++ )
-        [ json_array addObject:[self getPitchString:(PitchType)_pitches[i]] ];
+    {
+        NSNumber *pitch_id = [ NSNumber numberWithInt:[[_pitches objectAtIndex:i] intValue] ];
+        [ json_array addObject:pitch_id ];
+    }
     
     
     //total strikes/balls can be re calculated when re opened, saves space
-    NSDictionary* json = [ NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSNumber numberWithInt:(int)_team], @"TeamID",
-                          _first_name, @"First",
-                          _last_name, @"Last",
-                          [NSNumber numberWithInt:_jersey_num], @"Number",
-                          [NSNumber numberWithInt:(int)_hand], @"Hand",
-                          [NSNumber numberWithInt:_age], @"Age",
-                          [NSNumber numberWithInt:_weight], @"Weight",
-                          [NSNumber numberWithInt:_height_f], @"HeightF",
-                          [NSNumber numberWithInt:_height_i], @"HeightI",
-                          json_array, @"Pitches", nil];
-    
-    //TODO get rid of pretty, make it compact
-    NSData* json_data = [ NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error ];
-    
-    return [ [NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding ];
+    return [ NSDictionary dictionaryWithObjectsAndKeys:
+                    [NSNumber numberWithInt:(int)_team], TEAMID_JSON_KEY,
+                    _first_name, FIRSTNAME_JSON_KEY,
+                    _last_name, LASTNAME_JSON_KEY,
+                    [NSNumber numberWithInt:_jersey_num], JERSEY_JSON_KEY,
+                    [NSNumber numberWithInt:(int)_hand], HAND_JSON_KEY,
+                    [NSNumber numberWithInt:_age], AGE_JSON_KEY,
+                    [NSNumber numberWithInt:_weight], WEIGHT_JSON_KEY,
+                    [NSNumber numberWithInt:_height_f], HEIGHTF_JSON_KEY,
+                    [NSNumber numberWithInt:_height_i], HEIGHTI_JSON_KEY,
+                    json_array, PITCHES_JSON_KEY, nil];
 }
 
 -(NSString*) getPitchString:(PitchType)type

@@ -85,11 +85,11 @@
 
 -(NSString*) getFormattedDisplayString
 {
-    NSString *line1 = [ NSString stringWithFormat:@"\t\tStrikes: %i\t\t Balls: %i\t\t StrikePer: %.02f\t\t BallPer: %.02f\n\n", _stats.total_strikes, _stats.total_balls, [_stats getStrikePercentage], [_stats getBallPercentage] ];
+    NSString *line1 = [ NSString stringWithFormat:@"\t\tStrikes: %i\t\t Balls: %i\t\t Strike %%: %.02f%%\t\t Ball %%: %.02f%%\n\n", _stats.total_strikes, _stats.total_balls, [_stats getStrikePercentage], [_stats getBallPercentage] ];
     
     NSString *line2 = [ NSString stringWithFormat:@"\t\tStrike Outs: %i\t\t Walks: %i\n\n", _stats.total_k, _stats.total_walks ];
     
-    NSString *line345 = [ NSString stringWithFormat:@"PitchPer: %@\n\nFirst PitchPer: %@\n\nStrike Out PitchPer: %@", [self getPitchPercentageString], [self getFirstPitchPercentageString], [self getStrikeOutPitchPercentageString] ];
+    NSString *line345 = [ NSString stringWithFormat:@"Pitch %%: %@\n\nFirst Pitch %%: %@\n\nStrike Out Pitch %%: %@", [self getPitchPercentageString], [self getFirstPitchPercentageString], [self getStrikeOutPitchPercentageString] ];
     
     line1 = [ line1 stringByAppendingString:line2 ];
     
@@ -106,7 +106,7 @@
     {
         if( [ i floatValue ] > 0 )  //no pitches, don't show it
         {
-            NSString* add = [ NSString stringWithFormat:@"  - %@  %.02f", [self getPitchString:(PitchType)index], [i floatValue] ];
+            NSString* add = [ NSString stringWithFormat:@"  - %@  %.02f%%", [self getPitchString:(PitchType)index], [i floatValue] ];
             [ ret appendString: add ];
         }
         

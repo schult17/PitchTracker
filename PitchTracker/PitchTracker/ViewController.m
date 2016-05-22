@@ -33,7 +33,9 @@
     }
     else if ( sender == _statsButton )
     {
-        NSLog( @"Stats" );
+        NSLog( @"Saving..." );
+        LocalPitcherDatabase *db = [ LocalPitcherDatabase sharedDatabase ];
+        [ db writeDatabaseToDisk ];
     }
 }
 
@@ -45,9 +47,13 @@
     
     //-----For debugging-----//
     LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
-    Pitcher *add = [ [Pitcher alloc] init ];
-    [ add setID:[database getNewPitcherID] ];
-    [ database addPitcher:add ];
+    [ database loadDatabaseFromDisk ];
+    
+    /*
+    Pitcher *add;
+    
+    //[ add setID:[database getNewPitcherID] ];
+    //[ database addPitcher:add ];
     
     NSMutableArray *def = [ [NSMutableArray alloc] init ];
     [ def addObject:@(FASTBALL_4) ];
@@ -58,7 +64,7 @@
     
     add = [ [Pitcher alloc] initWithDetails:UOFT with:@"Tanner" with:@"Young-Schultz" with:14 with:RIGHT with:22 with: 187 with:6 with:0 with:def ];
     [ add setID:[database getNewPitcherID] ];
-    [ database addPitcher:add ];
+    [ database addPitcher:add ];*/
     //------------------------//
 }
 

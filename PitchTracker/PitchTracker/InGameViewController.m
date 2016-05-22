@@ -148,7 +148,9 @@
 -(void) layoutGameDisplay
 {
     float h = DISPLAY_LABEL_HEIGHT;
-    float delta = ( _zoneTeamView.frame.size.height - (NUM_LABELS_IN_GAME_INFO + 1)*h) / (NUM_LABELS_IN_GAME_INFO - 1 + 2 );
+    
+    //+1 on label count GONE due to losing bottom buffer
+    float delta = ( _zoneTeamView.frame.size.height - (NUM_LABELS_IN_GAME_INFO)*h) / (NUM_LABELS_IN_GAME_INFO);
     
     CGRect f = CGRectMake( GAME_LABEL_INSET, delta, _zoneTeamView.frame.size.width/2, h );
     
@@ -199,8 +201,8 @@
 {
     if( _team1visible )
     {
-        [ _pitch1Label setTextColor:[UIColor redColor] ];
-        [ _team1Label setTextColor:[UIColor redColor] ];
+        [ _pitch1Label setTextColor:[UIColor greenColor] ];
+        [ _team1Label setTextColor:[UIColor greenColor] ];
         
         [ _pitch2Label setTextColor:[UIColor whiteColor] ];
         [ _team2Label setTextColor:[UIColor whiteColor] ];
@@ -210,8 +212,8 @@
         [ _pitch1Label setTextColor:[UIColor whiteColor] ];
         [ _team1Label setTextColor:[UIColor whiteColor] ];
         
-        [ _pitch2Label setTextColor:[UIColor redColor] ];
-        [ _team2Label setTextColor:[UIColor redColor] ];
+        [ _pitch2Label setTextColor:[UIColor greenColor] ];
+        [ _team2Label setTextColor:[UIColor greenColor] ];
     }
 }
 

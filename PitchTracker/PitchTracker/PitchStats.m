@@ -8,6 +8,14 @@
 
 #import "PitchStats.h"
 
+#define STRIKES_JSON_KEY @"Strikes"
+#define BALLS_JSON_KEY @"Balls"
+#define WALKS_JSON_KEY @"Walks"
+#define K_JSON_KEY @"Ks"
+#define ERROR_JSON_KEY @"Errors"
+#define HIT_JSON_KEY @"Hits"
+#define ATPLATE_JSON_KEY @"AtPlates"
+
 @implementation PitchStats
 
 @synthesize at_plates = _at_plates;
@@ -28,6 +36,53 @@
     _total_pitches = 0;
     _total_walks = 0;
     _total_k = 0;
+    
+    return self;
+}
+
+-(id) initWithJSON:(NSDictionary *)json
+{
+    self = [ super init ];
+    
+    _total_walks = 0;
+    _total_k = 0;
+    _total_errors = 0;
+    _total_hits = 0;
+    _total_strikes = _total_balls = _total_pitches = 0;
+    
+    _at_plates = [ [NSMutableArray alloc] init ];
+    
+    NSArray *atplates_json = [ json objectForKey:ATPLATE_JSON_KEY ];
+    for( int i = 0; i < atplates_json.count; i++ )
+    {
+        AtPlate *ap = [ [AtPlate alloc] initWithJSON:[atplates_json objectAtIndex:i] ];
+        
+        switch( ap.atbat_result )
+        {
+            case SO_LOOK:
+            case SO_SWING:
+                _total_k += 1;
+                break;
+            case WALK:
+            case HBP:
+                _total_walks += 1;
+                break;
+            case ERROR:
+                _total_errors += 1;
+                break;
+            case HIT:
+                _total_hits += 1;
+                break;
+            default:
+                break;
+        }
+        
+        _total_strikes += ap.atbat_foul + ap.atbat_strikes;
+        _total_balls += ap.atbat_balls;
+        _total_pitches += _total_strikes + _total_balls;
+        
+        [ _at_plates addObject:ap ];
+    }
     
     return self;
 }
@@ -196,26 +251,15 @@
     return pitchs_count;
 }
 
--(NSString*) getAsJSONString
+-(NSDictionary*) getAsJSON
 {
-    NSError *error;
-    
     NSMutableArray* json_array = [ [NSMutableArray alloc] init ];
     for( AtPlate *i in _at_plates )
-        [ json_array addObject:i.getAsString ];
+        [ json_array addObject:i.getAsJSON ];
     
-    //total strikes/balls can be re calculated when re opened, saves space
-    NSDictionary* json = [ NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSNumber numberWithInt:_total_walks], @"Walks",
-                          [NSNumber numberWithInt:_total_k], @"K",
-                          [NSNumber numberWithInt:_total_errors], @"Errors",
-                          [NSNumber numberWithInt:_total_hits], @"Hits",
-                          json_array, @"AtPlates", nil];
-    
-    //TODO get rid of pretty, make it compact
-    NSData* json_data = [ NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error ];
-    
-    return [ [NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding ];
+    //re calculate total balls and strikes
+    return  [ NSDictionary dictionaryWithObjectsAndKeys:
+                    json_array, ATPLATE_JSON_KEY, nil];
 }
 
 @end

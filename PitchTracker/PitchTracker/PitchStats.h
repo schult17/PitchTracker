@@ -24,6 +24,7 @@
 @property int total_errors;
 
 -(id) init;
+-(id) initWithJSON:(NSDictionary *)json;
 -(void) newBatter:(Hand)batter_hand;
 -(bool) addPitchToRecentBatter:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with:(PitchOutcome) pitch_result;
 -(void) addAtPlate:(AtPlate *)result;
@@ -35,6 +36,6 @@
 -(NSArray*) getFirstPitchPercentage;
 -(NSArray*) getStrikeoutPitchPercentage;
 
--(NSString*) getAsJSONString;
+-(NSDictionary*) getAsJSON;
 
 @end
