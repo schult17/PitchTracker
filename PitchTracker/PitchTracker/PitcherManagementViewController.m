@@ -63,6 +63,8 @@
 
 -(void) setUpPitcherView:(Pitcher*) pitcher
 {
+    //If the pitcher is nil (sometimes called with nil), get the shared database,
+    //and use the current team to find the first pitcher in the list (by default)
     if( pitcher == nil )
     {
         LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
@@ -78,32 +80,38 @@
         [ _pitcherView changePitcher:pitcher ];
     }
     
-    //Gesture setup
+    //Setup the gesture recognizer for tapping on the pitcher view (the info and stats)
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
               initWithTarget:self action:@selector(pitcherViewTap:)];
     tapper.cancelsTouchesInView = NO;
     [ _pitcherView addGestureRecognizer:tapper ];
 }
 
+//Handle the tap of the pitcher view
 -(void)pitcherViewTap:(UITapGestureRecognizer *) sender
 {
     bool refresh = false;
     
     if( [_addPitcherButton.titleLabel.text isEqualToString:@"Cancel"] && !_disable_editing )
     {
+        //if the text of the button is currently "Cancel", we are already editing, check if
+        //the 'Add Pitcher' button for adding a new pitcher has been tapped
         [ _pitcherView.arm_view endEditing:YES ];
         refresh = [ _pitcherView.arm_view checkTouchInSelectableLabels:[sender locationInView:_pitcherView] ];
     }
     else
     {
+        //if editing is enabled (we can get to this controller from the In Game controller, where
+        //editing is disabled) and the click was inside the edit button....
         if( [_pitcherView clickInsideEdit:[sender locationInView:_pitcherView]] && !_disable_editing )
         {
+            //switch to edit pitcher mode
             _currViewType = MODE_EDIT;
             [ self changePitcherViewToEditPitcher ];
         }
     }
     
-    //refreshes the scroll view, set pitcher view to the new added pitcher
+    //refreshes the scroll view, set pitcher view to the new added pitcher or update
     if( refresh )
     {
         if( _currViewType == MODE_NEW )
@@ -123,14 +131,19 @@
 
 -(void) editPitcherLeaveView:(Pitcher*) pitcher
 {
+    //edit the pitcher in the database
     LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
+    
+    //pitcher is a copy of the edited pitcher, must add the exisiting ID
     [ pitcher setID:_pitcherView.pitcher.pitcher_id ];
     [ database editPitcher:pitcher ];
     
+    //refreshing scroll and pitcher view when pitcher is edited
     [ _pitcherScrollView changeTeam:pitcher.info.team ];  //possibly write a 'refresh' instead of dummy team change
     [ _pitcherScrollView highlightPitcher:pitcher.pitcher_id ];
     [ _pitcherView changePitcher:pitcher ];
     
+    //Leave editing of pitcher
     [ _pitcherView cancelNewEditPitcherView ];
     [ _addPitcherButton setTitle:@"New Arm+" forState:UIControlStateNormal ];
     [ _pitcherView.arm_view endEditing:YES ];
@@ -141,15 +154,18 @@
 
 -(void) addNewPitcherLeaveView:(Pitcher*) pitcher
 {
+    //add new pitcher to database
     LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
     [ pitcher setID:[database getNewPitcherID] ];   //get the new ID for new pitcher
     [ database addPitcher:pitcher ];
     
+    //switch the view and update all views
     [ _pitcherView cancelNewEditPitcherView ];
     [ _addPitcherButton setTitle:@"New Arm+" forState:UIControlStateNormal ];
     [ _pitcherView.arm_view endEditing:YES ];
     [ _pitcherView.arm_view clearFields ];
     
+    //highlight the new pitcher in the scroll
     [ _pitcherScrollView changeTeam:pitcher.info.team ];
     [ _pitcherScrollView highlightPitcher:pitcher.pitcher_id ];
     [ self changePitcherViewToNewPitcher ];
@@ -172,8 +188,11 @@
     [ self changePitcherView:[pitchers lastObject] ];
 }
 
+//presenting a new pitcher in the pitcher view
 -(void) changePitcherView:(Pitcher*)pitcher
 {
+    //if pitcher is nil (sometimes called this way), use the current team
+    //to get the first pitcher in the list (default)
     if( pitcher == nil )
     {
         LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
@@ -190,6 +209,7 @@
     }
 }
 
+//add the pitchers of the current team to the scroll view
 - (void) addPitchersToScroll
 {
     [ _pitcherScrollView changeTeam:_currTeamFilter ];
@@ -198,14 +218,16 @@
         [ _pitcherScrollView highlightPitcher:_seguePitcher.pitcher_id ];
 }
 
+//handle storyboard button clicks
 - (IBAction)handleButtonClick:(id)sender
 {
     if( sender == _filterButton )
         [ self togglePickerHidden ];
     else if( sender == _addPitcherButton )
-        [ self addPitcher ];
+        [ self addEditPitcher ];
 }
 
+//changing the current team
 -(void) teamFilterChanged: (TeamNames) team
 {
     self.currTeamFilter = team;
@@ -223,7 +245,8 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void) addPitcher
+//called when _addPitcherButton is clicked, could be Cancel or New Arm+
+-(void) addEditPitcher
 {
     if( !_disable_editing )
     {
@@ -262,6 +285,7 @@
     }
 }
 
+//cancel the editing or addition of a new pitcher
 -(void) cancelNewEditPitcher
 {
     NSString *_message = @"Are you sure you want to cancel the recent changes?";

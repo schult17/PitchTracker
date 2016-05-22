@@ -53,8 +53,9 @@
     
     _currPitcher1 = _currPitcher2 = nil;
     
-    //team 1 is visible first
+    //team 1 is visible first by default
     _team1visible = true;
+    
     [ self createGameDisplay ];
     [ self createInfoLabels ];
     [ self createZoneDisplay ];
@@ -77,7 +78,7 @@
 {
     [ super viewDidAppear:animated ];
     
-    //basically a refresh, toggle bool, then toggle again..
+    //basically a refresh, toggle bool, then toggle again...
     _team1visible = !_team1visible;
     [ self toggleTeam ];
     
@@ -85,6 +86,8 @@
     [ self changeInfoView:(_team1visible ? _currPitcher1 : _currPitcher2) ];
 }
 
+//IMPORTANT: all layouts relative to storyboard frames should be done here
+//          to layout properly (this is called after layout of storyboard views)
 -(void) viewDidLayoutSubviews
 {
     [ self layoutGameDisplay ];
@@ -98,7 +101,6 @@
     if( _team1visible )
     {
         [ _teamToggleButton setTitle:TEAM_NAME_STR[_team2] forState:UIControlStateNormal ];
-        _team1visible = false;
         [ _pitcherScrollView changeTeam:_team2 ];
         [ self changeInfoView:_currPitcher2 ];
         [ _pitcherScrollView highlightPitcher:_currPitcher2.pitcher_id ];
@@ -106,12 +108,12 @@
     else
     {
         [ _teamToggleButton setTitle:TEAM_NAME_STR[_team1] forState:UIControlStateNormal ];
-        _team1visible = true;
         [ _pitcherScrollView changeTeam:_team1 ];
         [ self changeInfoView:_currPitcher1 ];
         [ _pitcherScrollView highlightPitcher:_currPitcher1.pitcher_id ];
     }
     
+    _team1visible = !_team1visible;
     [ self onTeamChangeChangeGameDisplay ];
 }
 
@@ -149,7 +151,7 @@
 {
     float h = DISPLAY_LABEL_HEIGHT;
     
-    //+1 on label count GONE due to losing bottom buffer
+    //+1 on label count GONE due to aligning next batter button to bottom of frame (MATHHHHH)
     float delta = ( _zoneTeamView.frame.size.height - (NUM_LABELS_IN_GAME_INFO)*h) / (NUM_LABELS_IN_GAME_INFO);
     
     CGRect f = CGRectMake( GAME_LABEL_INSET, delta, _zoneTeamView.frame.size.width/2, h );
@@ -199,6 +201,7 @@
 
 -(void) onTeamChangeChangeGameDisplay
 {
+    //highlight currently selected team and pitcher of that team
     if( _team1visible )
     {
         [ _pitch1Label setTextColor:[UIColor greenColor] ];
@@ -220,10 +223,10 @@
 -(void) resetPitcherLabels
 {
     if( _currPitcher1 != nil )[ _pitch1Label setText:_currPitcher1.info.getNameDisplayString ];
-    else [ _pitch1Label setText:@"None" ];
+    else [ _pitch1Label setText:@"No Pitchers" ];
     
     if( _currPitcher2 != nil )[ _pitch2Label setText:_currPitcher2.info.getNameDisplayString ];
-    else [ _pitch2Label setText:@"None" ];
+    else [ _pitch2Label setText:@"No Pitchers" ];
 }
 
 -(void) changeCount:(PitchOutcome)new_pitch
@@ -233,7 +236,7 @@
         case S_SWING:
         case S_LOOK:
         {
-            //maybe loose this? Automatic ending of at bat
+            //Automatic ending of at bat
             if( _countStrikes == 2 )
             {
                 //return to avoid multiple setting of count label
@@ -256,7 +259,7 @@
         }
         case BALL:
         {
-            //maybe loose this? Automatic ending of at bat
+            //Automatic ending of at bat
             if( _countBalls == 3 )
             {
                 //return to avoid multiple setting of count label
@@ -347,7 +350,7 @@
     CGFloat w = _infoView.frame.size.width/2;
     CGFloat h = DISPLAY_LABEL_HEIGHT;
     
-    //being explicit with the math ( - 1 + 2 )
+    //being explicit with the math ( - 1 + 2 ) to find distance between labels
     float delta = ( _infoView.frame.size.height - (_pitchLabels.count + 1)*h) / ((_pitchLabels.count + 1) - 1 + 2 );
     
     CGRect f;
@@ -382,7 +385,7 @@
     
     //TODO -- animate button like storyboard button?
     [ _statsButton setTitle:@"VIEW PITCHER STATS" forState:UIControlStateNormal ];
-    [ _statsButton setTitleColor:[UIColor colorWithRed:0 green:122 blue:255 alpha:1] forState:UIControlStateNormal ];   //TODO -- better colour
+    [ _statsButton setTitleColor:[UIColor colorWithRed:0 green:122 blue:255 alpha:1] forState:UIControlStateNormal ];   //TODO -- better colour??
     [ _statsButton addTarget:self action:@selector(statsButtonClicked) forControlEvents:UIControlEventTouchUpInside ];
     
     [ _infoView addSubview:_teamLabel ];
@@ -416,6 +419,7 @@
     [ _statsButton setFrame:f ];
 }
 
+//setting selected pitcher (from scroll view) for current team
 -(void) setPitcher:(Pitcher*)pitcher
 {
     if( pitcher != nil )
@@ -580,6 +584,7 @@
 //-----Clicking the stats button-----//
 -(void) statsButtonClicked
 {
+    //go to manage pitcher controller to view quick stats, can navigate to advanced stats from there
     [ self performSegueWithIdentifier:@"statsSegue" sender:self ];
 }
 //-----------------------------------//
@@ -641,7 +646,7 @@
         popPresenter.sourceRect = _addPitchButton.bounds;
         popPresenter.permittedArrowDirections = UIPopoverArrowDirectionDown;
         
-        //Surpresses snapshotting error from popover view
+        //Surpresses snapshotting error from popover view...
         [ alert.view layoutIfNeeded ];
         
         [self presentViewController:alert animated:YES completion:nil];
@@ -650,7 +655,8 @@
 
 -(void) addPitchWithPitchOutcome:(PitchOutcome)result
 {
-    [ _currAtPlate addPitch:_selectedPitch with:_selectedView.X with:_selectedView.Y with:result ];
+    //Must add pitch before changing count!
+    [ _currAtPlate addPitch:_selectedPitch with:_selectedView.X with:_selectedView.Y with:_countBalls with:_countStrikes with:result ];
     [ _zoneView deSelectZone ];
     [ _selectedPitchLabel setSelect:false ];
     
@@ -724,8 +730,6 @@
 //----------------------------------------//
 
  #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     PitcherManagementViewController *cont = (PitcherManagementViewController*)[ segue destinationViewController ];

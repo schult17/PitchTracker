@@ -27,6 +27,8 @@
 }
 */
 
+//TODO -- better layout for info
+
 -(id) initWithFrame:(CGRect)frame
 {
     self = [ super initWithFrame:frame ];

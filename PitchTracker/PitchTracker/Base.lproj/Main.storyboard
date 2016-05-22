@@ -286,11 +286,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.69999999999999996" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iQ6-hu-imu" customClass="PitcherSideScrollView">
-                                <rect key="frame" x="0.0" y="93" width="299" height="478"/>
-                                <color key="backgroundColor" red="0.1155105745" green="0.1155105745" blue="0.1155105745" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yFQ-4n-3cM">
                                 <rect key="frame" x="0.0" y="564" width="299" height="42"/>
                                 <color key="backgroundColor" red="0.16915636342054327" green="0.17150015782828287" blue="0.064053259070359664" alpha="1" colorSpace="calibratedRGB"/>
@@ -334,6 +329,11 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.69999999999999996" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iQ6-hu-imu" customClass="PitcherSideScrollView">
+                                <rect key="frame" x="0.0" y="93" width="299" height="478"/>
+                                <color key="backgroundColor" red="0.1155105745" green="0.1155105745" blue="0.1155105745" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -348,7 +348,7 @@
                             <constraint firstItem="C5p-TT-rbR" firstAttribute="leading" secondItem="iQ6-hu-imu" secondAttribute="trailing" constant="-2" id="TWr-0Z-pjy"/>
                             <constraint firstItem="iQ6-hu-imu" firstAttribute="top" secondItem="c4z-gr-uva" secondAttribute="bottom" id="Wvg-2f-Fiu"/>
                             <constraint firstItem="iQ6-hu-imu" firstAttribute="height" secondItem="4Lt-oR-Tx9" secondAttribute="height" id="XIe-BW-Odl"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" id="eVg-86-8wD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" constant="-20" id="eVg-86-8wD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" id="eip-fK-PCg"/>
                             <constraint firstItem="C5p-TT-rbR" firstAttribute="top" secondItem="2qQ-YG-Yo9" secondAttribute="bottom" id="jpl-cQ-USS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C5p-TT-rbR" secondAttribute="trailing" id="lTk-ld-Dof"/>

@@ -9,43 +9,29 @@
 #import <Foundation/Foundation.h>
 #import "Globals.h"
 
-//-----One pitch-----//
 @interface PitchInstance : NSObject
 
 @property PitchType type;
 @property PitchLocation X;
 @property PitchLocation Y;
 @property PitchOutcome pitch_result;
+@property int count_before_pitch;
 
 -(id)init;
 -(id) initWithJSON:(NSDictionary *)json;
--(id)initWithPitch:(PitchType) type with:(PitchLocation) X with:(PitchLocation)  Y with:(PitchOutcome) pitch_result;
+-(id)initWithPitch:(PitchType) type with:(PitchLocation) X with:(PitchLocation)  Y with:(int)balls with:(int)strikes with:(PitchOutcome) pitch_result;
+
+//Not currently used...
 -(void)setPitchPosition:(PitchLocation) X with:(PitchLocation) Y;
 -(void)setPitchResult:(PitchOutcome) result;
 -(void)setPitchType:(PitchType) type;
--(NSDictionary *) getAsJSON;
-
-@end
+-(void)setPitchCount:(int)balls with:(int)strikes;
 //-------------------//
 
-//-----An at plate-----//
-@interface AtPlate : PitchInstance
-
-@property NSMutableArray *atbat_pitches;
-@property int atbat_strikes;
-@property int atbat_foul;
-@property int atbat_balls;
-@property AtPlateOutcome atbat_result;
-@property Hand batter_hand;
-@property NSDate *atbat_date;
-
--(id) init;
--(id) initWithJSON:(NSDictionary *)json;
--(id) initWithBatter:(Hand)batter_hand;
--(void) addPitch:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with:(PitchOutcome) pitch_result;
--(void) endAtPlate:(AtPlateOutcome) atbat_result;
+-(int) PitchCountBalls;
+-(int) PitchCountStrikes;
+-(bool) PitchIsWithTwoStrikes;
 
 -(NSDictionary *) getAsJSON;
 
 @end
-//-------------------//

@@ -13,6 +13,7 @@
 #import "Pitcher.h"
 #import "SelectableLabel.h"
 #import "ZoneView.h"
+#import "AtPlateInstance.h"
 #import "PitchInstance.h"
 
 #define GAME_LABEL_INSET 15

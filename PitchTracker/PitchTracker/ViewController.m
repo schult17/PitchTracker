@@ -25,17 +25,15 @@
     //Not needed due to segue's, keep for now
     if( sender == _gameButton )
     {
-        NSLog( @"New Game" );
+        //NSLog( @"New Game" );
     }
     else if( sender == _manageButton )
     {
-        NSLog( @"Manage Pitchers" );
+        //NSLog( @"Manage Pitchers" );
     }
     else if ( sender == _statsButton )
     {
-        NSLog( @"Saving..." );
-        LocalPitcherDatabase *db = [ LocalPitcherDatabase sharedDatabase ];
-        [ db writeDatabaseToDisk ];
+        NSLog( @"Advanced Statistics" );
     }
 }
 
@@ -45,11 +43,8 @@
     // Do any additional setup after loading the view, typically from a nib.
     self.view.translatesAutoresizingMaskIntoConstraints = YES;
     
-    //-----For debugging-----//
+#ifdef RESET_DEFAULT_PITCHER
     LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
-    [ database loadDatabaseFromDisk ];
-    
-    /*
     Pitcher *add;
     
     //[ add setID:[database getNewPitcherID] ];
@@ -64,8 +59,8 @@
     
     add = [ [Pitcher alloc] initWithDetails:UOFT with:@"Tanner" with:@"Young-Schultz" with:14 with:RIGHT with:22 with: 187 with:6 with:0 with:def ];
     [ add setID:[database getNewPitcherID] ];
-    [ database addPitcher:add ];*/
-    //------------------------//
+    [ database addPitcher:add ];
+#endif
 }
 
 - (void) viewWillAppear:(BOOL)animated

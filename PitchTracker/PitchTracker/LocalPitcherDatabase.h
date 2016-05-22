@@ -14,8 +14,8 @@
 
 @interface LocalPitcherDatabase : NSObject
 
-@property NSMutableArray *team_to_pitchers;
-@property unsigned int next_pitcher_id;
+@property (atomic) NSMutableArray *team_to_pitchers;
+@property (atomic) unsigned int next_pitcher_id;
 
 -(id) init;
 -(bool) addPitcher:(Pitcher*)pitcher;

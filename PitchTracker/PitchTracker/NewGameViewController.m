@@ -50,6 +50,9 @@
 
 - (IBAction)handleButtonClick:(id)sender
 {
+    /* One team button is clicked, center the picker on that
+     * button and show it. Also hide the button itself to avoid
+     * ugly overlap of text*/
     if( sender == _team1Button )
     {
         _button_num = 1;
@@ -83,7 +86,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-//--Team picker methods--//
+//--Team picker delegate methods--//
 -(void) loadPicker
 {
     _teamPicker = [ UIPickerView new ];
@@ -96,6 +99,7 @@
     _teamPicker.hidden = YES;
 }
 
+//Returns a formatted string for a row of the picker view
 - (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     NSString *name;

@@ -114,6 +114,8 @@
 
 -(void) writeDatabaseToDisk;
 {
+    NSLog(@"Saving to disk...");
+    
     NSError *error;
     
     NSMutableDictionary *json = [ [NSMutableDictionary alloc] init ];
@@ -129,11 +131,15 @@
     //NSLog(newStr);
     //----------//
     
-    [ json_data writeToFile:[self getSaveFilePath] atomically:YES ]; //YES??
+    [ json_data writeToFile:[self getSaveFilePath] atomically:YES ]; //atomically, Yes? No? Maybe so?
+    
+    NSLog(@"Finished saving to disk");
 }
 
 -(void) loadDatabaseFromDisk
 {
+    NSLog(@"Loading from disk...");
+    
     NSData *json_data = [ NSData dataWithContentsOfFile:[self getSaveFilePath] ];
     
     if( json_data != nil )
@@ -146,6 +152,8 @@
     {
         NSAssert(false, @"JSON WAS NIL!");
     }
+    
+    NSLog(@"Finished loading from disk");
 }
 
 
@@ -153,7 +161,11 @@
 //--------------------locals--------------------//
 -(NSString *) getSaveFilePath
 {
-    NSLog([ NSHomeDirectory() stringByAppendingString:SAVE_FILE_NAME ]);
+    
+#ifdef DEBUG_PRINTS
+    NSLog([ NSHomeDirectory() stringByAppendingString:SAVE_FILE_NAME ]);    //debugging (finding file path)
+#endif
+    
     return [ NSHomeDirectory() stringByAppendingString:SAVE_FILE_NAME ];
 }
 

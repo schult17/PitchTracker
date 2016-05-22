@@ -9,6 +9,9 @@
 #ifndef Globals_h
 #define Globals_h
 
+//#define RESET_DEFAULT_PITCHER
+//#define DEBUG_PRINTS
+
 //-----team names-----//
 static NSString * const TEAM_NAME_STR[] = {
     [0] = @"Toronto",

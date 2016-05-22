@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PitchInstance.h"
+#import "AtPlateInstance.h"
 #import "Globals.h"
 
 @interface PitchStats : NSObject
@@ -26,7 +27,7 @@
 -(id) init;
 -(id) initWithJSON:(NSDictionary *)json;
 -(void) newBatter:(Hand)batter_hand;
--(bool) addPitchToRecentBatter:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with:(PitchOutcome) pitch_result;
+-(bool) addPitchToRecentBatter:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with: (int) balls with:(int) strikes with:(PitchOutcome) pitch_result;
 -(void) addAtPlate:(AtPlate *)result;
 -(bool) endRecentBatter:(AtPlateOutcome) outcome;
 

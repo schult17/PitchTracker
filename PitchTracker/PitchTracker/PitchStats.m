@@ -117,7 +117,7 @@
     [ _at_plates addObject:result ];
 }
 
--(bool) addPitchToRecentBatter:(PitchType)type with:(PitchLocation)X with:(PitchLocation)Y with:(PitchOutcome)pitch_result
+-(bool) addPitchToRecentBatter:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with: (int) balls with:(int) strikes with:(PitchOutcome) pitch_result
 {
     if( _at_plates.count > 0 )
     {
@@ -127,7 +127,7 @@
         else
             _total_balls += 1;
         
-        [ [_at_plates objectAtIndex:0] addPitch:type with:X with:Y with:pitch_result ];
+        [ [_at_plates objectAtIndex:0] addPitch:type with:X with:Y with:balls with:strikes with:pitch_result];
         
         return true;
     }
@@ -246,8 +246,35 @@
 
 -(NSArray*) getStrikeoutPitchPercentage
 {
-    //TODO
     NSMutableArray *pitchs_count = [ [NSMutableArray alloc] initWithCapacity:COUNTPITCHES ];
+    for( int i = 0; i < COUNTPITCHES; i++ )
+        [ pitchs_count addObject:[ NSNumber numberWithFloat:0 ] ];
+    
+    NSNumber *temp_count;
+    float two_strike_pitch_count = 0;
+    
+    for( AtPlate* i in _at_plates )
+    {
+        for( PitchInstance* inst in i.atbat_pitches )
+        {
+            if( inst.PitchIsWithTwoStrikes )
+            {
+                temp_count = (NSNumber*)[ pitchs_count objectAtIndex:inst.type ];
+                temp_count = [ NSNumber numberWithFloat:( [temp_count intValue] + 1 ) ];
+                [ pitchs_count replaceObjectAtIndex:inst.type withObject:temp_count ];
+                two_strike_pitch_count++;
+            }
+        }
+    }
+    
+    for( int i = 0; i < COUNTPITCHES; i++ )
+    {
+        temp_count = (NSNumber*)[ pitchs_count objectAtIndex:i ];
+        temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] / two_strike_pitch_count ) ];
+        temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] * 100.00) ];
+        [ pitchs_count replaceObjectAtIndex:i withObject:temp_count ];
+    }
+    
     return pitchs_count;
 }
 

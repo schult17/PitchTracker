@@ -12,6 +12,7 @@
 		551A0C221CE586260004B9C1 /* ZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 551A0C211CE586260004B9C1 /* ZoneView.m */; };
 		551A0C251CE586AC0004B9C1 /* SingleZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 551A0C241CE586AC0004B9C1 /* SingleZoneView.m */; };
 		5537DB541CD5AF4F0088AD4D /* SelectableLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */; };
+		555440C91CF212AF0067B495 /* AtPlateInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 555440C81CF212AF0067B495 /* AtPlateInstance.m */; };
 		5599008E1CD2890300D103FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5599008D1CD2890300D103FF /* main.m */; };
 		559900911CD2890300D103FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900901CD2890300D103FF /* AppDelegate.m */; };
 		559900941CD2890300D103FF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900931CD2890300D103FF /* ViewController.m */; };
@@ -48,6 +49,8 @@
 		551A0C241CE586AC0004B9C1 /* SingleZoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleZoneView.m; sourceTree = "<group>"; };
 		5537DB521CD5AF4F0088AD4D /* SelectableLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectableLabel.h; sourceTree = "<group>"; };
 		5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectableLabel.m; sourceTree = "<group>"; };
+		555440C71CF212AF0067B495 /* AtPlateInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtPlateInstance.h; sourceTree = "<group>"; };
+		555440C81CF212AF0067B495 /* AtPlateInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AtPlateInstance.m; sourceTree = "<group>"; };
 		559900891CD2890300D103FF /* PitchTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5599008D1CD2890300D103FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5599008F1CD2890300D103FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -82,8 +85,8 @@
 		559A60DE1CD3D00E0037A1F3 /* PitcherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherView.m; sourceTree = "<group>"; };
 		559A60E01CD3D3470037A1F3 /* PitcherInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitcherInfo.h; sourceTree = "<group>"; };
 		559A60E11CD3D3470037A1F3 /* PitcherInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherInfo.m; sourceTree = "<group>"; };
-		559A60E31CD414A80037A1F3 /* LocalPitcherDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalPitcherDatabase.h; path = PitchTracker/LocalPitcherDatabase.h; sourceTree = "<group>"; };
-		559A60E41CD414A80037A1F3 /* LocalPitcherDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalPitcherDatabase.m; path = PitchTracker/LocalPitcherDatabase.m; sourceTree = "<group>"; };
+		559A60E31CD414A80037A1F3 /* LocalPitcherDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalPitcherDatabase.h; sourceTree = "<group>"; };
+		559A60E41CD414A80037A1F3 /* LocalPitcherDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalPitcherDatabase.m; sourceTree = "<group>"; };
 		559A60E61CD51C310037A1F3 /* PitcherSideScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitcherSideScrollView.h; sourceTree = "<group>"; };
 		559A60E71CD51C310037A1F3 /* PitcherSideScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitcherSideScrollView.m; sourceTree = "<group>"; };
 		559A60E91CD537A50037A1F3 /* EditPitcherView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditPitcherView.h; sourceTree = "<group>"; };
@@ -123,6 +126,8 @@
 				559A60E11CD3D3470037A1F3 /* PitcherInfo.m */,
 				559900C21CD2B95600D103FF /* PitchStats.h */,
 				559900C31CD2B95600D103FF /* PitchStats.m */,
+				555440C71CF212AF0067B495 /* AtPlateInstance.h */,
+				555440C81CF212AF0067B495 /* AtPlateInstance.m */,
 				559900C51CD2B97000D103FF /* PitchInstance.h */,
 				559900C61CD2B97000D103FF /* PitchInstance.m */,
 			);
@@ -132,8 +137,6 @@
 		559900801CD2890300D103FF = {
 			isa = PBXGroup;
 			children = (
-				559A60E31CD414A80037A1F3 /* LocalPitcherDatabase.h */,
-				559A60E41CD414A80037A1F3 /* LocalPitcherDatabase.m */,
 				5599008B1CD2890300D103FF /* PitchTracker */,
 				5599008A1CD2890300D103FF /* Products */,
 			);
@@ -150,10 +153,12 @@
 		5599008B1CD2890300D103FF /* PitchTracker */ = {
 			isa = PBXGroup;
 			children = (
+				559900951CD2890300D103FF /* Main.storyboard */,
+				559A60E31CD414A80037A1F3 /* LocalPitcherDatabase.h */,
+				559A60E41CD414A80037A1F3 /* LocalPitcherDatabase.m */,
 				5599008F1CD2890300D103FF /* AppDelegate.h */,
 				559900901CD2890300D103FF /* AppDelegate.m */,
 				559900B31CD2AAC700D103FF /* ViewControllers */,
-				559900951CD2890300D103FF /* Main.storyboard */,
 				559A60DC1CD3CF3C0037A1F3 /* PitcherViews */,
 				558940931CD2E61E004841DA /* PitchingClasses */,
 				551A0C261CE586CA0004B9C1 /* ZoneViews */,
@@ -312,6 +317,7 @@
 				551A0C251CE586AC0004B9C1 /* SingleZoneView.m in Sources */,
 				559900C41CD2B95600D103FF /* PitchStats.m in Sources */,
 				5511A1B21CD39AB100F2932A /* PitcherSideView.m in Sources */,
+				555440C91CF212AF0067B495 /* AtPlateInstance.m in Sources */,
 				5599008E1CD2890300D103FF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
