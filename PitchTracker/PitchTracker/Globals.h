@@ -9,8 +9,18 @@
 #ifndef Globals_h
 #define Globals_h
 
+//debug levels
+#define DEBUG_VERBOSE 3
+#define DEBUG_NORMAL 2
+#define DEBUG_FATAL 1
+#define DEBUG_SILENT 0
+
+//setting debug level
+#define __DEBUGLEVEL__ DEBUG_NORMAL
+
 //#define RESET_DEFAULT_PITCHER
-//#define DEBUG_PRINTS
+
+//overriding NSLog
 
 //-----team names-----//
 static NSString * const TEAM_NAME_STR[] = {

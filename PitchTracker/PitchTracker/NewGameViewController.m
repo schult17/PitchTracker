@@ -134,7 +134,7 @@
         else if( _button_num == 2 )
             [ _teamPicker selectRow:(int)_team2 inComponent:0 animated:NO ];
         else
-            NSLog(@"Bad team 1 or 2");
+            NSLog( DEBUG_NORMAL, @"Bad team 1 or 2");
     }
 }
 
@@ -158,7 +158,7 @@
     }
     else
     {
-        NSLog(@"Bad team 1 or 2");
+        NSLog( DEBUG_NORMAL, @"Bad team 1 or 2");
     }
     
     

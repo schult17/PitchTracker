@@ -48,7 +48,7 @@
     }
     else
     {
-        NSLog( @"Invalid team number, pitcher not created" );
+        NSLog( DEBUG_FATAL, @"Invalid team number, pitcher not created" );
     }
     
     return self;

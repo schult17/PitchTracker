@@ -102,7 +102,7 @@
     }
     else
     {
-        NSLog(@"nil pitcher");
+        NSLog( DEBUG_VERBOSE, @"nil pitcher" );
     }
 }
 

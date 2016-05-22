@@ -13,6 +13,7 @@
 		551A0C251CE586AC0004B9C1 /* SingleZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 551A0C241CE586AC0004B9C1 /* SingleZoneView.m */; };
 		5537DB541CD5AF4F0088AD4D /* SelectableLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */; };
 		555440C91CF212AF0067B495 /* AtPlateInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 555440C81CF212AF0067B495 /* AtPlateInstance.m */; };
+		555440D01CF227FE0067B495 /* NSLogCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 555440CF1CF227FE0067B495 /* NSLogCustom.m */; };
 		5599008E1CD2890300D103FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5599008D1CD2890300D103FF /* main.m */; };
 		559900911CD2890300D103FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900901CD2890300D103FF /* AppDelegate.m */; };
 		559900941CD2890300D103FF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900931CD2890300D103FF /* ViewController.m */; };
@@ -51,6 +52,9 @@
 		5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectableLabel.m; sourceTree = "<group>"; };
 		555440C71CF212AF0067B495 /* AtPlateInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtPlateInstance.h; sourceTree = "<group>"; };
 		555440C81CF212AF0067B495 /* AtPlateInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AtPlateInstance.m; sourceTree = "<group>"; };
+		555440CE1CF227FE0067B495 /* NSLogCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSLogCustom.h; sourceTree = "<group>"; };
+		555440CF1CF227FE0067B495 /* NSLogCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSLogCustom.m; sourceTree = "<group>"; };
+		555440D21CF22C8B0067B495 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		559900891CD2890300D103FF /* PitchTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5599008D1CD2890300D103FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5599008F1CD2890300D103FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -117,6 +121,24 @@
 			name = ZoneViews;
 			sourceTree = "<group>";
 		};
+		555440CA1CF225740067B495 /* PitcherDatabase */ = {
+			isa = PBXGroup;
+			children = (
+				559A60E31CD414A80037A1F3 /* LocalPitcherDatabase.h */,
+				559A60E41CD414A80037A1F3 /* LocalPitcherDatabase.m */,
+			);
+			name = PitcherDatabase;
+			sourceTree = "<group>";
+		};
+		555440D11CF22A000067B495 /* NSLogCustom */ = {
+			isa = PBXGroup;
+			children = (
+				555440CE1CF227FE0067B495 /* NSLogCustom.h */,
+				555440CF1CF227FE0067B495 /* NSLogCustom.m */,
+			);
+			name = NSLogCustom;
+			sourceTree = "<group>";
+		};
 		558940931CD2E61E004841DA /* PitchingClasses */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,11 +175,11 @@
 		5599008B1CD2890300D103FF /* PitchTracker */ = {
 			isa = PBXGroup;
 			children = (
+				555440D11CF22A000067B495 /* NSLogCustom */,
 				559900951CD2890300D103FF /* Main.storyboard */,
-				559A60E31CD414A80037A1F3 /* LocalPitcherDatabase.h */,
-				559A60E41CD414A80037A1F3 /* LocalPitcherDatabase.m */,
 				5599008F1CD2890300D103FF /* AppDelegate.h */,
 				559900901CD2890300D103FF /* AppDelegate.m */,
+				555440CA1CF225740067B495 /* PitcherDatabase */,
 				559900B31CD2AAC700D103FF /* ViewControllers */,
 				559A60DC1CD3CF3C0037A1F3 /* PitcherViews */,
 				558940931CD2E61E004841DA /* PitchingClasses */,
@@ -178,6 +200,7 @@
 		5599008C1CD2890300D103FF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				555440D21CF22C8B0067B495 /* PrefixHeader.pch */,
 				5599008D1CD2890300D103FF /* main.m */,
 			);
 			name = "Supporting Files";
@@ -302,6 +325,7 @@
 				559900C71CD2B97000D103FF /* PitchInstance.m in Sources */,
 				5537DB541CD5AF4F0088AD4D /* SelectableLabel.m in Sources */,
 				559A60EB1CD537A50037A1F3 /* EditPitcherView.m in Sources */,
+				555440D01CF227FE0067B495 /* NSLogCustom.m in Sources */,
 				559900B61CD2B1AE00D103FF /* Pitcher.m in Sources */,
 				559A60E51CD414A80037A1F3 /* LocalPitcherDatabase.m in Sources */,
 				559A60DF1CD3D00E0037A1F3 /* PitcherView.m in Sources */,
@@ -430,6 +454,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = PitchTracker/PrefixHeader.pch;
 				INFOPLIST_FILE = PitchTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TYS.PitchTracker;
@@ -441,6 +466,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = PitchTracker/PrefixHeader.pch;
 				INFOPLIST_FILE = PitchTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TYS.PitchTracker;

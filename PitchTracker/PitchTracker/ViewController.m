@@ -33,7 +33,7 @@
     }
     else if ( sender == _statsButton )
     {
-        NSLog( @"Advanced Statistics" );
+        NSLog( DEBUG_VERBOSE, @"Advanced Statistics" );
     }
 }
 

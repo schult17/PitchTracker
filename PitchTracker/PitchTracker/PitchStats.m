@@ -159,7 +159,7 @@
                 _total_errors += 1;
                 break;
             default:
-                NSLog( @"Unknown end at plate outcome" );
+                NSLog( DEBUG_FATAL, @"Unknown end at plate outcome" );
                 break;
         }
         
