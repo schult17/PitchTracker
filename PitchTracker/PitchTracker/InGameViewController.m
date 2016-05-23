@@ -385,7 +385,7 @@
     
     //TODO -- animate button like storyboard button?
     [ _statsButton setTitle:@"VIEW PITCHER STATS" forState:UIControlStateNormal ];
-    [ _statsButton setTitleColor:[UIColor colorWithRed:0 green:122 blue:255 alpha:1] forState:UIControlStateNormal ];   //TODO -- better colour??
+    [ _statsButton setTitleColor:NICE_BUTTON_COLOUR forState:UIControlStateNormal ];   //TODO -- better colour??
     [ _statsButton addTarget:self action:@selector(statsButtonClicked) forControlEvents:UIControlEventTouchUpInside ];
     
     [ _infoView addSubview:_teamLabel ];

@@ -30,7 +30,7 @@
     {
         _percentageLabel = [ [UILabel alloc] init ];
         _percentageLabel.textAlignment = NSTextAlignmentCenter;
-        _percentageLabel.textColor = [UIColor blackColor];
+        _percentageLabel.textColor = [UIColor lightTextColor];
         _percentageLabel.text = @"0%";
         _percentageLabel.font = [_percentageLabel.font fontWithSize:PERCENTAGE_FONT_SIZE];
         [ self addSubview:_percentageLabel ];

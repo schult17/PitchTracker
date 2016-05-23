@@ -11,18 +11,11 @@
 #import "PitcherSideScrollView.h"
 #import "Pitcher.h"
 #import "ZoneView.h"
+#include "SelectableLabel.h"
 
-typedef enum _StatTypes
-{
-    Count = 1 << 0,
-    InZone = 1 << 2,
-    OutZone = 1 << 3,
-    SwingMiss = 1 << 4,
-    SwingHit = 1 << 5,
-    Take = 1 << 6,
-    Pitch = 1 << 7,
-    FollowUp = 1 << 7
-} StatTypes;
+#define NUMBER_DISPLAY_ROWS 5
+#define INFO_LABEL_TEXT_SIZE 25
+#define INFO_LABEL_INSET 15
 
 @interface StatsViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 
@@ -30,11 +23,27 @@ typedef enum _StatTypes
 @property (strong, nonatomic) IBOutlet PitcherSideScrollView *pitcherScrollView;
 @property (strong, nonatomic) IBOutlet UIView *statsView;
 
+@property ZoneView *zoneView;
+
 @property Pitcher *pitcher;
 @property TeamNames TeamFilter;
 @property StatTypes StatFilters;
 @property UIActivityIndicatorView *calculatingIndicator;
 @property UIPickerView *teamPicker;
+
+@property UILabel *shortNameLabel;
+
+@property UILabel *filtersHeaderLabel;
+@property UIButton *resetDefaultFiltersButton;
+@property SelectableLabel *inZoneFilter;
+@property SelectableLabel *outZoneFilter;
+@property SelectableLabel *swingMissFilter;
+@property SelectableLabel *swingHitFilter;
+@property SelectableLabel *takeFilter;
+@property SelectableLabel *pitchFilter;
+@property UILabel *pitchLabel;
+@property SelectableLabel *followUpFilter;
+@property UILabel *followUpPitch;
 
 -(void) changeTeamFilter:(TeamNames) team;
 -(void) changePitcher:(Pitcher *) pitcher;

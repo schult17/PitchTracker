@@ -14,6 +14,7 @@
 		5537DB541CD5AF4F0088AD4D /* SelectableLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */; };
 		555440C91CF212AF0067B495 /* AtPlateInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 555440C81CF212AF0067B495 /* AtPlateInstance.m */; };
 		555440D01CF227FE0067B495 /* NSLogCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 555440CF1CF227FE0067B495 /* NSLogCustom.m */; };
+		555B66631CF2B57800D2F8B3 /* PitchStatsFiltered.m in Sources */ = {isa = PBXBuildFile; fileRef = 555B66621CF2B57800D2F8B3 /* PitchStatsFiltered.m */; };
 		5599008E1CD2890300D103FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5599008D1CD2890300D103FF /* main.m */; };
 		559900911CD2890300D103FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900901CD2890300D103FF /* AppDelegate.m */; };
 		559900941CD2890300D103FF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559900931CD2890300D103FF /* ViewController.m */; };
@@ -55,6 +56,8 @@
 		555440CE1CF227FE0067B495 /* NSLogCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSLogCustom.h; sourceTree = "<group>"; };
 		555440CF1CF227FE0067B495 /* NSLogCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSLogCustom.m; sourceTree = "<group>"; };
 		555440D21CF22C8B0067B495 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		555B66611CF2B57800D2F8B3 /* PitchStatsFiltered.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitchStatsFiltered.h; sourceTree = "<group>"; };
+		555B66621CF2B57800D2F8B3 /* PitchStatsFiltered.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitchStatsFiltered.m; sourceTree = "<group>"; };
 		559900891CD2890300D103FF /* PitchTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5599008D1CD2890300D103FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5599008F1CD2890300D103FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -152,6 +155,8 @@
 				555440C81CF212AF0067B495 /* AtPlateInstance.m */,
 				559900C51CD2B97000D103FF /* PitchInstance.h */,
 				559900C61CD2B97000D103FF /* PitchInstance.m */,
+				555B66611CF2B57800D2F8B3 /* PitchStatsFiltered.h */,
+				555B66621CF2B57800D2F8B3 /* PitchStatsFiltered.m */,
 			);
 			name = PitchingClasses;
 			sourceTree = "<group>";
@@ -324,6 +329,7 @@
 				551A0C1F1CE554800004B9C1 /* InGameViewController.m in Sources */,
 				559900C71CD2B97000D103FF /* PitchInstance.m in Sources */,
 				5537DB541CD5AF4F0088AD4D /* SelectableLabel.m in Sources */,
+				555B66631CF2B57800D2F8B3 /* PitchStatsFiltered.m in Sources */,
 				559A60EB1CD537A50037A1F3 /* EditPitcherView.m in Sources */,
 				555440D01CF227FE0067B495 /* NSLogCustom.m in Sources */,
 				559900B61CD2B1AE00D103FF /* Pitcher.m in Sources */,

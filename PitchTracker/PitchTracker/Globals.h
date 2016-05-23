@@ -20,7 +20,7 @@
 
 //#define RESET_DEFAULT_PITCHER
 
-//overriding NSLog
+#define NICE_BUTTON_COLOUR [UIColor colorWithRed:0 green:122 blue:255 alpha:1]
 
 //-----team names-----//
 static NSString * const TEAM_NAME_STR[] = {
@@ -115,5 +115,18 @@ typedef enum _AtPlateOutcome
     PITCH_CHANGE,
     HBP     //deprecated
 }AtPlateOutcome;
+
+//Stat type filters (bit shift is for masking multiple in)
+typedef enum _StatTypes
+{
+    Count = 1 << 0,
+    InZone = 1 << 2,
+    OutZone = 1 << 3,
+    SwingMiss = 1 << 4,
+    SwingHit = 1 << 5,
+    Take = 1 << 6,
+    Pitch = 1 << 7,
+    FollowUp = 1 << 7
+} StatTypes;
 
 #endif /* Globals_h */
