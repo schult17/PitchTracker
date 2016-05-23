@@ -12,6 +12,7 @@
 @interface PitchStatsFiltered : NSObject
 
 @property PitchStats *stats;
-@property StatTypes filter;
+@property StatTypes statsFilters;
+@property PitchTypes pitchFilters;
 
 @end

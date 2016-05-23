@@ -20,7 +20,7 @@
 
 -(id) init
 {
-    _info = [ [PitcherInfo alloc] initWithDetails:UOFT with:@"Tyler" with:@"Durden" with:7 with:RIGHT with: 19 with: 200 with: 6 with: 1 with:[[NSMutableArray alloc] initWithArray:[ NSMutableArray arrayWithArray:@[@(FASTBALL_4), @(CURVE_1), @(CHANGE) ]]] ];
+    _info = [ [PitcherInfo alloc] initWithDetails:UOFT with:@"Tyler" with:@"Durden" with:7 with:RIGHT with: 19 with: 200 with: 6 with: 1 with:FASTBALL_4 | CURVE_1 | CHANGE ];
     
     _stats = [[PitchStats alloc] init];         //if we remove *, does alloc go away?
     
@@ -38,7 +38,7 @@
     return self;
 }
 
--(id) initWithDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
+-(id) initWithDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (PitchTypes) pitches;
 {
     if( team < TEAMCOUNT )
     {
@@ -54,7 +54,7 @@
     return self;
 }
 
--(void) setDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
+-(void) setDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (PitchTypes) pitches;
 {
     [ _info setDetails:team with:first_name with:last_name with:jersey_num with:hand with:age with:weight with:height_f with:height_i with:pitches ];
 }

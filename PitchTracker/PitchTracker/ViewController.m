@@ -47,17 +47,9 @@
     LocalPitcherDatabase *database = [ LocalPitcherDatabase sharedDatabase ];
     Pitcher *add;
     
-    //[ add setID:[database getNewPitcherID] ];
-    //[ database addPitcher:add ];
+    PitchTypes pitches = FASTBALL_4 | FASTBALL_2 | CURVE_1 | CUTTER | CHANGE;
     
-    NSMutableArray *def = [ [NSMutableArray alloc] init ];
-    [ def addObject:@(FASTBALL_4) ];
-    [ def addObject:@(FASTBALL_2) ];
-    [ def addObject:@(CURVE_1) ];
-    [ def addObject:@(CUTTER)];
-    [ def addObject:@(CHANGE)];
-    
-    add = [ [Pitcher alloc] initWithDetails:UOFT with:@"Tanner" with:@"Young-Schultz" with:14 with:RIGHT with:22 with: 187 with:6 with:0 with:def ];
+    add = [ [Pitcher alloc] initWithDetails:UOFT with:@"Tanner" with:@"Young-Schultz" with:14 with:RIGHT with:22 with: 187 with:6 with:0 with:pitches ];
     [ add setID:[database getNewPitcherID] ];
     [ database addPitcher:add ];
 #endif

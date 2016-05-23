@@ -65,7 +65,7 @@
 //--Pitch info--//
 @property SingleZoneView *selectedView;
 @property SelectableLabel *selectedPitchLabel;
-@property PitchType selectedPitch;
+@property PitchTypes selectedPitch;
 //--------------//
 
 @end

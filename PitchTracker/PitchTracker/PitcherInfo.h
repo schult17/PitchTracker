@@ -20,14 +20,17 @@
 @property int weight;
 @property int height_f;
 @property int height_i;
-@property NSMutableArray *pitches;
+//@property NSMutableArray *pitches;
+@property PitchTypes pitches;
 
 -(id) init; //shouldn't really be used
 
 -(id) initWithJSON:(NSDictionary *)json;
--(id) initWithDetails: (TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
+-(id) initWithDetails: (TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (PitchTypes) pitches;
 
--(void) setDetails: (TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
+-(void) setDetails: (TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (PitchTypes) pitches;
+
+-(PitchTypes) pitchByIndex:(int)index;
 
 -(NSString *) getShortDisplayString;
 -(NSString*) getTeamDisplayString;
@@ -35,7 +38,6 @@
 -(NSString*) getNumberHandDisplayString;
 -(NSString*) getPhysicalDisplayString;
 -(NSString*) getPitchDisplayString;
--(NSString*) getPitchString:(PitchType)type;
 -(NSString*) getHandString:(Hand)hand;
 
 -(NSDictionary*) getAsJSON;

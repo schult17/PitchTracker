@@ -49,7 +49,7 @@
     return self;
 }
 
--(id)initWithPitch:(PitchType) type with:(PitchLocation) X with:(PitchLocation)  Y with:(int)balls with:(int)strikes with:(PitchOutcome) pitch_result;
+-(id)initWithPitch:(PitchTypes) type with:(PitchLocation) X with:(PitchLocation)  Y with:(int)balls with:(int)strikes with:(PitchOutcome) pitch_result;
 {
     _type = type;
     _X = X;
@@ -70,7 +70,7 @@
     _pitch_result = result;
 }
 
--(void)setPitchType:(PitchType)type
+-(void)setPitchType:(PitchTypes)type
 {
     _type = type;
 }

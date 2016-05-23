@@ -11,7 +11,7 @@
 
 @interface PitchInstance : NSObject
 
-@property PitchType type;
+@property PitchTypes type;
 @property PitchLocation X;
 @property PitchLocation Y;
 @property PitchOutcome pitch_result;
@@ -19,12 +19,12 @@
 
 -(id)init;
 -(id) initWithJSON:(NSDictionary *)json;
--(id)initWithPitch:(PitchType) type with:(PitchLocation) X with:(PitchLocation)  Y with:(int)balls with:(int)strikes with:(PitchOutcome) pitch_result;
+-(id)initWithPitch:(PitchTypes) type with:(PitchLocation) X with:(PitchLocation)  Y with:(int)balls with:(int)strikes with:(PitchOutcome) pitch_result;
 
 //Not currently used...
 -(void)setPitchPosition:(PitchLocation) X with:(PitchLocation) Y;
 -(void)setPitchResult:(PitchOutcome) result;
--(void)setPitchType:(PitchType) type;
+-(void)setPitchType:(PitchTypes) type;
 -(void)setPitchCount:(int)balls with:(int)strikes;
 //-------------------//
 

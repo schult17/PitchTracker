@@ -34,12 +34,7 @@
 
 -(id) init
 {
-    NSMutableArray *def = [ [NSMutableArray alloc] init ];
-    
-    [ def addObject:@(FASTBALL_4) ];
-    [ def addObject:@(CURVE_1) ];
-    [ def addObject:@(CHANGE)];
-    [ self setDetails:UOFT with:@"Tyler" with:@"Durden" with:7 with:SWITCH with: 19 with: 200 with: 6 with: 1 with: def];
+    [ self setDetails:UOFT with:@"Tyler" with:@"Durden" with:7 with:SWITCH with: 19 with: 200 with: 6 with: 1 with: FASTBALL_4 | CURVE_1 | CHANGE ];
     
     return self;
 }
@@ -57,23 +52,20 @@
     _weight = [ [json objectForKey:WEIGHT_JSON_KEY] intValue ];
     _height_f = [ [json objectForKey:HEIGHTF_JSON_KEY] intValue ];
     _height_i = [ [json objectForKey:HEIGHTI_JSON_KEY] intValue ];
-    _pitches = [ [NSMutableArray alloc] init ];
-    
-    NSArray *pitches = [ json objectForKey:PITCHES_JSON_KEY ];
-    for( int i = 0; i < pitches.count; i++ )
-        [ _pitches addObject:[NSNumber numberWithInt:[[pitches objectAtIndex:i] intValue]] ];
+    //_pitches = [ [NSMutableArray alloc] init ];
+    _pitches = [ [json objectForKey:PITCHES_JSON_KEY] intValue ];
     
     return self;
 }
 
--(id) initWithDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
+-(id) initWithDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (PitchTypes) pitches;
 {
     [ self setDetails:team with:first_name with:last_name with:jersey_num with:hand with:age with:weight with:height_f with:height_i with:pitches ];
     
     return self;
 }
 
--(void) setDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (NSMutableArray *) pitches;
+-(void) setDetails:(TeamNames) team with: (NSString *) first_name with: (NSString *) last_name with: (int) jersey_num with: (Hand) hand with: (int) age with: (int) weight with: (int) height_f with: (int) height_i with: (PitchTypes) pitches;
 {
     _team = team;
     _first_name = first_name;
@@ -85,6 +77,26 @@
     _height_f = height_f;
     _height_i = height_i;
     _pitches = pitches;
+}
+
+-(PitchTypes) pitchByIndex:(int)index
+{
+    int count = 0;
+    PitchTypes ret = 0;
+    for( int i = 0; i < COUNTPITCHES; i++ )
+    {
+        ret = _pitches & (1 << i);
+        if( ret )
+        {
+            count++;
+            
+            if( count == index + 1 )
+                return ret;
+        }
+    }
+    
+    NSAssert(false, @"Bad Pitch Index");
+    return 0;
 }
 
 -(NSString *) getShortDisplayString
@@ -144,12 +156,15 @@
 {
     NSString *ret = [ [NSString alloc] init ];
     
-    for( int i = 0; i < _pitches.count; i++ )
+    int enum_mask = 0;
+    for( int i = 0; i < COUNTPITCHES; i++ )
     {
-        ret = [ ret stringByAppendingString:[self getPitchString:[_pitches[i] intValue]] ];
-        
-        if( i != _pitches.count - 1 )
+        enum_mask = 1 << i;
+        if( _pitches & enum_mask )
+        {
+            ret = [ ret stringByAppendingString:getPitchString(enum_mask) ];
             ret = [ ret stringByAppendingString:@" - " ];
+        }
     }
     
     return ret;
@@ -157,14 +172,6 @@
 
 -(NSDictionary*) getAsJSON
 {
-    NSMutableArray* json_array = [ [NSMutableArray alloc] init ];
-    for( int i = 0; i < _pitches.count; i++ )
-    {
-        NSNumber *pitch_id = [ NSNumber numberWithInt:[[_pitches objectAtIndex:i] intValue] ];
-        [ json_array addObject:pitch_id ];
-    }
-    
-    
     //total strikes/balls can be re calculated when re opened, saves space
     return [ NSDictionary dictionaryWithObjectsAndKeys:
                     [NSNumber numberWithInt:(int)_team], TEAMID_JSON_KEY,
@@ -176,45 +183,7 @@
                     [NSNumber numberWithInt:_weight], WEIGHT_JSON_KEY,
                     [NSNumber numberWithInt:_height_f], HEIGHTF_JSON_KEY,
                     [NSNumber numberWithInt:_height_i], HEIGHTI_JSON_KEY,
-                    json_array, PITCHES_JSON_KEY, nil];
-}
-
--(NSString*) getPitchString:(PitchType)type
-{
-    NSString *ret;
-    
-    switch( type )
-    {
-        case FASTBALL_4:
-            ret = @"Fastball(4)";
-            break;
-        case FASTBALL_2:
-            ret = @"Fastball(2)";
-            break;
-        case CUTTER:
-            ret = @"Cutter";
-            break;
-        case CURVE_1:
-            ret = @"Curve";
-            break;
-        case CURVE_2:
-            ret = @"Curve(2)";
-            break;
-        case SLIDER:
-            ret = @"Slider";
-            break;
-        case CHANGE:
-            ret = @"Changeup";
-            break;
-        case SPLITTER:
-            ret = @"Splitter";
-            break;
-        default:
-            ret = @"Unknown";
-            break;
-    }
-    
-    return ret;
+                    [NSNumber numberWithInt:(int)_pitches], PITCHES_JSON_KEY, nil];
 }
 
 @end

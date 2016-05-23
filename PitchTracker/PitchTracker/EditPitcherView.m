@@ -90,7 +90,7 @@
     NSString *text;
     for( int i = 0; i < COUNTPITCHES; i++ )
     {
-        switch( (PitchType)i )
+        switch( (PitchTypes)(1 << i) )
         {
             case FASTBALL_4:
                 text = @"Fastball(4)";
@@ -269,9 +269,18 @@
         [ _leftLabel setSelect:true ];
     }
     
+    /*
     int count = (int)[ pitcher.info.pitches count ];
     for( int i = 0; i < count; i++ )
-        [ [ _pitchLabels objectAtIndex:[pitcher.info.pitches[i] intValue] ] setSelect:true ];
+        [ [ _pitchLabels objectAtIndex:[pitcher.info.pitches[i] intValue] ] setSelect:true ];*/
+    
+    for( int i = 0; i < COUNTPITCHES; i++ )
+    {
+        if( pitcher.info.pitches & (1 << i) )
+        {
+            [ [ _pitchLabels objectAtIndex:i ] setSelect:true ];
+        }
+    }
 }
 
 -(void) aboutToShow:(TeamNames) curr_team
@@ -292,11 +301,11 @@
     
     Hand hand = _rightLabel.selected ? RIGHT : LEFT;
     
-    NSMutableArray *pitches = [ [NSMutableArray alloc] init ];
+    PitchTypes pitches = 0;
     for( int i = 0; i < COUNTPITCHES; i++ )
     {
         if( ((SelectableLabel*)[ _pitchLabels objectAtIndex:i ]).selected )
-            [ pitches addObject:[ NSNumber numberWithInt:(PitchType)i ] ];  //weird, but necessary
+            pitches = pitches | (1 << i);
     }
     
     return [ [Pitcher alloc] initWithDetails:team with:first with:last with:jersey with:hand with:age with:weight with:hf with:hi with:pitches ];

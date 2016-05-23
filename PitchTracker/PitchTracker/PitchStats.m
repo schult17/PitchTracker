@@ -117,7 +117,7 @@
     [ _at_plates addObject:result ];
 }
 
--(bool) addPitchToRecentBatter:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with: (int) balls with:(int) strikes with:(PitchOutcome) pitch_result
+-(bool) addPitchToRecentBatter:(PitchTypes) type with:(PitchLocation) X with:(PitchLocation) Y with: (int) balls with:(int) strikes with:(PitchOutcome) pitch_result
 {
     if( _at_plates.count > 0 )
     {
@@ -192,14 +192,16 @@
         [ pitchs_count addObject:[ NSNumber numberWithFloat:0 ] ];
     
     NSNumber *temp_count;
+    int pitch_index = 0;
     
     for( AtPlate* i in _at_plates )
     {
         for( PitchInstance* inst in i.atbat_pitches )
         {
-            temp_count = (NSNumber*)[ pitchs_count objectAtIndex:inst.type ];
+            pitch_index = pitchTypeToIndex(inst.type);
+            temp_count = (NSNumber*)[ pitchs_count objectAtIndex:pitch_index ];
             temp_count = [ NSNumber numberWithFloat:( [temp_count intValue] + 1 ) ];
-            [ pitchs_count replaceObjectAtIndex:inst.type withObject:temp_count ];
+            [ pitchs_count replaceObjectAtIndex:pitch_index withObject:temp_count ];
         }
     }
     
@@ -222,14 +224,16 @@
     
     NSNumber *temp_count;
     PitchInstance *inst;
+    int pitch_index = 0;
     
     for( AtPlate* i in _at_plates )
     {
         if( i.atbat_pitches.count > 0 ) //should be true...
         {
-            temp_count = (NSNumber*)[ first_pitchs_count objectAtIndex:inst.type ];
+            pitch_index = pitchTypeToIndex(inst.type);
+            temp_count = (NSNumber*)[ first_pitchs_count objectAtIndex:pitch_index];
             temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] + 1 ) ]; //temp_count ++;
-            [ first_pitchs_count replaceObjectAtIndex:inst.type withObject:temp_count ];
+            [ first_pitchs_count replaceObjectAtIndex:pitch_index withObject:temp_count ];
         }
     }
     
@@ -252,6 +256,7 @@
     
     NSNumber *temp_count;
     float two_strike_pitch_count = 0;
+    int pitch_index = 0;
     
     for( AtPlate* i in _at_plates )
     {
@@ -259,9 +264,10 @@
         {
             if( inst.PitchIsWithTwoStrikes )
             {
-                temp_count = (NSNumber*)[ pitchs_count objectAtIndex:inst.type ];
+                pitch_index = pitchTypeToIndex(inst.type);
+                temp_count = (NSNumber*)[ pitchs_count objectAtIndex:pitch_index ];
                 temp_count = [ NSNumber numberWithFloat:( [temp_count intValue] + 1 ) ];
-                [ pitchs_count replaceObjectAtIndex:inst.type withObject:temp_count ];
+                [ pitchs_count replaceObjectAtIndex:pitch_index withObject:temp_count ];
                 two_strike_pitch_count++;
             }
         }

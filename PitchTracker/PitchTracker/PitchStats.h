@@ -27,7 +27,7 @@
 -(id) init;
 -(id) initWithJSON:(NSDictionary *)json;
 -(void) newBatter:(Hand)batter_hand;
--(bool) addPitchToRecentBatter:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with: (int) balls with:(int) strikes with:(PitchOutcome) pitch_result;
+-(bool) addPitchToRecentBatter:(PitchTypes) type with:(PitchLocation) X with:(PitchLocation) Y with: (int) balls with:(int) strikes with:(PitchOutcome) pitch_result;
 -(void) addAtPlate:(AtPlate *)result;
 -(bool) endRecentBatter:(AtPlateOutcome) outcome;
 

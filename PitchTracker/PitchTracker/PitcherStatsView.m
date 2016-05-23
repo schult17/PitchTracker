@@ -106,7 +106,7 @@
     {
         if( [ i floatValue ] > 0 )  //no pitches, don't show it
         {
-            NSString* add = [ NSString stringWithFormat:@"  - %@  %.02f%%", [self getPitchString:(PitchType)index], [i floatValue] ];
+            NSString* add = [ NSString stringWithFormat:@"  - %@  %.02f%%", getPitchString(1 << index), [i floatValue] ];
             [ ret appendString: add ];
         }
         
@@ -130,44 +130,5 @@
 {
     return [ self percentageArrayToDisplayString:[_stats getStrikeoutPitchPercentage] ];
 }
-
--(NSString*) getPitchString:(PitchType)type
-{
-    NSString *ret;
-    
-    switch( type )
-    {
-        case FASTBALL_4:
-            ret = @"Fastball(4)";
-            break;
-        case FASTBALL_2:
-            ret = @"Fastball(2)";
-            break;
-        case CUTTER:
-            ret = @"Cutter";
-            break;
-        case CURVE_1:
-            ret = @"Curve";
-            break;
-        case CURVE_2:
-            ret = @"Curve(2)";
-            break;
-        case SLIDER:
-            ret = @"Slider";
-            break;
-        case CHANGE:
-            ret = @"Changeup";
-            break;
-        case SPLITTER:
-            ret = @"Splitter";
-            break;
-        default:
-            ret = @"Unknown";
-            break;
-    }
-    
-    return ret;
-}
-
 
 @end

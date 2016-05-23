@@ -81,9 +81,6 @@
     //basically a refresh, toggle bool, then toggle again...
     _team1visible = !_team1visible;
     [ self toggleTeam ];
-    
-    //highlight default pitcher
-    [ self changeInfoView:(_team1visible ? _currPitcher1 : _currPitcher2) ];
 }
 
 //IMPORTANT: all layouts relative to storyboard frames should be done here
@@ -100,6 +97,7 @@
 {
     if( _team1visible )
     {
+        _team1visible = false;  //important first
         [ _teamToggleButton setTitle:TEAM_NAME_STR[_team2] forState:UIControlStateNormal ];
         [ _pitcherScrollView changeTeam:_team2 ];
         [ self changeInfoView:_currPitcher2 ];
@@ -107,13 +105,13 @@
     }
     else
     {
+        _team1visible = true; //important first
         [ _teamToggleButton setTitle:TEAM_NAME_STR[_team1] forState:UIControlStateNormal ];
         [ _pitcherScrollView changeTeam:_team1 ];
         [ self changeInfoView:_currPitcher1 ];
         [ _pitcherScrollView highlightPitcher:_currPitcher1.pitcher_id ];
     }
     
-    _team1visible = !_team1visible;
     [ self onTeamChangeChangeGameDisplay ];
 }
 
@@ -340,10 +338,15 @@
     
     Pitcher *curr = _team1visible ? _currPitcher1 : _currPitcher2;
     
-    for( int i = 0; i < curr.info.pitches.count; i++ )
+    int enum_mask = 0;
+    for( int i = 0; i < COUNTPITCHES; i++ )
     {
-        SelectableLabel *add = [ [SelectableLabel alloc] initWithStr:[self getPitchString:[curr.info.pitches[i] intValue]] ];
-        [ _pitchLabels addObject:add ];
+        enum_mask = 1 << i;
+        if( curr.info.pitches & enum_mask )
+        {
+            SelectableLabel *add = [ [SelectableLabel alloc] initWithStr:getPitchString(enum_mask) ];
+            [ _pitchLabels addObject:add ];
+        }
     }
     
     CGFloat x = _infoView.frame.size.width/2;
@@ -516,7 +519,7 @@
             [ i setSelect:true ];
             if(_selectedPitchLabel != nil)  [ _selectedPitchLabel setSelect:false ];
             _selectedPitchLabel = i;
-            _selectedPitch = (PitchType)[ (_team1visible ? _currPitcher1 : _currPitcher2).info.pitches[index] intValue ];
+            _selectedPitch = [(_team1visible ? _currPitcher1 : _currPitcher2).info  pitchByIndex:index];
             return;
         }
         index += 1;
@@ -737,45 +740,6 @@
     cont.seguePitcher = _team1visible ? _currPitcher1 : _currPitcher2;
     cont.currTeamFilter = _team1visible ? _team1 : _team2;
     cont.disable_editing = true;
-}
-
-//Helper
--(NSString*) getPitchString:(PitchType)type
-{
-    NSString *ret;
-    
-    switch( type )
-    {
-        case FASTBALL_4:
-            ret = @"Fastball(4)";
-            break;
-        case FASTBALL_2:
-            ret = @"Fastball(2)";
-            break;
-        case CUTTER:
-            ret = @"Cutter";
-            break;
-        case CURVE_1:
-            ret = @"Curve";
-            break;
-        case CURVE_2:
-            ret = @"Curve(2)";
-            break;
-        case SLIDER:
-            ret = @"Slider";
-            break;
-        case CHANGE:
-            ret = @"Changeup";
-            break;
-        case SPLITTER:
-            ret = @"Splitter";
-            break;
-        default:
-            ret = @"Unknown";
-            break;
-    }
-    
-    return ret;
 }
 
 @end

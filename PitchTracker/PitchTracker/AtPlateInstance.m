@@ -111,7 +111,7 @@
     return [ dateFormatter stringFromDate:_atbat_date ];
 }
 
--(void) addPitch:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with:(int) balls with: (int) strikes with:(PitchOutcome) pitch_result
+-(void) addPitch:(PitchTypes) type with:(PitchLocation) X with:(PitchLocation) Y with:(int) balls with: (int) strikes with:(PitchOutcome) pitch_result
 {
     if( pitch_result == S_SWING || pitch_result == S_LOOK || pitch_result == FOUL )
     {

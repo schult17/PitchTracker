@@ -9,6 +9,10 @@
 #ifndef Globals_h
 #define Globals_h
 
+#import <Foundation/Foundation.h>
+
+//#define RESET_DEFAULT_PITCHER
+
 //debug levels
 #define DEBUG_VERBOSE 3
 #define DEBUG_NORMAL 2
@@ -17,8 +21,6 @@
 
 //setting debug level
 #define __DEBUGLEVEL__ DEBUG_NORMAL
-
-//#define RESET_DEFAULT_PITCHER
 
 #define NICE_BUTTON_COLOUR [UIColor colorWithRed:0 green:122 blue:255 alpha:1]
 
@@ -55,16 +57,19 @@ typedef enum _TeamNames //indices
 //pitch types
 typedef enum _PitchType
 {
-    FASTBALL_4, //4 seam fastball
-    FASTBALL_2, //2 seam fastball (sinker)
-    CUTTER,     //Cut fastball
-    CURVE_1,    //Curveball
-    CURVE_2,    //Second curveball (in case they have 2)
-    SLIDER,     //Slider
-    CHANGE,     //Changeup
-    SPLITTER,   //Splitter/Forkball
-    COUNTPITCHES
-}PitchType;
+    FASTBALL_4 = 1 << 0, //4 seam fastball
+    FASTBALL_2 = 1 << 1, //2 seam fastball (sinker)
+    CUTTER = 1 << 2,     //Cut fastball
+    CURVE_1 = 1 << 3,    //Curveball
+    CURVE_2 = 1 << 4,    //Second curveball (in case they have 2)
+    SLIDER = 1 << 5,     //Slider
+    CHANGE = 1 << 6,     //Changeup
+    SPLITTER = 1 << 7,   //Splitter/Forkball
+    COUNTPITCHES = 8
+}PitchTypes;
+
+NSString* getPitchString(PitchTypes type);
+int pitchTypeToIndex(PitchTypes type);
 //--------------------//
 
 //Pitchers handedness

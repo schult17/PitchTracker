@@ -38,6 +38,7 @@
 		559A60E81CD51C310037A1F3 /* PitcherSideScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60E71CD51C310037A1F3 /* PitcherSideScrollView.m */; };
 		559A60EB1CD537A50037A1F3 /* EditPitcherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60EA1CD537A50037A1F3 /* EditPitcherView.m */; };
 		559A60EE1CD546660037A1F3 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60ED1CD546660037A1F3 /* CustomTextField.m */; };
+		55D922F21CF36AC000609AD8 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D922F11CF36AC000609AD8 /* Globals.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		559A60EA1CD537A50037A1F3 /* EditPitcherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditPitcherView.m; sourceTree = "<group>"; };
 		559A60EC1CD546660037A1F3 /* CustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextField.h; sourceTree = "<group>"; };
 		559A60ED1CD546660037A1F3 /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextField.m; sourceTree = "<group>"; };
+		55D922F11CF36AC000609AD8 /* Globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Globals.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,15 +133,6 @@
 				559A60E41CD414A80037A1F3 /* LocalPitcherDatabase.m */,
 			);
 			name = PitcherDatabase;
-			sourceTree = "<group>";
-		};
-		555440D11CF22A000067B495 /* NSLogCustom */ = {
-			isa = PBXGroup;
-			children = (
-				555440CE1CF227FE0067B495 /* NSLogCustom.h */,
-				555440CF1CF227FE0067B495 /* NSLogCustom.m */,
-			);
-			name = NSLogCustom;
 			sourceTree = "<group>";
 		};
 		558940931CD2E61E004841DA /* PitchingClasses */ = {
@@ -180,7 +173,7 @@
 		5599008B1CD2890300D103FF /* PitchTracker */ = {
 			isa = PBXGroup;
 			children = (
-				555440D11CF22A000067B495 /* NSLogCustom */,
+				5599008C1CD2890300D103FF /* Supporting Files */,
 				559900951CD2890300D103FF /* Main.storyboard */,
 				5599008F1CD2890300D103FF /* AppDelegate.h */,
 				559900901CD2890300D103FF /* AppDelegate.m */,
@@ -189,15 +182,10 @@
 				559A60DC1CD3CF3C0037A1F3 /* PitcherViews */,
 				558940931CD2E61E004841DA /* PitchingClasses */,
 				551A0C261CE586CA0004B9C1 /* ZoneViews */,
-				559900BA1CD2B5C900D103FF /* Globals.h */,
-				5537DB521CD5AF4F0088AD4D /* SelectableLabel.h */,
-				5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */,
-				559A60EC1CD546660037A1F3 /* CustomTextField.h */,
-				559A60ED1CD546660037A1F3 /* CustomTextField.m */,
+				55D922F01CF363CE00609AD8 /* SubclassedExtras */,
 				559900981CD2890300D103FF /* Assets.xcassets */,
 				5599009A1CD2890300D103FF /* LaunchScreen.storyboard */,
 				5599009D1CD2890300D103FF /* Info.plist */,
-				5599008C1CD2890300D103FF /* Supporting Files */,
 			);
 			path = PitchTracker;
 			sourceTree = "<group>";
@@ -205,6 +193,10 @@
 		5599008C1CD2890300D103FF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				555440CE1CF227FE0067B495 /* NSLogCustom.h */,
+				555440CF1CF227FE0067B495 /* NSLogCustom.m */,
+				559900BA1CD2B5C900D103FF /* Globals.h */,
+				55D922F11CF36AC000609AD8 /* Globals.m */,
 				555440D21CF22C8B0067B495 /* PrefixHeader.pch */,
 				5599008D1CD2890300D103FF /* main.m */,
 			);
@@ -248,6 +240,17 @@
 				559A60EA1CD537A50037A1F3 /* EditPitcherView.m */,
 			);
 			name = PitcherViews;
+			sourceTree = "<group>";
+		};
+		55D922F01CF363CE00609AD8 /* SubclassedExtras */ = {
+			isa = PBXGroup;
+			children = (
+				5537DB521CD5AF4F0088AD4D /* SelectableLabel.h */,
+				5537DB531CD5AF4F0088AD4D /* SelectableLabel.m */,
+				559A60EC1CD546660037A1F3 /* CustomTextField.h */,
+				559A60ED1CD546660037A1F3 /* CustomTextField.m */,
+			);
+			name = SubclassedExtras;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,6 +333,7 @@
 				559900C71CD2B97000D103FF /* PitchInstance.m in Sources */,
 				5537DB541CD5AF4F0088AD4D /* SelectableLabel.m in Sources */,
 				555B66631CF2B57800D2F8B3 /* PitchStatsFiltered.m in Sources */,
+				55D922F21CF36AC000609AD8 /* Globals.m in Sources */,
 				559A60EB1CD537A50037A1F3 /* EditPitcherView.m in Sources */,
 				555440D01CF227FE0067B495 /* NSLogCustom.m in Sources */,
 				559900B61CD2B1AE00D103FF /* Pitcher.m in Sources */,

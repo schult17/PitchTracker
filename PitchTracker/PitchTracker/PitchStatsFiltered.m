@@ -11,6 +11,7 @@
 @implementation PitchStatsFiltered
 
 @synthesize stats = _stats;
-@synthesize filter = _filter;
+@synthesize statsFilters = _statsFilters;
+@synthesize pitchFilters = _pitchFilters;
 
 @end

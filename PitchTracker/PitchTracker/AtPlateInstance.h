@@ -23,7 +23,7 @@
 -(id) init;
 -(id) initWithJSON:(NSDictionary *)json;
 -(id) initWithBatter:(Hand)batter_hand;
--(void) addPitch:(PitchType) type with:(PitchLocation) X with:(PitchLocation) Y with:(int) balls with: (int) strikes with:(PitchOutcome) pitch_result;
+-(void) addPitch:(PitchTypes) type with:(PitchLocation) X with:(PitchLocation) Y with:(int) balls with: (int) strikes with:(PitchOutcome) pitch_result;
 -(void) endAtPlate:(AtPlateOutcome) atbat_result;
 
 -(NSDictionary *) getAsJSON;
