@@ -52,7 +52,7 @@
 -(void) setPercentageToDisplay:(CGFloat) perc
 {
     if( _percentageLabel != nil )
-        _percentageLabel.text = [ NSString stringWithFormat:@"%f%%", perc ];
+        _percentageLabel.text = [ NSString stringWithFormat:@"%.0f%%", perc ];
 }
 
 //-----locals-----//

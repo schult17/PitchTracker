@@ -11,7 +11,7 @@
 #import "SingleZoneView.h"
 
 #define ZONEDIM 5       //5x5 single zones
-#define ZONECOUNT 25
+#define ZONECOUNT ZONEDIM * ZONEDIM
 
 @interface ZoneView : UIView
 
@@ -29,5 +29,7 @@
 -(SingleZoneView *) handleTapInZone:(CGPoint) tap;
 -(void) deSelectZone;
 -(void) setZoneInteractionEnabled:(bool)enabled;
+
+-(void) displayPercentages:(NSArray*) percentages;
 
 @end

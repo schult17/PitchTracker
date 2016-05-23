@@ -13,7 +13,7 @@
 #import "ZoneView.h"
 #include "SelectableLabel.h"
 
-#define NUMBER_DISPLAY_ROWS 5
+#define NUMBER_DISPLAY_ROWS 6
 #define INFO_LABEL_TEXT_SIZE 25
 #define INFO_LABEL_INSET 15
 
@@ -40,6 +40,8 @@
 @property SelectableLabel *swingMissFilter;
 @property SelectableLabel *swingHitFilter;
 @property SelectableLabel *takeFilter;
+@property SelectableLabel *strikeFilter;
+@property SelectableLabel *ballFilter;
 @property SelectableLabel *pitchFilter;
 @property UILabel *pitchLabel;
 @property SelectableLabel *followUpFilter;

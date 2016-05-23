@@ -15,4 +15,7 @@
 @property StatTypes statsFilters;
 @property PitchTypes pitchFilters;
 
+-(id) initWithInfo:(PitchStats*) stats with: (StatTypes) statFilters with:(PitchTypes) pitchFilters;
+-(NSArray*) getZonePercentages;
+
 @end

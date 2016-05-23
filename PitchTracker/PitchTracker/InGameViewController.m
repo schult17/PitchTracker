@@ -229,55 +229,62 @@
 
 -(void) changeCount:(PitchOutcome)new_pitch
 {
-    switch( new_pitch )
+    if( new_pitch == INPLAY )
     {
-        case S_SWING:
-        case S_LOOK:
-        {
-            //Automatic ending of at bat
-            if( _countStrikes == 2 )
-            {
-                //return to avoid multiple setting of count label
-                [ self endCurrentBatterWithOutcome:( (new_pitch == S_SWING ) ? SO_SWING : SO_LOOK ) ];
-                return;
-            }
-            else
-            {
-                _countStrikes += 1;
-            }
-            
-            break;
-        }
-        case FOUL:
-        {
-            if( _countStrikes < 2 )
-                _countStrikes += 1;
-            
-            break;
-        }
-        case BALL:
-        {
-            //Automatic ending of at bat
-            if( _countBalls == 3 )
-            {
-                //return to avoid multiple setting of count label
-                [ self endCurrentBatterWithOutcome:WALK ];
-                return;
-            }
-            else
-            {
-                _countBalls += 1;
-            }
-            
-            break;
-        }
-        default:
-        {
-            break;
-        }
+        [self nextBatterButtonClicked]; //fake call to next batter clicked, the balls in play
     }
-    
-    [ self changeCountLabel ];
+    else
+    {
+        switch( new_pitch )
+        {
+            case S_SWING:
+            case S_LOOK:
+            {
+                //Automatic ending of at bat
+                if( _countStrikes == 2 )
+                {
+                    //return to avoid multiple setting of count label
+                    [ self endCurrentBatterWithOutcome:( (new_pitch == S_SWING ) ? SO_SWING : SO_LOOK ) ];
+                    return;
+                }
+                else
+                {
+                    _countStrikes += 1;
+                }
+                
+                break;
+            }
+            case FOUL:
+            {
+                if( _countStrikes < 2 )
+                    _countStrikes += 1;
+                
+                break;
+            }
+            case BALL:
+            {
+                //Automatic ending of at bat
+                if( _countBalls == 3 )
+                {
+                    //return to avoid multiple setting of count label
+                    [ self endCurrentBatterWithOutcome:WALK ];
+                    return;
+                }
+                else
+                {
+                    _countBalls += 1;
+                }
+                
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+        
+        [ self changeCountLabel ];
+    }
 }
 
 -(void) resetCount
@@ -634,6 +641,10 @@
                                                                   handler:^(UIAlertAction * action)
                                      { [self addPitchWithPitchOutcome:BALL]; }];
         
+        UIAlertAction* inPlayAction = [UIAlertAction actionWithTitle:@"In Play" style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction * action)
+                                       { [self addPitchWithPitchOutcome:INPLAY]; }];
+        
         UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * action){}];
 
@@ -642,6 +653,7 @@
         [ alert addAction:strikeLookAction ];
         [ alert addAction:foulAction ];
         [ alert addAction:ballAction ];
+        [ alert addAction:inPlayAction ];
         [ alert addAction:cancelAction ];
         
         UIPopoverPresentationController *popPresenter = [alert popoverPresentationController];

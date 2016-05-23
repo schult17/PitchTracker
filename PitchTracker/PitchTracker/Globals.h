@@ -68,6 +68,8 @@ typedef enum _PitchType
     COUNTPITCHES = 8
 }PitchTypes;
 
+#define ALL_PITCHES_FILTER (FASTBALL_4 | FASTBALL_2 | CUTTER | CURVE_1 | CURVE_2 | SLIDER | CHANGE | SPLITTER)
+
 NSString* getPitchString(PitchTypes type);
 int pitchTypeToIndex(PitchTypes type);
 //--------------------//
@@ -105,8 +107,9 @@ typedef enum _PitchOutcome
 {
     S_SWING,
     S_LOOK,
+    BALL,
     FOUL,
-    BALL
+    INPLAY
 }PitchOutcome;
 
 //outcome of an atbat (pitch sequence)
@@ -130,8 +133,10 @@ typedef enum _StatTypes
     SwingMiss = 1 << 4,
     SwingHit = 1 << 5,
     Take = 1 << 6,
-    Pitch = 1 << 7,
-    FollowUp = 1 << 7
+    Strike = 1 << 7,
+    Ball = 1 << 8,
+    Pitch = 1 << 9,
+    FollowUp = 1 << 10
 } StatTypes;
 
 #endif /* Globals_h */

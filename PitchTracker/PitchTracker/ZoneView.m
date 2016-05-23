@@ -128,4 +128,17 @@
     _interaction_enabled = enabled;
 }
 
+-(void) displayPercentages:(NSArray*) percentages
+{
+    float percentage = 0;
+    for( int i = 0; i < ZONEDIM; i++ )
+    {
+        for( int j = 0; j < ZONEDIM; j++ )
+        {
+            percentage = [ [[percentages objectAtIndex:i] objectAtIndex:j] floatValue ];
+            [ [[_zones objectAtIndex:i] objectAtIndex:j] setPercentageToDisplay:percentage ];
+        }
+    }
+}
+
 @end

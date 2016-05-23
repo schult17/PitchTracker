@@ -113,7 +113,8 @@
 
 -(void) addPitch:(PitchTypes) type with:(PitchLocation) X with:(PitchLocation) Y with:(int) balls with: (int) strikes with:(PitchOutcome) pitch_result
 {
-    if( pitch_result == S_SWING || pitch_result == S_LOOK || pitch_result == FOUL )
+    //NOTE: assume in play as a strike (since they swung at it...)
+    if( pitch_result == S_SWING || pitch_result == S_LOOK || pitch_result == FOUL || pitch_result == INPLAY )
     {
         _atbat_strikes += 1;
         

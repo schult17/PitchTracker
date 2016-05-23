@@ -7,6 +7,7 @@
 //
 
 #import "StatsViewController.h"
+#import "PitchStatsFiltered.h"
 
 @interface StatsViewController ()
 
@@ -95,7 +96,7 @@
     [ self loadPicker ];
     
     //default filter for stats??
-    _StatFilters = OutZone | SwingMiss | Take;
+    _StatFilters = OutZone | Ball | Strike | SwingMiss | Take;
 }
 
 -(void) layoutZoneView
@@ -127,9 +128,11 @@
     _inZoneFilter = [ [SelectableLabel alloc] initWithStr:@"In Zone" ];
     _outZoneFilter = [ [SelectableLabel alloc] initWithStr:@"Out Zone" ];
     _swingMissFilter = [ [SelectableLabel alloc] initWithStr:@"Miss" ];
-    _swingHitFilter = [ [SelectableLabel alloc] initWithStr:@"Hit" ];
+    _swingHitFilter = [ [SelectableLabel alloc] initWithStr:@"Contact" ];
     _takeFilter = [ [SelectableLabel alloc] initWithStr:@"Take" ];
     _pitchFilter = [ [SelectableLabel alloc] initWithStr:@"Pitch Type" ];
+    _strikeFilter = [ [SelectableLabel alloc] initWithStr:@"Strike" ];
+    _ballFilter = [ [SelectableLabel alloc] initWithStr:@"Ball" ];
     _pitchLabel = [ [UILabel alloc] init ];
     _followUpFilter = [ [SelectableLabel alloc] initWithStr:@"Follow Up Pitch" ];
     _followUpPitch = [ [UILabel alloc] init ];
@@ -142,6 +145,8 @@
     [ _statsView addSubview:_swingHitFilter ];
     [ _statsView addSubview:_takeFilter ];
     [ _statsView addSubview:_pitchFilter ];
+    [ _statsView addSubview:_strikeFilter ];
+    [ _statsView addSubview:_ballFilter ];
     //[ _statsView addSubview:_pitchLabel ];
     [ _statsView addSubview:_followUpFilter ];
     //[ _statsView addSubview:_followUpPitch ];
@@ -176,6 +181,15 @@
     //row 4
     f1.origin.y += h + delta;
     f2 = f1;
+    f2.size.width /= 2;
+    _strikeFilter.frame = f2;
+    
+    f2.origin.x += f2.size.width;
+    _ballFilter.frame = f2;
+    
+    //row 5
+    f1.origin.y += h + delta;
+    f2 = f1;
     f2.size.width /= 3;
     _swingHitFilter.frame = f2;
     
@@ -185,13 +199,13 @@
     f2.origin.x += f2.size.width;
     _takeFilter.frame = f2;
     
-    //row 5
+    //row 6
     f1.origin.y += h + delta;
 }
 
 -(void) handleResetResultFiltersClicked
 {
-    _StatFilters = InZone | OutZone | SwingMiss | SwingHit | Take;
+    _StatFilters = InZone | OutZone | Strike | Ball | SwingMiss | SwingHit | Take;
     [ self highlightCurrentResultFilters ];
 }
 //------------------------//
@@ -232,6 +246,9 @@
             _shortNameLabel.text = @"No Pitcher";
         }
     }
+    
+    if( _pitcher != nil )
+        [self loadStatsWithFilter];
 }
 
 //--Team picker methods--//
@@ -292,12 +309,27 @@
 {
     [ _inZoneFilter setSelect:(_StatFilters & InZone) ];
     [ _outZoneFilter setSelect:(_StatFilters & OutZone) ];
+    [ _strikeFilter setSelect:(_StatFilters & Strike) ];
+    [ _ballFilter setSelect:(_StatFilters & Ball) ];
     [ _swingHitFilter setSelect:(_StatFilters & SwingHit) ];
     [ _swingMissFilter setSelect:(_StatFilters & SwingMiss) ];
     [ _takeFilter setSelect:(_StatFilters & Take) ];
 }
 //----------------//
 
+//-----Loading stats to view-----//
+-(void) loadStatsWithFilter
+{
+    [_calculatingIndicator startAnimating];
+    
+    PitchStatsFiltered *filter = [ [PitchStatsFiltered alloc] initWithInfo:_pitcher.stats with:_StatFilters with:ALL_PITCHES_FILTER ];
+    
+    NSArray *zone_percentages = [filter getZonePercentages];
+    [ _zoneView displayPercentages:zone_percentages ];
+    
+    [_calculatingIndicator stopAnimating];
+}
+//-------------------------------//
 
 /*
 #pragma mark - Navigation

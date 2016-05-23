@@ -200,7 +200,7 @@
         {
             pitch_index = pitchTypeToIndex(inst.type);
             temp_count = (NSNumber*)[ pitchs_count objectAtIndex:pitch_index ];
-            temp_count = [ NSNumber numberWithFloat:( [temp_count intValue] + 1 ) ];
+            temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] + 1 ) ];
             [ pitchs_count replaceObjectAtIndex:pitch_index withObject:temp_count ];
         }
     }
@@ -266,7 +266,7 @@
             {
                 pitch_index = pitchTypeToIndex(inst.type);
                 temp_count = (NSNumber*)[ pitchs_count objectAtIndex:pitch_index ];
-                temp_count = [ NSNumber numberWithFloat:( [temp_count intValue] + 1 ) ];
+                temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] + 1 ) ];
                 [ pitchs_count replaceObjectAtIndex:pitch_index withObject:temp_count ];
                 two_strike_pitch_count++;
             }
