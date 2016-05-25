@@ -23,7 +23,7 @@ NSString* getPitchString(PitchTypes type)
             ret = @"Cutter";
             break;
         case CURVE_1:
-            ret = @"Curve";
+            ret = @"Curve(1)";
             break;
         case CURVE_2:
             ret = @"Curve(2)";
@@ -45,6 +45,30 @@ NSString* getPitchString(PitchTypes type)
     return ret;
 }
 
+PitchTypes getPitchTypeFromString(NSString *str)
+{
+    NSString *cmp_str = [ str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
+
+    if( [cmp_str caseInsensitiveCompare:@"Fastball(4)"] == NSOrderedSame )
+        return FASTBALL_4;
+    else if( [cmp_str caseInsensitiveCompare:@"Fastball(2)"] == NSOrderedSame )
+        return FASTBALL_2;
+    else if( [cmp_str caseInsensitiveCompare:@"Cutter"] == NSOrderedSame )
+        return CUTTER;
+    else if( [cmp_str caseInsensitiveCompare:@"Curve(1)"] == NSOrderedSame )
+        return CURVE_1;
+    else if( [cmp_str caseInsensitiveCompare:@"Curve(2)"] == NSOrderedSame )
+        return CURVE_2;
+    else if( [cmp_str caseInsensitiveCompare:@"Slider"] == NSOrderedSame )
+        return SLIDER;
+    else if( [cmp_str caseInsensitiveCompare:@"Changeup"] == NSOrderedSame )
+        return CHANGE;
+    else if( [cmp_str caseInsensitiveCompare:@"Splitter"] == NSOrderedSame )
+        return SPLITTER;
+    else
+        return 0;
+}
+
 int pitchTypeToIndex(PitchTypes type)
 {
     int ret = 0;
@@ -63,5 +87,36 @@ int pitchTypeToIndex(PitchTypes type)
     NSLog(DEBUG_VERBOSE, @"Could not convert pitch type to integer index, returning 0...");
     
     return 0;
+}
+
+//globals for stat filters
+StatTypes getFilterTypeFromCellString(NSString *str)
+{
+    NSString *cmp_str = [ str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
+    
+    if( [cmp_str caseInsensitiveCompare:SWING_MISS_FILTER_STR] == NSOrderedSame )
+        return SwingMiss;
+    else if( [cmp_str caseInsensitiveCompare:SWING_CONTACT_FILTER_STR] == NSOrderedSame )
+        return SwingHit;
+    else if( [cmp_str caseInsensitiveCompare:TAKE_FILTER_STR] == NSOrderedSame )
+        return Take;
+    else if( [cmp_str caseInsensitiveCompare:HIT_FILTER_STR] == NSOrderedSame )
+        return Hit;
+    else if( [cmp_str caseInsensitiveCompare:WALK_FILTER_STR] == NSOrderedSame )
+        return Walk;
+    else if( [cmp_str caseInsensitiveCompare:ERROR_FILTER_STR] == NSOrderedSame )
+        return Error;
+    else if( [cmp_str caseInsensitiveCompare:STRIKE_FILTER_STR] == NSOrderedSame )
+        return Strike;
+    else if( [cmp_str caseInsensitiveCompare:BALL_FILTER_STR] == NSOrderedSame )
+        return Ball;
+    else if( [cmp_str caseInsensitiveCompare:FOUL_FILTER_STR] == NSOrderedSame )
+        return Foul;
+    else if( [cmp_str caseInsensitiveCompare:INZONE_FILTER_STR] == NSOrderedSame )
+        return InZone;
+    else if( [cmp_str caseInsensitiveCompare:OUTZONE_FILTER_STR] == NSOrderedSame )
+        return OutZone;
+    else
+        return NoFilter;   //no filter, unknown
 }
 

@@ -9,6 +9,12 @@
 #import "StatsViewController.h"
 #import "PitchStatsFiltered.h"
 
+#define FILTER_NAME_KEY @"name"
+
+//Filter display colurs
+#define UNSELECTED_FILTER_COLOUR [UIColor whiteColor]
+#define SELECTED_FILTER_COLOUR [UIColor greenColor]
+
 @interface StatsViewController ()
 
 @end
@@ -26,20 +32,11 @@
 @synthesize StatFilters = _StatFilters;
 @synthesize calculatingIndicator = _calculatingIndicator;
 @synthesize teamPicker = _teamPicker;
-
 @synthesize shortNameLabel = _shortNameLabel;
 
-@synthesize filtersHeaderLabel = _filtersHeaderLabel;
-@synthesize resetDefaultFiltersButton = _resetDefaultFiltersButton;
-@synthesize inZoneFilter = _inZoneFilter;
-@synthesize outZoneFilter = _outZoneFilter;
-@synthesize swingMissFilter = _swingMissFilter;
-@synthesize swingHitFilter = _swingHitFilter;
-@synthesize takeFilter = _takeFilter;
-@synthesize pitchFilter = _pitchFilter;
-@synthesize pitchLabel = _pitchLabel;
-@synthesize followUpFilter = _followUpFilter;
-@synthesize followUpPitch = _followUpPitch;
+@synthesize filterTable = _filterTable;
+@synthesize arrayOriginal =_arrayOriginal;
+@synthesize arrayForTable = _arrayForTable;
 
 - (void)viewDidLoad
 {
@@ -47,8 +44,7 @@
     
     [ self loadZoneAndExtrasDisplay ];
     [ self loadInfoDisplay ];
-    [ self loadFilterDisplay ];
-    [ self highlightCurrentResultFilters ]; //must be after loadFilterDisplay
+    [ self loadFilterTable ];
 }
 
 -(void) viewDidLayoutSubviews
@@ -60,7 +56,7 @@
     [ self changePitcher:_pitcher ];
     
     [ self layoutZoneView ];
-    [ self layoutFilterDisplay ];
+    [ self layoutFilterTable ];
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -97,6 +93,7 @@
     
     //default filter for stats??
     _StatFilters = OutZone | Ball | Strike | SwingMiss | Take;
+    _PitchFilters = 0;  //All off by default
 }
 
 -(void) layoutZoneView
@@ -107,108 +104,6 @@
                                  _statsView.frame.size.height/1.95);
 }
 //--------------------------------//
-
-//-----Filter display-----//
--(void) loadFilterDisplay
-{
-    _filtersHeaderLabel = [ [UILabel alloc] init ];
-    _filtersHeaderLabel.text = @"Result Filters";
-    UIFont *f = _filtersHeaderLabel.font;
-    _filtersHeaderLabel.font = [ f fontWithSize:30 ];
-    _filtersHeaderLabel.textColor = [UIColor whiteColor];
-    _filtersHeaderLabel.textAlignment = NSTextAlignmentCenter;
-    
-    _resetDefaultFiltersButton = [ [UIButton alloc] init ];
-    [ _resetDefaultFiltersButton setTitle:@"Reset Default Result Filters" forState:UIControlStateNormal ];
-    [ _resetDefaultFiltersButton setTitleColor:NICE_BUTTON_COLOUR forState:UIControlStateNormal ];
-    f = _resetDefaultFiltersButton.titleLabel.font;
-    _resetDefaultFiltersButton.titleLabel.font = [ f fontWithSize:30 ];
-    [ _resetDefaultFiltersButton addTarget:self action:@selector(handleResetResultFiltersClicked) forControlEvents:UIControlEventTouchUpInside ];
-    
-    _inZoneFilter = [ [SelectableLabel alloc] initWithStr:@"In Zone" ];
-    _outZoneFilter = [ [SelectableLabel alloc] initWithStr:@"Out Zone" ];
-    _swingMissFilter = [ [SelectableLabel alloc] initWithStr:@"Miss" ];
-    _swingHitFilter = [ [SelectableLabel alloc] initWithStr:@"Contact" ];
-    _takeFilter = [ [SelectableLabel alloc] initWithStr:@"Take" ];
-    _pitchFilter = [ [SelectableLabel alloc] initWithStr:@"Pitch Type" ];
-    _strikeFilter = [ [SelectableLabel alloc] initWithStr:@"Strike" ];
-    _ballFilter = [ [SelectableLabel alloc] initWithStr:@"Ball" ];
-    _pitchLabel = [ [UILabel alloc] init ];
-    _followUpFilter = [ [SelectableLabel alloc] initWithStr:@"Follow Up Pitch" ];
-    _followUpPitch = [ [UILabel alloc] init ];
-    
-    [ _statsView addSubview:_filtersHeaderLabel ];
-    [ _statsView addSubview:_resetDefaultFiltersButton ];
-    [ _statsView addSubview:_inZoneFilter ];
-    [ _statsView addSubview:_outZoneFilter ];
-    [ _statsView addSubview:_swingMissFilter ];
-    [ _statsView addSubview:_swingHitFilter ];
-    [ _statsView addSubview:_takeFilter ];
-    [ _statsView addSubview:_pitchFilter ];
-    [ _statsView addSubview:_strikeFilter ];
-    [ _statsView addSubview:_ballFilter ];
-    //[ _statsView addSubview:_pitchLabel ];
-    [ _statsView addSubview:_followUpFilter ];
-    //[ _statsView addSubview:_followUpPitch ];
-}
-
--(void) layoutFilterDisplay
-{
-    float h = INFO_LABEL_TEXT_SIZE + 5;
-    float delta = ((_statsView.frame.size.height/2) - (NUMBER_DISPLAY_ROWS*h))/(NUMBER_DISPLAY_ROWS + 1);
-    
-    //row 0
-    CGRect f1 = CGRectMake( INFO_LABEL_INSET, delta, _statsView.frame.size.width/2 - INFO_LABEL_INSET, h );
-    _shortNameLabel.frame = f1;
-    
-    //row 1
-    f1.origin.y += h + delta;
-    _filtersHeaderLabel.frame = f1;
-    
-    //row 2
-    f1.origin.y += h + delta;
-    _resetDefaultFiltersButton.frame = f1;
-    
-    //row 3
-    f1.origin.y += h + delta;
-    CGRect f2 = f1;
-    f2.size.width /= 2;
-    _inZoneFilter.frame = f2;
-    
-    f2.origin.x += f2.size.width;
-    _outZoneFilter.frame = f2;
-    
-    //row 4
-    f1.origin.y += h + delta;
-    f2 = f1;
-    f2.size.width /= 2;
-    _strikeFilter.frame = f2;
-    
-    f2.origin.x += f2.size.width;
-    _ballFilter.frame = f2;
-    
-    //row 5
-    f1.origin.y += h + delta;
-    f2 = f1;
-    f2.size.width /= 3;
-    _swingHitFilter.frame = f2;
-    
-    f2.origin.x += f2.size.width;
-    _swingMissFilter.frame = f2;
-    
-    f2.origin.x += f2.size.width;
-    _takeFilter.frame = f2;
-    
-    //row 6
-    f1.origin.y += h + delta;
-}
-
--(void) handleResetResultFiltersClicked
-{
-    _StatFilters = InZone | OutZone | Strike | Ball | SwingMiss | SwingHit | Take;
-    [ self highlightCurrentResultFilters ];
-}
-//------------------------//
 
 - (IBAction)handleButtonClicked:(id)sender
 {
@@ -304,19 +199,6 @@
 }
 //-----------------------//
 
-//-----locals-----//
--(void) highlightCurrentResultFilters
-{
-    [ _inZoneFilter setSelect:(_StatFilters & InZone) ];
-    [ _outZoneFilter setSelect:(_StatFilters & OutZone) ];
-    [ _strikeFilter setSelect:(_StatFilters & Strike) ];
-    [ _ballFilter setSelect:(_StatFilters & Ball) ];
-    [ _swingHitFilter setSelect:(_StatFilters & SwingHit) ];
-    [ _swingMissFilter setSelect:(_StatFilters & SwingMiss) ];
-    [ _takeFilter setSelect:(_StatFilters & Take) ];
-}
-//----------------//
-
 //-----Loading stats to view-----//
 -(void) loadStatsWithFilter
 {
@@ -330,6 +212,197 @@
     [_calculatingIndicator stopAnimating];
 }
 //-------------------------------//
+
+//-----FILTER TREE VIEW-----//
+-(void) loadFilterTable
+{
+    NSDictionary *dTmp = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"FilterList" ofType:@"plist"]];
+    
+    self.arrayOriginal = [dTmp valueForKey:@"Objects"];
+    
+    self.arrayForTable = [[NSMutableArray alloc] init];
+    [self.arrayForTable addObjectsFromArray:self.arrayOriginal];
+    self.filterTable = [ [UITableView alloc] init ];
+    _filterTable.delegate = self;
+    _filterTable.dataSource = self;
+    _filterTable.backgroundColor = [UIColor blackColor];
+    _filterTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [ _statsView addSubview:_filterTable ];
+}
+
+-(void) layoutFilterTable
+{
+    _filterTable.frame = CGRectMake(0, 0, _zoneView.frame.size.width, _statsView.frame.size.height);
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+//TODO -- format the header better
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"Statistics Filters";
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [_arrayForTable count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil)
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] ;
+    
+    cell.textLabel.text=[[_arrayForTable objectAtIndex:indexPath.row] valueForKey:@"name"];
+    [cell setIndentationLevel:[[[_arrayForTable objectAtIndex:indexPath.row] valueForKey:@"level"] intValue]];
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.font = [cell.textLabel.font fontWithSize:25];
+    
+    //Dummy call to set these filters coloured if they are default
+    StatTypes type_filter = getFilterTypeFromCellString(cell.textLabel.text);
+    
+    if( _StatFilters & type_filter )
+        [ cell.textLabel setTextColor:SELECTED_FILTER_COLOUR ];
+    else
+        [ cell.textLabel setTextColor:UNSELECTED_FILTER_COLOUR ];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSDictionary *d=[_arrayForTable objectAtIndex:indexPath.row];
+    
+    if([d valueForKey:@"Objects"])  //expanding rows
+    {
+        NSArray *ar=[d valueForKey:@"Objects"];
+        
+        BOOL isAlreadyInserted=NO;
+        
+        for(NSDictionary *dInner in ar )
+        {
+            NSInteger index=[_arrayForTable indexOfObjectIdenticalTo:dInner];
+            isAlreadyInserted = (index > 0 && index != NSIntegerMax);
+            if(isAlreadyInserted) break;
+        }
+        
+        if(isAlreadyInserted)
+        {
+            [self miniMizeThisRows:ar];
+        }
+        else
+        {
+            NSUInteger count=indexPath.row+1;
+            NSMutableArray *arCells=[NSMutableArray array];
+            NSString *key_str = [d objectForKey:FILTER_NAME_KEY];
+            bool pitch_type_filter = [self headerClickedIsPitchType:key_str];
+            
+            //If we are choosing a pitch filter, only add pitches pitcher has to array, otherwise add default stuff
+            //essentially hides pitches pitcher does not have
+            for(NSDictionary *dInner in ar )
+            {
+                if( !pitch_type_filter || (getPitchTypeFromString([dInner objectForKey:FILTER_NAME_KEY]) & _pitcher.info.pitches) )
+                {
+                    [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
+                    [_arrayForTable insertObject:dInner atIndex:count++];
+                }
+            }
+            
+            [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
+        }
+    }
+    else    //clicking on actual filter
+    {
+        //mask in filter, set background
+        NSString *value_str = [d objectForKey:FILTER_NAME_KEY];
+        
+        if( !getPitchTypeFromString(value_str) )    //not a pitch filter
+        {
+            StatTypes new_filter = getFilterTypeFromCellString(value_str);
+            _StatFilters = _StatFilters ^ new_filter;
+            
+            UITableViewCell *cell = [ tableView cellForRowAtIndexPath:indexPath ];
+            bool new_filter_enabled = (_StatFilters & new_filter);
+            
+            [ self setTextColourOnFilterClicked:cell with:new_filter_enabled ];
+        }
+        else
+        {
+            PitchTypes new_filter = getPitchTypeFromString(value_str);
+            _PitchFilters = _PitchFilters ^ new_filter;
+            
+            UITableViewCell *cell = [ tableView cellForRowAtIndexPath:indexPath ];
+            bool new_filter_enabled = (_PitchFilters & new_filter);
+            
+            [ self setTextColourOnFilterClicked:cell with:new_filter_enabled ];
+        }
+    }
+}
+
+-(void) setTextColourOnFilterClicked:(UITableViewCell *) cell with: (bool) selected
+{
+    if(selected)
+        cell.textLabel.textColor = SELECTED_FILTER_COLOUR;
+    else
+        cell.textLabel.textColor = UNSELECTED_FILTER_COLOUR;
+}
+
+-(void)miniMizeThisRows:(NSArray*)ar
+{
+    for(NSDictionary *dInner in ar )
+    {
+        NSUInteger indexToRemove=[_arrayForTable indexOfObjectIdenticalTo:dInner];
+        NSArray *arInner=[dInner valueForKey:@"Objects"];
+        
+        if(arInner && [arInner count]>0)
+            [self miniMizeThisRows:arInner];
+        
+        if([self.arrayForTable indexOfObjectIdenticalTo:dInner]!=NSNotFound)
+        {
+            [_arrayForTable removeObjectIdenticalTo:dInner];
+            [_filterTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexToRemove inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+        }
+    }
+}
+//------------------------//
+
+//-----Locals for filter table-----//
+-(NSArray *) getPitchFilterArray
+{
+    NSMutableArray *ret = [ [NSMutableArray alloc] init ];
+    
+    int pitch_mask = 0;
+    for( int i = 0; i < COUNTPITCHES; i++ )
+    {
+        pitch_mask = 1 << i;
+        if( _pitcher.info.pitches & pitch_mask )
+            [ ret addObject:getPitchString(pitch_mask) ];
+    }
+    
+    return ret;
+}
+
+-(bool) headerClickedIsPitchType:(NSString *)str
+{
+    NSString *cmp_str = [ str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
+    return ( [cmp_str caseInsensitiveCompare:PITCH_TYPE_FILTER_STR] == NSOrderedSame );
+}
+
+-(bool) headerClickedIsCount:(NSString *)str
+{
+    NSString *cmp_str = [ str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
+    return ( [cmp_str caseInsensitiveCompare:COUNT_TYPE_FILTER_STR] == NSOrderedSame );
+}
+//---------------------------------//
 
 /*
 #pragma mark - Navigation

@@ -71,6 +71,7 @@ typedef enum _PitchType
 #define ALL_PITCHES_FILTER (FASTBALL_4 | FASTBALL_2 | CUTTER | CURVE_1 | CURVE_2 | SLIDER | CHANGE | SPLITTER)
 
 NSString* getPitchString(PitchTypes type);
+PitchTypes getPitchTypeFromString(NSString *str);
 int pitchTypeToIndex(PitchTypes type);
 //--------------------//
 
@@ -125,18 +126,47 @@ typedef enum _AtPlateOutcome
 }AtPlateOutcome;
 
 //Stat type filters (bit shift is for masking multiple in)
+
+//Pitch Result filter strings
+#define SWING_MISS_FILTER_STR @"Swing and Miss"
+#define SWING_CONTACT_FILTER_STR @"Swing and Contact"
+#define TAKE_FILTER_STR @"Take"
+#define HIT_FILTER_STR @"Hit"
+#define WALK_FILTER_STR @"Walk"
+#define ERROR_FILTER_STR @"Error"
+
+//Pitch call filter strings
+#define STRIKE_FILTER_STR @"Strike"
+#define BALL_FILTER_STR @"Ball"
+#define FOUL_FILTER_STR @"Foul"
+
+//Pitch location filter strings
+#define INZONE_FILTER_STR @"In Strike Zone (Red)"
+#define OUTZONE_FILTER_STR @"Out of Strike Zone (Blue)"
+
+//Filter header labels
+#define PITCH_TYPE_FILTER_STR @"+ Pitch Type"
+#define COUNT_TYPE_FILTER_STR @"+ Pitch Count"
+
 typedef enum _StatTypes
 {
+    NoFilter = 0,
     Count = 1 << 0,
     InZone = 1 << 2,
     OutZone = 1 << 3,
     SwingMiss = 1 << 4,
     SwingHit = 1 << 5,
     Take = 1 << 6,
-    Strike = 1 << 7,
-    Ball = 1 << 8,
-    Pitch = 1 << 9,
-    FollowUp = 1 << 10
+    Foul = 1 << 7,
+    Strike = 1 << 8,
+    Ball = 1 << 9,
+    Hit = 1 << 10,
+    Out = 1 << 11,
+    Walk = 1 << 12,
+    Error = 1 << 13,
+    Pitch = 1 << 14,
 } StatTypes;
+
+StatTypes getFilterTypeFromCellString(NSString *str);
 
 #endif /* Globals_h */

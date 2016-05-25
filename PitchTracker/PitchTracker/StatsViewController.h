@@ -17,7 +17,7 @@
 #define INFO_LABEL_TEXT_SIZE 25
 #define INFO_LABEL_INSET 15
 
-@interface StatsViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
+@interface StatsViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UIButton *teamFilterButton;
 @property (strong, nonatomic) IBOutlet PitcherSideScrollView *pitcherScrollView;
@@ -28,26 +28,17 @@
 @property Pitcher *pitcher;
 @property TeamNames TeamFilter;
 @property StatTypes StatFilters;
+@property PitchTypes PitchFilters;
 @property UIActivityIndicatorView *calculatingIndicator;
 @property UIPickerView *teamPicker;
-
 @property UILabel *shortNameLabel;
 
-@property UILabel *filtersHeaderLabel;
-@property UIButton *resetDefaultFiltersButton;
-@property SelectableLabel *inZoneFilter;
-@property SelectableLabel *outZoneFilter;
-@property SelectableLabel *swingMissFilter;
-@property SelectableLabel *swingHitFilter;
-@property SelectableLabel *takeFilter;
-@property SelectableLabel *strikeFilter;
-@property SelectableLabel *ballFilter;
-@property SelectableLabel *pitchFilter;
-@property UILabel *pitchLabel;
-@property SelectableLabel *followUpFilter;
-@property UILabel *followUpPitch;
+@property UITableView *filterTable;
+@property NSArray *arrayOriginal;
+@property NSMutableArray *arrayForTable;
 
 -(void) changeTeamFilter:(TeamNames) team;
 -(void) changePitcher:(Pitcher *) pitcher;
+
 
 @end

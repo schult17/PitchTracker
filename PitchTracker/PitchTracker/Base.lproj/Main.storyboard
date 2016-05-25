@@ -416,8 +416,8 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="uu7-bI-S9x"/>
                                         <exclude reference="6bK-Vq-A0E"/>
+                                        <exclude reference="uu7-bI-S9x"/>
                                     </mask>
                                 </variation>
                             </scrollView>

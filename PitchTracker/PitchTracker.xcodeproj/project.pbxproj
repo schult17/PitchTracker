@@ -39,6 +39,7 @@
 		559A60EB1CD537A50037A1F3 /* EditPitcherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60EA1CD537A50037A1F3 /* EditPitcherView.m */; };
 		559A60EE1CD546660037A1F3 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A60ED1CD546660037A1F3 /* CustomTextField.m */; };
 		55D922F21CF36AC000609AD8 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D922F11CF36AC000609AD8 /* Globals.m */; };
+		55D922F61CF5039600609AD8 /* FilterList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55D922F51CF5039600609AD8 /* FilterList.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +103,7 @@
 		559A60EC1CD546660037A1F3 /* CustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextField.h; sourceTree = "<group>"; };
 		559A60ED1CD546660037A1F3 /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextField.m; sourceTree = "<group>"; };
 		55D922F11CF36AC000609AD8 /* Globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Globals.m; sourceTree = "<group>"; };
+		55D922F51CF5039600609AD8 /* FilterList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FilterList.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +195,7 @@
 		5599008C1CD2890300D103FF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				55D922F51CF5039600609AD8 /* FilterList.plist */,
 				555440CE1CF227FE0067B495 /* NSLogCustom.h */,
 				555440CF1CF227FE0067B495 /* NSLogCustom.m */,
 				559900BA1CD2B5C900D103FF /* Globals.h */,
@@ -312,6 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5599009C1CD2890300D103FF /* LaunchScreen.storyboard in Resources */,
+				55D922F61CF5039600609AD8 /* FilterList.plist in Resources */,
 				559900AC1CD2AA0E00D103FF /* NewGameViewController.xib in Resources */,
 				559900991CD2890300D103FF /* Assets.xcassets in Resources */,
 				559900971CD2890300D103FF /* Main.storyboard in Resources */,

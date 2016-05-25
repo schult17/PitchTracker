@@ -93,7 +93,7 @@
     ret = ret | ( (result == BALL) && (_statsFilters & Take) );
     ret = ret | ( (result == INPLAY) && (_statsFilters & SwingHit) );
     ret = ret | ( (result == FOUL) && (_statsFilters & SwingHit) );
-    
+
     return ret;
 }
 

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Objects</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>+ Pitch Result</string>
+			<key>level</key>
+			<integer>0</integer>
+			<key>Objects</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>  Swing and Miss</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Swing and Contact</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Take</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Hit</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Out</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Walk</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Error</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>+ Pitch Call</string>
+			<key>level</key>
+			<integer>0</integer>
+			<key>Objects</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>  Strike</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Ball</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Foul</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>+ Pitch Location</string>
+			<key>level</key>
+			<integer>0</integer>
+			<key>Objects</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>  In Strike Zone (Red)</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Out of Strike Zone (Blue)</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>+ Pitch Count</string>
+			<key>level</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>+ Pitch Type</string>
+			<key>level</key>
+			<integer>0</integer>
+			<key>Objects</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>  Fastball(4)</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Fastball(2)</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Cutter</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Curve(1)</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Curve(2)</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Slider</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Change</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>  Splitter</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
