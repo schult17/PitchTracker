@@ -30,6 +30,8 @@
 @synthesize pitcher = _pitcher;
 @synthesize TeamFilter = _TeamFilter;
 @synthesize StatFilters = _StatFilters;
+@synthesize countBallsFilter = _countBallsFilter;
+@synthesize countStrikesFilter = _countStrikesFilter;
 @synthesize calculatingIndicator = _calculatingIndicator;
 @synthesize teamPicker = _teamPicker;
 @synthesize shortNameLabel = _shortNameLabel;
@@ -91,9 +93,11 @@
     
     [ self loadPicker ];
     
-    //default filter for stats??
-    _StatFilters = OutZone | Ball | Strike | SwingMiss | Take;
-    _PitchFilters = 0;  //All off by default
+    //default filters
+    _StatFilters = OutZone | Ball | Strike | SwingMiss | Take | Hit | Out;
+    _PitchFilters = ALL_PITCHES_FILTER;
+    _countBallsFilter = 0;
+    _countStrikesFilter = 0;
 }
 
 -(void) layoutZoneView
@@ -115,7 +119,10 @@
 {
     _TeamFilter = team;
     [ _teamFilterButton setTitle:TEAM_NAME_STR[team] forState:UIControlStateNormal ];
-    [_pitcherScrollView changeTeam:team];
+    [ _pitcherScrollView changeTeam:team ];
+    [ self changePitcher:nil ];
+    
+    //TODO -- refresh filters (atleast pitch type filter)
 }
 
 -(void) changePitcher:(Pitcher *) pitcher
@@ -143,10 +150,13 @@
     }
     
     if( _pitcher != nil )
-        [self loadStatsWithFilter];
+        [ self loadStatsWithFilter ];
+    
+    //TODO -- refresh filters (atleast pitch type filter)
 }
 
 //--Team picker methods--//
+//TODO -- move location of the team picker
 -(void) loadPicker
 {
     _teamPicker = [ UIPickerView new ];
@@ -204,7 +214,8 @@
 {
     [_calculatingIndicator startAnimating];
     
-    PitchStatsFiltered *filter = [ [PitchStatsFiltered alloc] initWithInfo:_pitcher.stats with:_StatFilters with:ALL_PITCHES_FILTER ];
+    //TODO -- this needs to also take a count
+    PitchStatsFiltered *filter = [ [PitchStatsFiltered alloc] initWithInfo:_pitcher.stats with:_StatFilters with:_PitchFilters ];
     
     NSArray *zone_percentages = [filter getZonePercentages];
     [ _zoneView displayPercentages:zone_percentages ];
@@ -213,16 +224,16 @@
 }
 //-------------------------------//
 
-//-----FILTER TREE VIEW-----//
+//---------------FILTER TREE VIEW---------------//
 -(void) loadFilterTable
 {
     NSDictionary *dTmp = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"FilterList" ofType:@"plist"]];
     
-    self.arrayOriginal = [dTmp valueForKey:@"Objects"];
+    _arrayOriginal = [dTmp valueForKey:@"Objects"];
     
-    self.arrayForTable = [[NSMutableArray alloc] init];
-    [self.arrayForTable addObjectsFromArray:self.arrayOriginal];
-    self.filterTable = [ [UITableView alloc] init ];
+    _arrayForTable = [[NSMutableArray alloc] init];
+    [ _arrayForTable addObjectsFromArray:_arrayOriginal ];
+    _filterTable = [ [UITableView alloc] init ];
     _filterTable.delegate = self;
     _filterTable.dataSource = self;
     _filterTable.backgroundColor = [UIColor blackColor];
@@ -235,15 +246,33 @@
     _filterTable.frame = CGRectMake(0, 0, _zoneView.frame.size.width, _statsView.frame.size.height);
 }
 
+//----------TABLE VIEW DELEGATES----------//
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView* custom_view = [ [UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, FILTER_HEADER_TEXT_SIZE + 5) ];
+    
+    // create the button object
+    UILabel * header_label = [[UILabel alloc] initWithFrame:CGRectZero];
+    header_label.backgroundColor = [UIColor clearColor];
+    header_label.textColor = UNSELECTED_FILTER_COLOUR;
+    header_label.font = [UIFont boldSystemFontOfSize:FILTER_HEADER_TEXT_SIZE];
+    header_label.frame = custom_view.frame;
+    header_label.textAlignment = NSTextAlignmentCenter;
+    
+    header_label.text = @"Statistics Filters";
+    [custom_view addSubview:header_label];
+    
+    return custom_view;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return FILTER_HEADER_TEXT_SIZE + 5;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
-}
-
-//TODO -- format the header better
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return @"Statistics Filters";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -260,18 +289,17 @@
     if (cell == nil)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] ;
     
-    cell.textLabel.text=[[_arrayForTable objectAtIndex:indexPath.row] valueForKey:@"name"];
-    [cell setIndentationLevel:[[[_arrayForTable objectAtIndex:indexPath.row] valueForKey:@"level"] intValue]];
-    cell.backgroundColor = [UIColor clearColor];
-    cell.textLabel.font = [cell.textLabel.font fontWithSize:25];
+    NSString *value_str = [ [_arrayForTable objectAtIndex:indexPath.row] valueForKey:@"name" ];
     
-    //Dummy call to set these filters coloured if they are default
-    StatTypes type_filter = getFilterTypeFromCellString(cell.textLabel.text);
+    cell.textLabel.text = value_str;
+    [cell setIndentationLevel:[ [[_arrayForTable objectAtIndex:indexPath.row] valueForKey:@"level"] intValue] ];
+    cell.backgroundColor = [ UIColor clearColor ];
+    cell.textLabel.font = [ cell.textLabel.font fontWithSize:25 ];
     
-    if( _StatFilters & type_filter )
-        [ cell.textLabel setTextColor:SELECTED_FILTER_COLOUR ];
-    else
-        [ cell.textLabel setTextColor:UNSELECTED_FILTER_COLOUR ];
+    StatTypes type_filter = getFilterTypeFromCellString(value_str);
+    
+    [ self setTextColourOnFilterClicked:cell with:(_StatFilters & type_filter) ];
+    [ self checkHandleSpecialCaseCellType:cell with:type_filter with:value_str ];
     
     return cell;
 }
@@ -281,71 +309,213 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     NSDictionary *d=[_arrayForTable objectAtIndex:indexPath.row];
+    NSMutableString *key_str = [d objectForKey:FILTER_NAME_KEY];
+    NSArray *ar= [ d valueForKey:NODE_OBJECTS_KEY_IN_TREE ];
     
-    if([d valueForKey:@"Objects"])  //expanding rows
+    if( ar != nil )  //expanding rows (internal nodes)
     {
-        NSArray *ar=[d valueForKey:@"Objects"];
-        
-        BOOL isAlreadyInserted=NO;
-        
-        for(NSDictionary *dInner in ar )
-        {
-            NSInteger index=[_arrayForTable indexOfObjectIdenticalTo:dInner];
-            isAlreadyInserted = (index > 0 && index != NSIntegerMax);
-            if(isAlreadyInserted) break;
-        }
-        
-        if(isAlreadyInserted)
+        if( [self isInternalNodeAlreadyExpanded:ar] )
         {
             [self miniMizeThisRows:ar];
+            key_str = (NSMutableString *)[ key_str stringByReplacingOccurrencesOfString:@"-" withString:@"+" ];
         }
         else
         {
-            NSUInteger count=indexPath.row+1;
-            NSMutableArray *arCells=[NSMutableArray array];
-            NSString *key_str = [d objectForKey:FILTER_NAME_KEY];
-            bool pitch_type_filter = [self headerClickedIsPitchType:key_str];
-            
-            //If we are choosing a pitch filter, only add pitches pitcher has to array, otherwise add default stuff
-            //essentially hides pitches pitcher does not have
-            for(NSDictionary *dInner in ar )
-            {
-                if( !pitch_type_filter || (getPitchTypeFromString([dInner objectForKey:FILTER_NAME_KEY]) & _pitcher.info.pitches) )
-                {
-                    [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
-                    [_arrayForTable insertObject:dInner atIndex:count++];
-                }
-            }
-            
-            [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
+            [ self expandInternalNode:tableView with:indexPath with:ar with:key_str ];
         }
+        
+        //+ or - based on expanding or minimizing (this if statement is only for internal nodes, not leaves)
+        UITableViewCell *cell = [ tableView cellForRowAtIndexPath:indexPath ];
+        cell.textLabel.text = key_str;
     }
-    else    //clicking on actual filter
+    else    //clicking on actual filter (leaf nodes)
     {
         //mask in filter, set background
-        NSString *value_str = [d objectForKey:FILTER_NAME_KEY];
+        NSMutableString *value_str = [ d objectForKey:FILTER_NAME_KEY ];
+        UITableViewCell *cell = [ tableView cellForRowAtIndexPath:indexPath ];
         
-        if( !getPitchTypeFromString(value_str) )    //not a pitch filter
+        [ self handleLeafNodeClicked:cell with:value_str ];
+    }
+}
+//----------------------------------------//
+
+
+
+
+//----------TABLE VIEW DELEGATE HELPERS (local)----------//
+-(void) checkHandleSpecialCaseCellType:(UITableViewCell *)cell with:(StatTypes) type_filter with:(NSString *)value_str
+{
+    PitchTypes pitch_filter = getPitchTypeFromString(value_str);
+    
+    if( type_filter == Count )  //Count leaf that shows YES or NO for filtering by count
+    {
+        if( _StatFilters & Count )
         {
-            StatTypes new_filter = getFilterTypeFromCellString(value_str);
-            _StatFilters = _StatFilters ^ new_filter;
-            
-            UITableViewCell *cell = [ tableView cellForRowAtIndexPath:indexPath ];
-            bool new_filter_enabled = (_StatFilters & new_filter);
-            
-            [ self setTextColourOnFilterClicked:cell with:new_filter_enabled ];
+            cell.textLabel.text = [value_str stringByReplacingOccurrencesOfString:OFF_SUBSTRING withString:ON_SUBSTRING];
+            cell.textLabel.textColor = SELECTED_FILTER_COLOUR;
         }
         else
         {
-            PitchTypes new_filter = getPitchTypeFromString(value_str);
-            _PitchFilters = _PitchFilters ^ new_filter;
-            
-            UITableViewCell *cell = [ tableView cellForRowAtIndexPath:indexPath ];
-            bool new_filter_enabled = (_PitchFilters & new_filter);
-            
-            [ self setTextColourOnFilterClicked:cell with:new_filter_enabled ];
+            cell.textLabel.text = [value_str stringByReplacingOccurrencesOfString:ON_SUBSTRING withString:OFF_SUBSTRING];
+            cell.textLabel.textColor = UNSELECTED_FILTER_COLOUR;
         }
     }
+    else if( [value_str containsString:BALLS_COUNT_SUBSTRING] ) //click on BALLS leaf, increases ball count
+    {
+        if( _StatFilters & Count )  //only increase if filtering by count is enabled
+        {
+            NSMutableString *label = [value_str mutableCopy];
+            NSString *number = [NSString stringWithFormat:@"%d", _countBallsFilter];
+            [ label replaceCharactersInRange:NSMakeRange(value_str.length - 1, 1) withString:number ];
+            cell.textLabel.text = label;
+        }
+    }
+    else if( [value_str containsString:STRIKES_COUNT_SUBSTRING] )   //click on STRIKES leaf, increas strike count
+    {
+        if( _StatFilters & Count )  //only increase if filtering by count is enabled
+        {
+            NSMutableString *label = [value_str mutableCopy];
+            NSString *number = [NSString stringWithFormat:@"%d", _countStrikesFilter];
+            [ label replaceCharactersInRange:NSMakeRange(value_str.length - 1, 1) withString:number ];
+            cell.textLabel.text = label;
+        }
+    }
+    else if( pitch_filter )     //if this cell is a pitch
+    {
+        //if pitch is in current set of filters AND the pitcher has the pitch, highlight it
+        if( (_PitchFilters & pitch_filter) && (_pitcher.info.pitches & pitch_filter) )
+            cell.textLabel.textColor = SELECTED_FILTER_COLOUR;
+        else
+            cell.textLabel.textColor = UNSELECTED_FILTER_COLOUR;
+    }
+}
+
+-(BOOL) isInternalNodeAlreadyExpanded:(NSArray *)ar
+{
+    NSInteger index = 0;
+    for(NSDictionary *dInner in ar )
+    {
+        index = [_arrayForTable indexOfObjectIdenticalTo:dInner];
+        
+        if(index > 0 && index != NSIntegerMax)
+            return YES;
+    }
+    
+    return NO;
+}
+
+-(void)miniMizeThisRows:(NSArray*)ar
+{
+    NSUInteger index_to_remove;
+    NSArray *array_inner = nil;
+    for(NSDictionary *dict_inner in ar )
+    {
+        index_to_remove = [ _arrayForTable indexOfObjectIdenticalTo:dict_inner ];
+        array_inner = [ dict_inner valueForKey:NODE_OBJECTS_KEY_IN_TREE ];
+        
+        if( array_inner && [array_inner count] > 0 )
+            [ self miniMizeThisRows:array_inner ];
+        
+        if([self.arrayForTable indexOfObjectIdenticalTo:dict_inner]!=NSNotFound)
+        {
+            [_arrayForTable removeObjectIdenticalTo:dict_inner];
+            [_filterTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index_to_remove inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+        }
+    }
+}
+
+-(void) expandInternalNode:(UITableView *)tableView with:(NSIndexPath *)indexPath with:(NSArray *) ar with:(NSString *) key_str
+{
+    NSUInteger count = indexPath.row+1;
+    NSMutableArray *arCells=[NSMutableArray array];
+    bool pitch_type_filter = [self headerClickedIsPitchType:key_str];
+    
+    if( !pitch_type_filter )    //if this is not the pitch type header
+    {
+        for(NSDictionary *dInner in ar )
+        {
+            [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
+            [_arrayForTable insertObject:dInner atIndex:count++];
+        }
+    }
+    else
+    {
+        PitchTypes pitch_mask = 0;
+        
+        //Array will hold all possible pitches, only add rows for pitches pitcher has
+        for( NSDictionary *dInner in ar )
+        {
+            pitch_mask = getPitchTypeFromString( [dInner objectForKey:FILTER_NAME_KEY] );
+            if( _pitcher.info.pitches & pitch_mask )    //pitcher has pitch
+            {
+                [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
+                [_arrayForTable insertObject:dInner atIndex:count++];
+            }
+            else    //does not have pitch, mask it out current PitchFilters
+            {
+                _PitchFilters = _PitchFilters & ~pitch_mask;
+            }
+        }
+    }
+    
+    [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
+    key_str = (NSMutableString *)[ key_str stringByReplacingOccurrencesOfString:@"+" withString:@"-" ];
+}
+
+-(void) handleLeafNodeClicked:(UITableViewCell *)cell with:(NSString *) value_str
+{
+    if( getFilterTypeFromCellString(value_str) == Count )   //click on toggle of filter by count (ON/OFF)
+    {
+        [ self toggleCountFilterClicked:cell with:value_str ];
+    }
+    else if( [value_str containsString:BALLS_COUNT_SUBSTRING] ) //click on BALLS
+    {
+        if( _StatFilters & Count )  //only if filtering by count is enabled
+        {
+            _countBallsFilter = (_countBallsFilter + 1) % 4;
+            [ self checkHandleSpecialCaseCellType:cell with:0 with:value_str ];
+        }
+    }
+    else if( [value_str containsString:STRIKES_COUNT_SUBSTRING] ) //click on STRIKES
+    {
+        if( _StatFilters & Count )  //only if filtering by count is enabled
+        {
+            _countStrikesFilter = (_countStrikesFilter + 1) % 3;
+            [ self checkHandleSpecialCaseCellType:cell with:0 with:value_str ];
+        }
+    }
+    else if( !getPitchTypeFromString(value_str) )    //not a pitch filter
+    {
+        StatTypes new_filter = getFilterTypeFromCellString(value_str);
+        _StatFilters = _StatFilters ^ new_filter;
+        
+        bool new_filter_enabled = (_StatFilters & new_filter);
+        [ self setTextColourOnFilterClicked:cell with:new_filter_enabled ];
+    }
+    else    //must be one of the pitches
+    {
+        PitchTypes new_filter = getPitchTypeFromString(value_str);
+        _PitchFilters = _PitchFilters ^ new_filter;
+        
+        bool new_filter_enabled = (_PitchFilters & new_filter);
+        [ self setTextColourOnFilterClicked:cell with:new_filter_enabled ];
+    }
+}
+
+-(void) toggleCountFilterClicked:(UITableViewCell *) cell with:(NSString *)value_str
+{
+    if( _StatFilters & Count )
+    {
+        cell.textLabel.text = [value_str stringByReplacingOccurrencesOfString:@"ON" withString:@"OFF"];
+        cell.textLabel.textColor = [UIColor whiteColor];
+    }
+    else
+    {
+        cell.textLabel.text = [value_str stringByReplacingOccurrencesOfString:@"OFF" withString:@"ON"];
+        cell.textLabel.textColor = [UIColor greenColor];
+    }
+    
+    _StatFilters = _StatFilters ^ Count;    //flips bit of count (toggle ON/OFF)
 }
 
 -(void) setTextColourOnFilterClicked:(UITableViewCell *) cell with: (bool) selected
@@ -356,53 +526,12 @@
         cell.textLabel.textColor = UNSELECTED_FILTER_COLOUR;
 }
 
--(void)miniMizeThisRows:(NSArray*)ar
-{
-    for(NSDictionary *dInner in ar )
-    {
-        NSUInteger indexToRemove=[_arrayForTable indexOfObjectIdenticalTo:dInner];
-        NSArray *arInner=[dInner valueForKey:@"Objects"];
-        
-        if(arInner && [arInner count]>0)
-            [self miniMizeThisRows:arInner];
-        
-        if([self.arrayForTable indexOfObjectIdenticalTo:dInner]!=NSNotFound)
-        {
-            [_arrayForTable removeObjectIdenticalTo:dInner];
-            [_filterTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexToRemove inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
-        }
-    }
-}
-//------------------------//
-
-//-----Locals for filter table-----//
--(NSArray *) getPitchFilterArray
-{
-    NSMutableArray *ret = [ [NSMutableArray alloc] init ];
-    
-    int pitch_mask = 0;
-    for( int i = 0; i < COUNTPITCHES; i++ )
-    {
-        pitch_mask = 1 << i;
-        if( _pitcher.info.pitches & pitch_mask )
-            [ ret addObject:getPitchString(pitch_mask) ];
-    }
-    
-    return ret;
-}
-
 -(bool) headerClickedIsPitchType:(NSString *)str
 {
     NSString *cmp_str = [ str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
     return ( [cmp_str caseInsensitiveCompare:PITCH_TYPE_FILTER_STR] == NSOrderedSame );
 }
-
--(bool) headerClickedIsCount:(NSString *)str
-{
-    NSString *cmp_str = [ str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
-    return ( [cmp_str caseInsensitiveCompare:COUNT_TYPE_FILTER_STR] == NSOrderedSame );
-}
-//---------------------------------//
+//-----------------------------------------------------------------//
 
 /*
 #pragma mark - Navigation

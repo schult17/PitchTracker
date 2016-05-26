@@ -14,6 +14,10 @@
 @synthesize stats = _stats;
 @synthesize statsFilters = _statsFilters;
 @synthesize pitchFilters = _pitchFilters;
+@synthesize countBalls = _countBalls;
+@synthesize countStrikes = _countStrikes;
+
+//TODO -- need to deal with count, and new filters
 
 -(id) initWithInfo:(PitchStats*) stats with: (StatTypes) statFilters with:(PitchTypes) pitchFilters
 {

@@ -108,6 +108,27 @@
 			<string>+ Pitch Count</string>
 			<key>level</key>
 			<integer>0</integer>
+			<key>Objects</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>  Count Filter: OFF</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>    Balls: 0</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>    Strikes: 0</string>
+					<key>level</key>
+					<integer>1</integer>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>name</key>

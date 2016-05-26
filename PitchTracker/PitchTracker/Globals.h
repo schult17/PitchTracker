@@ -132,6 +132,7 @@ typedef enum _AtPlateOutcome
 #define SWING_CONTACT_FILTER_STR @"Swing and Contact"
 #define TAKE_FILTER_STR @"Take"
 #define HIT_FILTER_STR @"Hit"
+#define OUT_FILTER_STR @"Out"
 #define WALK_FILTER_STR @"Walk"
 #define ERROR_FILTER_STR @"Error"
 
@@ -146,7 +147,13 @@ typedef enum _AtPlateOutcome
 
 //Filter header labels
 #define PITCH_TYPE_FILTER_STR @"+ Pitch Type"
-#define COUNT_TYPE_FILTER_STR @"+ Pitch Count"
+
+#define TOGGLE_COUNT_FILTER_STR @"Count Filter:"
+
+#define BALLS_COUNT_SUBSTRING @"Balls"
+#define STRIKES_COUNT_SUBSTRING @"Strikes"
+#define OFF_SUBSTRING @"OFF"
+#define ON_SUBSTRING @"ON"
 
 typedef enum _StatTypes
 {

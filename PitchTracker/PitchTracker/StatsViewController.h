@@ -16,6 +16,8 @@
 #define NUMBER_DISPLAY_ROWS 6
 #define INFO_LABEL_TEXT_SIZE 25
 #define INFO_LABEL_INSET 15
+#define FILTER_HEADER_TEXT_SIZE 30
+#define NODE_OBJECTS_KEY_IN_TREE @"Objects"
 
 @interface StatsViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource>
 
@@ -28,6 +30,8 @@
 @property Pitcher *pitcher;
 @property TeamNames TeamFilter;
 @property StatTypes StatFilters;
+@property int countBallsFilter;
+@property int countStrikesFilter;
 @property PitchTypes PitchFilters;
 @property UIActivityIndicatorView *calculatingIndicator;
 @property UIPickerView *teamPicker;

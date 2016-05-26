@@ -98,12 +98,16 @@ StatTypes getFilterTypeFromCellString(NSString *str)
         return SwingMiss;
     else if( [cmp_str caseInsensitiveCompare:SWING_CONTACT_FILTER_STR] == NSOrderedSame )
         return SwingHit;
+    else if( [cmp_str containsString:TOGGLE_COUNT_FILTER_STR] ) //note this is different
+        return Count;
     else if( [cmp_str caseInsensitiveCompare:TAKE_FILTER_STR] == NSOrderedSame )
         return Take;
     else if( [cmp_str caseInsensitiveCompare:HIT_FILTER_STR] == NSOrderedSame )
         return Hit;
     else if( [cmp_str caseInsensitiveCompare:WALK_FILTER_STR] == NSOrderedSame )
         return Walk;
+    else if( [cmp_str caseInsensitiveCompare:OUT_FILTER_STR] == NSOrderedSame )
+        return Out;
     else if( [cmp_str caseInsensitiveCompare:ERROR_FILTER_STR] == NSOrderedSame )
         return Error;
     else if( [cmp_str caseInsensitiveCompare:STRIKE_FILTER_STR] == NSOrderedSame )
@@ -117,6 +121,6 @@ StatTypes getFilterTypeFromCellString(NSString *str)
     else if( [cmp_str caseInsensitiveCompare:OUTZONE_FILTER_STR] == NSOrderedSame )
         return OutZone;
     else
-        return NoFilter;   //no filter, unknown
+        return NoFilter;   //no filter, unknown, or other filter
 }
 
