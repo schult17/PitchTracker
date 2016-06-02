@@ -6,6 +6,12 @@
 	<array>
 		<dict>
 			<key>name</key>
+			<string>Apply Filters</string>
+			<key>level</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>name</key>
 			<string>+ Pitch Result</string>
 			<key>level</key>
 			<integer>0</integer>
@@ -44,12 +50,6 @@
 				<dict>
 					<key>name</key>
 					<string>  Walk</string>
-					<key>level</key>
-					<integer>1</integer>
-				</dict>
-				<dict>
-					<key>name</key>
-					<string>  Error</string>
 					<key>level</key>
 					<integer>1</integer>
 				</dict>
@@ -175,7 +175,7 @@
 				</dict>
 				<dict>
 					<key>name</key>
-					<string>  Change</string>
+					<string>  Changeup</string>
 					<key>level</key>
 					<integer>1</integer>
 				</dict>

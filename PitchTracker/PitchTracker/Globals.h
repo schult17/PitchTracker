@@ -122,10 +122,12 @@ typedef enum _AtPlateOutcome
     ERROR,
     HIT,
     PITCH_CHANGE,
-    HBP     //deprecated
+    HBP     //deprecated (just a walk now)
 }AtPlateOutcome;
 
-//Stat type filters (bit shift is for masking multiple in)
+
+//----------------------------------------------//
+#define APPLY_FILTERS_STR @"Apply Filters"
 
 //Pitch Result filter strings
 #define SWING_MISS_FILTER_STR @"Swing and Miss"
@@ -134,7 +136,6 @@ typedef enum _AtPlateOutcome
 #define HIT_FILTER_STR @"Hit"
 #define OUT_FILTER_STR @"Out"
 #define WALK_FILTER_STR @"Walk"
-#define ERROR_FILTER_STR @"Error"
 
 //Pitch call filter strings
 #define STRIKE_FILTER_STR @"Strike"
@@ -155,6 +156,7 @@ typedef enum _AtPlateOutcome
 #define OFF_SUBSTRING @"OFF"
 #define ON_SUBSTRING @"ON"
 
+//Stat type filters (bit shift is for masking multiple in)
 typedef enum _StatTypes
 {
     NoFilter = 0,
@@ -170,10 +172,13 @@ typedef enum _StatTypes
     Hit = 1 << 10,
     Out = 1 << 11,
     Walk = 1 << 12,
-    Error = 1 << 13,
-    Pitch = 1 << 14,
+    Pitch = 1 << 13,
 } StatTypes;
 
+#define DEFAULT_STATS_FILTERS InZone | OutZone | SwingMiss | SwingHit | Strike | Ball | Hit | Out | Walk
+
+bool cellIsApplyFiltersButton(NSString *str);
 StatTypes getFilterTypeFromCellString(NSString *str);
+//-------------------------------------------------------//
 
 #endif /* Globals_h */

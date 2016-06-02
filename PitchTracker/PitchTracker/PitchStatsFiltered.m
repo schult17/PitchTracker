@@ -49,7 +49,7 @@
     {
         for( PitchInstance* inst in i.atbat_pitches )
         {
-            if( [self pitchMatchesAllFilters:inst] )
+            if( [self pitchMatchesAllFilters:i with:inst] )
             {
                 temp_count =(NSNumber *)[ [zone_percentages objectAtIndex:inst.X] objectAtIndex:inst.Y ];
                 temp_count = [ NSNumber numberWithFloat:( [temp_count floatValue] + 1 ) ];
@@ -73,9 +73,12 @@
 }
 
 //----------Locals----------//
--(bool) pitchMatchesAllFilters:(PitchInstance *) pitch
+-(bool) pitchMatchesAllFilters:(AtPlate *) ap with:(PitchInstance *) pitch
 {
-    return ((pitch.type & _pitchFilters) && [self pitchInfoMatchesFilters:pitch]);
+    bool ret = ((pitch.type & _pitchFilters) && [self pitchInfoMatchesFilters:pitch]);
+    ret = ( (ret && [self pitchMatchesCountFilter:pitch]) || [self pitchMatchesAtPlateFilter:ap with:pitch] );
+    
+    return ret;
 }
 
 -(bool) pitchInfoMatchesFilters:(PitchInstance *)pitch
@@ -88,16 +91,35 @@
     return true;
 }
 
+-(bool) pitchMatchesAtPlateFilter:(AtPlate *)ap with:(PitchInstance *)pi
+{
+    bool ret = (pi.pitch_result == INPLAY);
+    
+    ret = ret || ((ap.atbat_result == HIT) && (_statsFilters & Hit));
+    ret = ret || ((ap.atbat_result == WALK) && (_statsFilters & Walk));
+    ret = ret || ((ap.atbat_result == HIT) && (_statsFilters & Walk));
+    
+    return ret;
+}
+
 -(bool) pitchResultMatchesFilters:(PitchOutcome) result
 {
     bool ret = ( (result == S_SWING) && (_statsFilters & SwingMiss) );
-    ret = ret | ( (result == S_LOOK) && (_statsFilters & Take) );
-    ret = ret | ( (result == S_SWING || result == S_LOOK || result == FOUL) && (_statsFilters & Strike) );
-    ret = ret | ( (result == BALL ) && (_statsFilters & Ball) );
-    ret = ret | ( (result == BALL) && (_statsFilters & Take) );
-    ret = ret | ( (result == INPLAY) && (_statsFilters & SwingHit) );
-    ret = ret | ( (result == FOUL) && (_statsFilters & SwingHit) );
+    ret = ret || ( (result == S_LOOK) && (_statsFilters & Take) );
+    ret = ret || ( (result == S_SWING || result == S_LOOK || result == FOUL) && (_statsFilters & Strike) );
+    ret = ret || ( (result == BALL ) && (_statsFilters & Ball) );
+    ret = ret || ( (result == BALL) && (_statsFilters & Take) );
+    ret = ret || ( (result == INPLAY) && (_statsFilters & SwingHit) );
+    ret = ret || ( (result == FOUL) && (_statsFilters & SwingHit) );
 
+    return ret;
+}
+
+-(bool) pitchMatchesCountFilter:(PitchInstance *) pitch
+{
+    bool ret = (pitch.PitchCountBalls == _countBalls) && (pitch.PitchCountStrikes == _countStrikes);
+    ret = ret || !(_statsFilters & Count);  //not filtering by count? Return true
+    
     return ret;
 }
 

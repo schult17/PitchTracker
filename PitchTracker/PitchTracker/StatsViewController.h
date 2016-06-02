@@ -15,9 +15,12 @@
 
 #define NUMBER_DISPLAY_ROWS 6
 #define INFO_LABEL_TEXT_SIZE 25
+#define DISPLAY_LABEL_HEIGHT INFO_LABEL_TEXT_SIZE + 5
 #define INFO_LABEL_INSET 15
 #define FILTER_HEADER_TEXT_SIZE 30
 #define NODE_OBJECTS_KEY_IN_TREE @"Objects"
+
+#define LABEL_COUNT_OVERALL 4
 
 @interface StatsViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource>
 
@@ -40,6 +43,10 @@
 @property UITableView *filterTable;
 @property NSArray *arrayOriginal;
 @property NSMutableArray *arrayForTable;
+
+@property UILabel *strikesBallsLabel;
+@property UILabel *strikeBallPercLabel;
+@property UILabel *walksHitsLabel;
 
 -(void) changeTeamFilter:(TeamNames) team;
 -(void) changePitcher:(Pitcher *) pitcher;

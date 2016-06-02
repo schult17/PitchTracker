@@ -40,6 +40,10 @@
 @synthesize arrayOriginal =_arrayOriginal;
 @synthesize arrayForTable = _arrayForTable;
 
+@synthesize strikesBallsLabel = _strikesBallsLabel;
+@synthesize strikeBallPercLabel = _strikeBallPercLabel;
+@synthesize walksHitsLabel = _walksHitsLabel;
+
 - (void)viewDidLoad
 {
     [ super viewDidLoad ];
@@ -47,37 +51,26 @@
     [ self loadZoneAndExtrasDisplay ];
     [ self loadInfoDisplay ];
     [ self loadFilterTable ];
+    [ self loadOverallDisplay ];
 }
 
--(void) viewDidLayoutSubviews
+-(void) viewDidAppear:(BOOL)animated
 {
-    [ super viewDidLayoutSubviews ];
+    [ super viewDidAppear:animated ];
     
-    //basically a refresh
+    //basically a refresh, better here than didLayoutSubview
     [ self changeTeamFilter:_TeamFilter ];
     [ self changePitcher:_pitcher ];
     
     [ self layoutZoneView ];
+    [ self layoutOverallDisplay ];  //must be done after zone view!
     [ self layoutFilterTable ];
-}
-
--(void) viewWillAppear:(BOOL)animated
-{
-    [ super viewWillAppear:animated ];
 }
 
 //-----Pitcher info display-----//
 -(void) loadInfoDisplay
 {
-    _shortNameLabel = [ [UILabel alloc] init ];
     
-    _shortNameLabel.textColor = [UIColor whiteColor];
-    _shortNameLabel.font = [_shortNameLabel.font fontWithSize:INFO_LABEL_TEXT_SIZE];
-    
-    _shortNameLabel.text = @"Name";
-    _shortNameLabel.textAlignment = NSTextAlignmentCenter;
-    
-    [ _statsView addSubview:_shortNameLabel ];
 }
 //--------------------------------//
 
@@ -85,7 +78,7 @@
 -(void) loadZoneAndExtrasDisplay
 {
     _calculatingIndicator = [ [UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge ];
-    _calculatingIndicator.center = self.view.center;    //for now....
+    _calculatingIndicator.center = _zoneView.center;    //for now....
     [ self.view addSubview:_calculatingIndicator ];
     
     _zoneView = [ [ZoneView alloc] initWithInfo:true ];
@@ -94,7 +87,7 @@
     [ self loadPicker ];
     
     //default filters
-    _StatFilters = OutZone | Ball | Strike | SwingMiss | Take | Hit | Out;
+    _StatFilters = DEFAULT_STATS_FILTERS;
     _PitchFilters = ALL_PITCHES_FILTER;
     _countBallsFilter = 0;
     _countStrikesFilter = 0;
@@ -121,13 +114,18 @@
     [ _teamFilterButton setTitle:TEAM_NAME_STR[team] forState:UIControlStateNormal ];
     [ _pitcherScrollView changeTeam:team ];
     [ self changePitcher:nil ];
+    [ self loadStatsWithFilter ];
     
-    //TODO -- refresh filters (atleast pitch type filter)
+    //TODO -- minimize all the rows??? Or update
+    [ _filterTable reloadData ];
 }
 
 -(void) changePitcher:(Pitcher *) pitcher
 {
     _pitcher = pitcher;
+    
+    //reset pitch filter
+    _PitchFilters = ALL_PITCHES_FILTER;
  
     if( _pitcher != nil )
     {
@@ -152,8 +150,26 @@
     if( _pitcher != nil )
         [ self loadStatsWithFilter ];
     
-    //TODO -- refresh filters (atleast pitch type filter)
+    [ self setOverallLabels ];
+    
+    //reset when pitcher changes
+    [ self resetPitchFilterBranch ];
 }
+
+//-----Loading stats to view-----//
+-(void) loadStatsWithFilter
+{
+    [_calculatingIndicator startAnimating];
+    
+    //TODO -- this needs to also take a count
+    PitchStatsFiltered *filter = [ [PitchStatsFiltered alloc] initWithInfo:_pitcher.stats with:_StatFilters with:_PitchFilters ];
+    
+    NSArray *zone_percentages = [filter getZonePercentages];
+    [ _zoneView displayPercentages:zone_percentages ];
+    
+    [_calculatingIndicator stopAnimating];
+}
+//-------------------------------//
 
 //--Team picker methods--//
 //TODO -- move location of the team picker
@@ -165,7 +181,7 @@
     _teamPicker.showsSelectionIndicator = YES;
     _teamPicker.hidden = YES;
     
-    [ _teamPicker setCenter:self.view.center ];
+    [ _teamPicker setCenter:_pitcherScrollView.center ];    //TODO --  better place?
     [ self.view addSubview:_teamPicker ];
 }
 
@@ -209,21 +225,6 @@
 }
 //-----------------------//
 
-//-----Loading stats to view-----//
--(void) loadStatsWithFilter
-{
-    [_calculatingIndicator startAnimating];
-    
-    //TODO -- this needs to also take a count
-    PitchStatsFiltered *filter = [ [PitchStatsFiltered alloc] initWithInfo:_pitcher.stats with:_StatFilters with:_PitchFilters ];
-    
-    NSArray *zone_percentages = [filter getZonePercentages];
-    [ _zoneView displayPercentages:zone_percentages ];
-    
-    [_calculatingIndicator stopAnimating];
-}
-//-------------------------------//
-
 //---------------FILTER TREE VIEW---------------//
 -(void) loadFilterTable
 {
@@ -246,7 +247,7 @@
     _filterTable.frame = CGRectMake(0, 0, _zoneView.frame.size.width, _statsView.frame.size.height);
 }
 
-//----------TABLE VIEW DELEGATES----------//
+//----------TABLE TREE VIEW DELEGATES----------//
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView* custom_view = [ [UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, FILTER_HEADER_TEXT_SIZE + 5) ];
@@ -289,7 +290,11 @@
     if (cell == nil)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] ;
     
+    bool expanded = [ cell.textLabel.text containsString:@"-" ];
     NSString *value_str = [ [_arrayForTable objectAtIndex:indexPath.row] valueForKey:@"name" ];
+    if(expanded)
+        value_str = [value_str stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
+        
     
     cell.textLabel.text = value_str;
     [cell setIndentationLevel:[ [[_arrayForTable objectAtIndex:indexPath.row] valueForKey:@"level"] intValue] ];
@@ -322,6 +327,7 @@
         else
         {
             [ self expandInternalNode:tableView with:indexPath with:ar with:key_str ];
+            key_str = (NSMutableString *)[ key_str stringByReplacingOccurrencesOfString:@"+" withString:@"-" ];
         }
         
         //+ or - based on expanding or minimizing (this if statement is only for internal nodes, not leaves)
@@ -347,7 +353,12 @@
 {
     PitchTypes pitch_filter = getPitchTypeFromString(value_str);
     
-    if( type_filter == Count )  //Count leaf that shows YES or NO for filtering by count
+    if( cellIsApplyFiltersButton(value_str) )
+    {
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.textColor = NICE_BUTTON_COLOUR;
+    }
+    else if( type_filter == Count )  //Count leaf that shows YES or NO for filtering by count
     {
         if( _StatFilters & Count )
         {
@@ -459,12 +470,15 @@
     }
     
     [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
-    key_str = (NSMutableString *)[ key_str stringByReplacingOccurrencesOfString:@"+" withString:@"-" ];
 }
 
 -(void) handleLeafNodeClicked:(UITableViewCell *)cell with:(NSString *) value_str
 {
-    if( getFilterTypeFromCellString(value_str) == Count )   //click on toggle of filter by count (ON/OFF)
+    if( cellIsApplyFiltersButton(value_str) )
+    {
+        [ self loadStatsWithFilter ];
+    }
+    else if( getFilterTypeFromCellString(value_str) == Count )   //click on toggle of filter by count (ON/OFF)
     {
         [ self toggleCountFilterClicked:cell with:value_str ];
     }
@@ -531,7 +545,77 @@
     NSString *cmp_str = [ str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
     return ( [cmp_str caseInsensitiveCompare:PITCH_TYPE_FILTER_STR] == NSOrderedSame );
 }
+
+-(void) resetPitchFilterBranch
+{
+    NSDictionary *d=[_arrayForTable objectAtIndex:5];
+    NSArray *ar= [ d valueForKey:NODE_OBJECTS_KEY_IN_TREE ];
+    
+    //only minimize if already expanded
+    if( [self isInternalNodeAlreadyExpanded:ar] )
+        [self miniMizeThisRows:ar];
+    
+    [ _filterTable reloadData ];
+}
 //-----------------------------------------------------------------//
+
+//---------------Overall Display Labels---------------//
+//TODO -- add more stuff here?
+-(void) loadOverallDisplay
+{
+    _shortNameLabel = [ [UILabel alloc] init ];
+    _shortNameLabel.textColor = [UIColor whiteColor];
+    _shortNameLabel.text = @"Name";
+    _shortNameLabel.textAlignment = NSTextAlignmentCenter;
+    [ _statsView addSubview:_shortNameLabel ];
+    
+    _strikesBallsLabel = [ [UILabel alloc] init ];
+    _strikeBallPercLabel = [ [UILabel alloc] init ];
+    _walksHitsLabel = [ [UILabel alloc] init ];
+    _walksHitsLabel.textColor = _strikeBallPercLabel.textColor = _strikesBallsLabel.textColor = UNSELECTED_FILTER_COLOUR;
+    _walksHitsLabel.font = _strikesBallsLabel.font = _strikeBallPercLabel.font = _shortNameLabel.font = [ _walksHitsLabel.font fontWithSize:INFO_LABEL_TEXT_SIZE ];
+    
+    [ self setOverallLabels ];
+    [ _statsView addSubview:_strikesBallsLabel ];
+    [ _statsView addSubview:_strikeBallPercLabel ];
+    [ _statsView addSubview:_walksHitsLabel ];
+}
+
+-(void) setOverallLabels
+{
+    if(_pitcher != nil)
+    {
+        _strikesBallsLabel.text = [NSString stringWithFormat:@"Strikes: %d\t Balls: %d\t Ratio: %.2f", _pitcher.stats.total_strikes, _pitcher.stats.total_balls, (float)_pitcher.stats.total_strikes/(float)_pitcher.stats.total_balls];
+        _strikeBallPercLabel.text = [NSString stringWithFormat:@"Strike%%: %.2f  \t  Ball%%: %.2f", _pitcher.stats.getStrikePercentage, _pitcher.stats.getBallPercentage];
+        _walksHitsLabel.text = [NSString stringWithFormat:@"K: %d\tWalks: %d\tK/W Ratio: %.2f", _pitcher.stats.total_k, _pitcher.stats.total_walks, (float)_pitcher.stats.total_k/(float)_pitcher.stats.total_balls];
+    }
+    else
+    {
+        _strikesBallsLabel.text = @"";
+        _strikeBallPercLabel.text = @"No Pitchers";
+        _walksHitsLabel.text = @"";
+    }
+}
+
+-(void) layoutOverallDisplay
+{
+    float h = DISPLAY_LABEL_HEIGHT;
+    CGRect big_frame = _statsView.frame;
+    float delta = ( _statsView.frame.size.height/2 - (LABEL_COUNT_OVERALL + 1)*h) / (LABEL_COUNT_OVERALL + 1);
+    
+    CGRect f = CGRectMake(big_frame.size.width/2, _zoneView.frame.size.height + delta, _zoneView.frame.size.width, h);
+    _shortNameLabel.frame = f;
+    
+    f.origin.y += delta + h;
+    _strikesBallsLabel.frame = f;
+    
+    f.origin.y += h + delta;
+    _strikeBallPercLabel.frame = f;
+    
+    f.origin.y += h + delta;
+    _walksHitsLabel.frame = f;
+}
+//----------------------------------------------------//
 
 /*
 #pragma mark - Navigation
